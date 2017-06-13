@@ -42824,3 +42824,1562 @@ Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=44929
 Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
 
 
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:49:03 -0500
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (3.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (16.3ms)
+Completed 200 OK in 1145ms (Views: 747.9ms | ActiveRecord: 9.4ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 14:49:07 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 14:49:07 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=2f1ae3c20c9e40898d1da50cf911ee4b" for 127.0.0.1 at 2017-06-13 14:49:14 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"2f1ae3c20c9e40898d1da50cf911ee4b"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 293ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:49:15 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (2.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.5ms)
+Completed 200 OK in 419ms (Views: 119.5ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 14:51:25 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=171d5cdf32c5463d9844281ac9f1090a
+Completed 302 Found in 268ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 14:51:26 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=66ffd05db3c649398c68f61ec9ef047d
+Completed 302 Found in 230ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-13 14:51:27 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:51:27 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (15.1ms)
+Completed 200 OK in 413ms (Views: 117.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:58:19 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 2968ms (Views: 2680.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 14:58:33 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 14:58:33 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=5ee05e143e0548f1827fe2abc210a3a1" for 127.0.0.1 at 2017-06-13 14:58:36 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"5ee05e143e0548f1827fe2abc210a3a1"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 347ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:58:37 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 784ms (Views: 174.5ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 14:58:42 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=c1f5eb3fe95e4e97a54211065cf82996
+Completed 302 Found in 245ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 14:58:43 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=b4f9f7fb335b40d9b1a56f5e64510186
+Completed 302 Found in 265ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-13 14:58:44 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:58:44 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 390ms (Views: 87.3ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 14:59:09 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 2084ms (Views: 1799.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:09:15 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 725ms (Views: 383.7ms | ActiveRecord: 0.6ms)
+
+
+  
+ActionController::RoutingError (No route matches [GET] "/assets/images/welcome_page.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:11:in `block in call'
+activesupport (5.1.1) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.1) lib/active_support/logger.rb:63:in `block (3 levels) in broadcast'
+activesupport (5.1.1) lib/active_support/logger_silence.rb:20:in `silence'
+activesupport (5.1.1) lib/active_support/logger.rb:61:in `block (2 levels) in broadcast'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:11:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:10:41 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 500 Internal Server Error in 331ms (ActiveRecord: 0.6ms)
+
+
+  
+ActionView::Template::Error (The asset "welcom_page.png" is not present in the asset pipeline.):
+    17: </div>
+    18: <% else %>
+    19:   <h1 id="welcome_text">Welcome to StockWatcher</h1>
+    20:   <%= image_tag("welcom_page.png", :alt => "Not Found") %>
+    21: <% end %>
+  
+app/views/stocks/index.html.erb:20:in `_app_views_stocks_index_html_erb__2972327819467143190_70339904689540'
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:10:54 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (303.9ms)
+Completed 200 OK in 1122ms (Views: 365.1ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:13:23 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.5ms)
+Completed 200 OK in 2524ms (Views: 2114.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:13:51 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.7ms)
+Completed 500 Internal Server Error in 359ms (ActiveRecord: 0.7ms)
+
+
+  
+ActionView::Template::Error (Invalid CSS after "    text-align": expected ";", was ": center;"):
+    4:     <title>StockWatcher</title>
+    5:     <%= csrf_meta_tags %>
+    6: 
+    7:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    8:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    9:   </head>
+   10: 
+  
+app/assets/stylesheets/application.css.scss:197
+app/views/layouts/application.html.erb:7:in `_app_views_layouts_application_html_erb__960302772257485141_70339946751920'
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:14:02 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 2327ms (Views: 2022.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:15:33 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.0ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 2393ms (Views: 1957.4ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:16:08 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.4ms)
+Completed 200 OK in 2298ms (Views: 1991.9ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:16:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 2203ms (Views: 1910.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:16:54 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.6ms)
+Completed 200 OK in 348ms (Views: 64.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:17:19 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 2069ms (Views: 1782.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:17:37 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 3ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:17:38 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=7b984292f40a40d7acc8b4aab17d7472" for 127.0.0.1 at 2017-06-13 15:17:41 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"7b984292f40a40d7acc8b4aab17d7472"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 3338ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:17:44 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (24.9ms)
+Completed 200 OK in 425ms (Views: 141.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:18:16 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=412680c99e7d43ebb44faa4f0248fbed
+Completed 302 Found in 239ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:18:17 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=6a9f0bd898ba42938b6d4277b208277a
+Completed 302 Found in 466ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-13 15:18:17 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:18:18 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 389ms (Views: 103.2ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/resources" for 127.0.0.1 at 2017-06-13 15:18:22 -0500
+Processing by ResourcesController#index as HTML
+  Rendering resources/index.html.erb within layouts/application
+  Rendered resources/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 86ms (Views: 85.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:18:25 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.4ms)
+Completed 200 OK in 401ms (Views: 115.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:18:26 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:18:26 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=c606e322a62242bc9b9ff718b41c11e6" for 127.0.0.1 at 2017-06-13 15:18:30 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"c606e322a62242bc9b9ff718b41c11e6"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 379ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:18:30 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.5ms)
+Completed 200 OK in 1565ms (Views: 82.4ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-13 15:18:34 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (293.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (295.9ms)
+Completed 200 OK in 2535ms (Views: 400.6ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:18:41 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"38"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (323.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (337.1ms)
+Completed 200 OK in 6897ms (Views: 424.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:18:55 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (297.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (301.3ms)
+Completed 200 OK in 4578ms (Views: 397.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:19:20 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1834ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:19:22 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=4&overflow=true
+Completed 302 Found in 2092ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:19:24 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1752ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:19:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (443.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (446.3ms)
+Completed 200 OK in 2799ms (Views: 515.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:19:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"38"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Started GET "/stocks/38?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:19:39 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"38"}
+  [1m[36mStock Load (2.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (302.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (305.1ms)
+Completed 200 OK in 4572ms (Views: 432.4ms | ActiveRecord: 0.4ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (319.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (321.2ms)
+Completed 200 OK in 8857ms (Views: 421.8ms | ActiveRecord: 25.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:19:52 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"38"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (648.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (650.7ms)
+Completed 200 OK in 2986ms (Views: 730.3ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:19:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"38"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=5&overflow=true
+Completed 302 Found in 5323ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:05 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=4&overflow=true
+Completed 302 Found in 2118ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:07 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1833ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (1.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (295.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (298.5ms)
+Completed 200 OK in 2424ms (Views: 373.3ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:20:19 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"38"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1913ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:21 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=4&overflow=true
+Completed 302 Found in 3278ms (ActiveRecord: 0.2ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:25 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (5.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=3&overflow=true
+Completed 302 Found in 3549ms (ActiveRecord: 5.6ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:28 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (1.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (293.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (296.2ms)
+Completed 200 OK in 2153ms (Views: 384.1ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:20:33 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"38"}
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (262.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (265.5ms)
+Completed 200 OK in 2530ms (Views: 359.9ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=3" for 127.0.0.1 at 2017-06-13 15:20:39 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "id"=>"38"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (292.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (295.7ms)
+Completed 200 OK in 2448ms (Views: 461.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:20:47 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"38"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1741ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:20:48 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"38"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:20:49 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 658ms (Views: 359.9ms | ActiveRecord: 1.1ms)
+
+
+Redirected to http://localhost:3000/stocks/38?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1752ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/36" for 127.0.0.1 at 2017-06-13 15:20:51 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"36"}
+  [1m[36mStock Load (3.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (278.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (284.2ms)
+Completed 200 OK in 2227ms (Views: 388.3ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3" for 127.0.0.1 at 2017-06-13 15:20:57 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "id"=>"36"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (283.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (289.5ms)
+Completed 200 OK in 2089ms (Views: 382.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:21:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"36"}
+  [1m[36mStock Load (3.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=5&overflow=true
+Completed 302 Found in 2206ms (ActiveRecord: 3.6ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:21:02 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1838ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:21:04 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1894ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:21:06 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (314.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (317.0ms)
+Completed 200 OK in 4004ms (Views: 378.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:22:01 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"36"}
+  [1m[36mStock Load (1.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=5&overflow=true
+Completed 302 Found in 9089ms (ActiveRecord: 1.7ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:22:10 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1703ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:22:12 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1609ms (ActiveRecord: 0.2ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:22:14 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (308.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (314.9ms)
+Completed 200 OK in 2325ms (Views: 394.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:22:23 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"36"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (286.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (293.7ms)
+Completed 200 OK in 2646ms (Views: 420.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:22:35 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"36"}
+  [1m[36mStock Load (2.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (289.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (294.1ms)
+Completed 200 OK in 4701ms (Views: 396.3ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:22:50 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"36"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (419.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (422.8ms)
+Completed 200 OK in 3561ms (Views: 535.9ms | ActiveRecord: 5.6ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:22:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"36"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1768ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:23:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=4&overflow=true
+Completed 302 Found in 3063ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:23:03 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1701ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:23:05 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (273.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (276.4ms)
+Completed 200 OK in 2079ms (Views: 374.9ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:23:57 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (291.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (294.3ms)
+Completed 200 OK in 3773ms (Views: 388.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:24:02 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"36"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1874ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:24:04 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=4&overflow=true
+Completed 302 Found in 2020ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:24:06 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/36?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1732ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/36?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:24:08 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"36"}
+  [1m[36mStock Load (2.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (276.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (281.8ms)
+Completed 200 OK in 2042ms (Views: 377.6ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:27:09 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (21.0ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 438ms (Views: 86.2ms | ActiveRecord: 21.0ms)
+
+
+Started GET "/stocks/37" for 127.0.0.1 at 2017-06-13 15:27:12 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"37"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (267.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (272.6ms)
+Completed 200 OK in 2311ms (Views: 364.9ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:27:17 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"37"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (330.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (334.1ms)
+Completed 200 OK in 2685ms (Views: 430.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:27:24 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"37"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (264.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (271.8ms)
+Completed 200 OK in 3268ms (Views: 354.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:27:31 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=5&overflow=true
+Completed 302 Found in 2332ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:27:34 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1960ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:27:36 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1994ms (ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:27:38 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (279.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (284.2ms)
+Completed 200 OK in 4347ms (Views: 369.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:28:25 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (278.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (282.7ms)
+Completed 200 OK in 2393ms (Views: 362.1ms | ActiveRecord: 4.9ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:28:50 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"37"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=5&overflow=true
+Completed 302 Found in 2072ms (ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:28:52 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (261.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (265.1ms)
+Completed 200 OK in 2312ms (Views: 358.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:29:19 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1926ms (ActiveRecord: 3.6ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:29:21 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (2.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1741ms (ActiveRecord: 2.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:29:23 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (273.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (288.7ms)
+Completed 200 OK in 2057ms (Views: 369.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:31:17 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (346.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (348.8ms)
+Completed 200 OK in 3039ms (Views: 463.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:31:25 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=5&overflow=true
+Completed 302 Found in 1838ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:31:27 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=4&overflow=true
+Completed 302 Found in 2497ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:31:30 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1956ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:31:32 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (6.1ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (273.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (276.4ms)
+Completed 200 OK in 2123ms (Views: 346.3ms | ActiveRecord: 6.1ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:31:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"37"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Started GET "/stocks/37?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:31:40 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (284.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (289.6ms)
+Completed 200 OK in 3257ms (Views: 406.7ms | ActiveRecord: 0.3ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (264.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (267.4ms)
+Completed 200 OK in 3235ms (Views: 359.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:31:44 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (285.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (290.1ms)
+Completed 200 OK in 6555ms (Views: 379.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:32:08 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (275.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (284.7ms)
+Completed 200 OK in 6916ms (Views: 397.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:32:35 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 408ms (Views: 86.6ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-13 15:32:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (294.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (297.1ms)
+Completed 200 OK in 2157ms (Views: 374.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:32:42 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"38"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (264.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (270.2ms)
+Completed 200 OK in 6547ms (Views: 418.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:33:30 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"38"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (269.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (274.3ms)
+Completed 200 OK in 4140ms (Views: 352.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:33:44 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 363ms (Views: 79.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/32" for 127.0.0.1 at 2017-06-13 15:33:46 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"32"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (281.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (288.8ms)
+Completed 200 OK in 4332ms (Views: 392.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/32?date_scalar_selector=12" for 127.0.0.1 at 2017-06-13 15:33:53 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"32"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (1140.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (1143.0ms)
+Completed 200 OK in 4067ms (Views: 1236.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/32?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:34:18 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"32"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (284.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (288.6ms)
+Completed 200 OK in 3130ms (Views: 380.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/32?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:34:28 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"32"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/32?date_scalar_selector=96&overflow=true
+Completed 302 Found in 4392ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/32?date_scalar_selector=96&overflow=true" for 127.0.0.1 at 2017-06-13 15:34:32 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"96", "overflow"=>"true", "id"=>"32"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/32?date_scalar_selector=72&overflow=true
+Completed 302 Found in 4760ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/32?date_scalar_selector=72&overflow=true" for 127.0.0.1 at 2017-06-13 15:34:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"72", "overflow"=>"true", "id"=>"32"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (293.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (296.4ms)
+Completed 200 OK in 5559ms (Views: 393.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:35:22 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 378ms (Views: 85.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-13 15:35:23 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+Started GET "/stocks/38?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:35:25 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"38"}
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendered stocks/_basic_info.html.erb (273.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (277.1ms)
+Completed 200 OK in 2177ms (Views: 363.6ms | ActiveRecord: 0.9ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (301.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (305.3ms)
+Completed 200 OK in 4994ms (Views: 409.6ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:35:35 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (3.0ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.3ms)
+Completed 200 OK in 411ms (Views: 81.3ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/stocks/37" for 127.0.0.1 at 2017-06-13 15:35:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (350.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (353.2ms)
+Completed 200 OK in 2366ms (Views: 427.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:35:41 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"37"}
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (330.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (333.0ms)
+Completed 200 OK in 4428ms (Views: 437.3ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:35:50 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (3.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 388ms (Views: 91.7ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/stocks/35" for 127.0.0.1 at 2017-06-13 15:35:52 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"35"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (285.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (289.8ms)
+Completed 200 OK in 2200ms (Views: 399.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/35?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:35:56 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"35"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (268.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (271.0ms)
+Completed 200 OK in 4429ms (Views: 370.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/35?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:36:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"35"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (291.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (295.0ms)
+Completed 200 OK in 6609ms (Views: 362.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:36:21 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 396ms (Views: 108.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/39" for 127.0.0.1 at 2017-06-13 15:36:22 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"39"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 39], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (304.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (307.1ms)
+Completed 200 OK in 2256ms (Views: 392.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/39?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:36:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"39"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 39], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (3307.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (3313.5ms)
+Completed 200 OK in 14518ms (Views: 3408.2ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:36:46 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 369ms (Views: 65.5ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/42" for 127.0.0.1 at 2017-06-13 15:36:49 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"42"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (276.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (279.7ms)
+Completed 200 OK in 2626ms (Views: 364.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=120" for 127.0.0.1 at 2017-06-13 15:36:58 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=96&overflow=true
+Completed 302 Found in 2590ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=96&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"96", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=72&overflow=true
+Completed 302 Found in 2914ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=72&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:03 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"72", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=48&overflow=true
+Completed 302 Found in 4383ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=48&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:08 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"48", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=36&overflow=true
+Completed 302 Found in 2480ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=36&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:10 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"36", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=24&overflow=true
+Completed 302 Found in 2734ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=24&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:13 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=18&overflow=true
+Completed 302 Found in 2514ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=18&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:16 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"18", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=12&overflow=true
+Completed 302 Found in 4255ms (ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=12&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:20 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (279.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (282.3ms)
+Completed 200 OK in 2380ms (Views: 369.9ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:37:29 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"42"}
+  [1m[36mStock Load (1.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=18&overflow=true
+Completed 302 Found in 3923ms (ActiveRecord: 1.8ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=18&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:33 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"18", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=12&overflow=true
+Completed 302 Found in 2746ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=12&overflow=true" for 127.0.0.1 at 2017-06-13 15:37:36 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (287.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (290.2ms)
+Completed 200 OK in 2434ms (Views: 377.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:37:42 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.6ms)
+Completed 200 OK in 424ms (Views: 133.2ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-13 15:37:44 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (270.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (273.2ms)
+Completed 200 OK in 2261ms (Views: 374.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:37:48 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"38"}
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (276.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (279.1ms)
+Completed 200 OK in 4591ms (Views: 354.2ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:41:10 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"38"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (294.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (299.2ms)
+Completed 200 OK in 3105ms (Views: 450.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:43:44 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"38"}
+  [1m[36mStock Load (3.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (278.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (294.9ms)
+Completed 200 OK in 3144ms (Views: 396.9ms | ActiveRecord: 3.9ms)
+
+
+Started GET "/stocks/38?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:46:35 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"38"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (325.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (336.6ms)
+Completed 200 OK in 3200ms (Views: 419.7ms | ActiveRecord: 17.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:46:47 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.6ms)
+Completed 200 OK in 394ms (Views: 86.9ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/stocks/37" for 127.0.0.1 at 2017-06-13 15:46:49 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (275.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (281.0ms)
+Completed 200 OK in 5395ms (Views: 356.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:47:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Started GET "/stocks/37?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:47:02 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (287.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (293.4ms)
+Completed 200 OK in 3010ms (Views: 360.2ms | ActiveRecord: 0.4ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (291.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (298.5ms)
+Completed 200 OK in 4633ms (Views: 385.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=6" for 127.0.0.1 at 2017-06-13 15:47:14 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"37"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=5&overflow=true
+Completed 302 Found in 5148ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=5&overflow=true" for 127.0.0.1 at 2017-06-13 15:47:19 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"5", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=4&overflow=true
+Completed 302 Found in 1935ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=4&overflow=true" for 127.0.0.1 at 2017-06-13 15:47:21 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"4", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/37?date_scalar_selector=3&overflow=true
+Completed 302 Found in 1725ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/37?date_scalar_selector=3&overflow=true" for 127.0.0.1 at 2017-06-13 15:47:23 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "overflow"=>"true", "id"=>"37"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (294.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (309.0ms)
+Completed 200 OK in 2111ms (Views: 403.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:48:40 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=a16b7b45a8cd4f4a8b97982b103d8a63
+Completed 302 Found in 288ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:48:40 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=e041d43e910349e59ff2cdb307175bdb
+Completed 302 Found in 250ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-13 15:48:41 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:48:41 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.8ms)
+Completed 200 OK in 378ms (Views: 91.9ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:48:44 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-13 15:48:44 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=5d5c1f2027a34157a7b5e91b6d4e1f94" for 127.0.0.1 at 2017-06-13 15:48:48 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"5d5c1f2027a34157a7b5e91b6d4e1f94"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 260ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:48:49 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 417ms (Views: 124.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42" for 127.0.0.1 at 2017-06-13 15:49:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (274.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (281.0ms)
+Completed 200 OK in 2471ms (Views: 397.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=60" for 127.0.0.1 at 2017-06-13 15:49:23 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"42"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=48&overflow=true
+Completed 302 Found in 3894ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=48&overflow=true" for 127.0.0.1 at 2017-06-13 15:49:27 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"48", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=36&overflow=true
+Completed 302 Found in 2477ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=36&overflow=true" for 127.0.0.1 at 2017-06-13 15:49:30 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"36", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=24&overflow=true
+Completed 302 Found in 2430ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=24&overflow=true" for 127.0.0.1 at 2017-06-13 15:49:32 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=18&overflow=true
+Completed 302 Found in 2501ms (ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=18&overflow=true" for 127.0.0.1 at 2017-06-13 15:49:35 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"18", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=12&overflow=true
+Completed 302 Found in 2615ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=12&overflow=true" for 127.0.0.1 at 2017-06-13 15:49:38 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (263.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (268.4ms)
+Completed 200 OK in 2331ms (Views: 354.9ms | ActiveRecord: 0.4ms)
+
+

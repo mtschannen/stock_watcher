@@ -103,8 +103,8 @@ class StocksController < ApplicationController
 			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/12.0))).strftime("%Y-%m-%d"), 
 			end_date: Time.now.strftime("%Y-%m-%d")
 			})
-		@low = @graph_data.close.min
-		@max = @graph_data.close.max
+		@low = @graph_data.adj_close.min
+		@max = @graph_data.adj_close.max
 		i = 0
 		j = 0
 		start_time = Time.now
@@ -112,7 +112,7 @@ class StocksController < ApplicationController
 		if((251*(@date_scalar_float/12.0)) <= @graph_data.size)
 			((251*(@date_scalar_float/12.0)).to_i).times do
 				current_date = (start_time - (365*(@date_scalar_float/12.0) -j).day).strftime("%Y-%m-%d")
-				@array_data.push([current_date, @graph_data.close[i]])
+				@array_data.push([current_date, @graph_data.adj_close[i]])
 				i += 1
 				i % 5 == 0 || i % 5 == 1 ? j += 2 : j += 1
 				j += 1 if i % 20 == 0
