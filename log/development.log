@@ -44383,3 +44383,79 @@ Processing by StocksController#show as HTML
 Completed 200 OK in 2331ms (Views: 354.9ms | ActiveRecord: 0.4ms)
 
 
+Started GET "/stocks/42?date_scalar_selector=24" for 127.0.0.1 at 2017-06-13 15:52:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"42"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=18&overflow=true
+Completed 302 Found in 2731ms (ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=18&overflow=true" for 127.0.0.1 at 2017-06-13 15:52:40 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"18", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+Redirected to http://localhost:3000/stocks/42?date_scalar_selector=12&overflow=true
+Completed 302 Found in 3824ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/42?date_scalar_selector=12&overflow=true" for 127.0.0.1 at 2017-06-13 15:52:44 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "overflow"=>"true", "id"=>"42"}
+  [1m[36mStock Load (2.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (314.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (320.9ms)
+Completed 200 OK in 3595ms (Views: 417.2ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:52:53 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (20.2ms)
+Completed 200 OK in 373ms (Views: 72.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:52:56 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=a552f91b16f94a90a5c02d77e69662a2
+Completed 302 Found in 261ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-13 15:52:57 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=4f177378c560429c8bb24f8519fd4fba
+Completed 302 Found in 230ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-13 15:52:58 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:52:58 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 398ms (Views: 76.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:56:31 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (413.5ms)
+Completed 200 OK in 1017ms (Views: 706.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-13 15:56:56 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.6ms)
+Completed 200 OK in 406ms (Views: 108.0ms | ActiveRecord: 0.4ms)
+
+
