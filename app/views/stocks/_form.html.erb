@@ -1,0 +1,8 @@
+<%= simple_form_for @stock do |f| %>
+  <%= f.input :ticker_symbol, label: "Ticker Symbol" %>
+  <%= f.input :company_name, label: "Company Name" %>
+  <%= f.input :user_id, :as => :hidden, :input_html => { :value => session[:current_user_id] }%>
+  <%= f.file_field :stock_logo %>
+  <br>
+  <%= f.button :submit, "Track", class: "btn btn-success"%>
+<% end %>

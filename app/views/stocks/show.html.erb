@@ -1,0 +1,94 @@
+<!--<script language="javascript" type="text/javascript">setTimeout("location.reload();",10000);</script>-->
+<script>
+  function makeGraph(){
+    var data = <%= raw @json_string %>;
+    var current_data;
+    for (var i = 0; i < <%= (251 * (@date_scalar_float/12.0)).to_i %>; i++){
+      current_data = data[i][0];
+      var pieces = current_data.split('-');
+      var new_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));
+      data[i][0] = new_date;
+    }	
+
+    var vis = d3.select("#visualisation"),
+	    WIDTH = 700,
+	    HEIGHT = 500,
+	    MARGINS = {
+    	  top: 65,
+        right: 20,
+        bottom: 65,
+        left: <%= 1.1 * @max > 9999 ? 100 : 70 %> 
+	    };
+    var scale_start_date = new Date();
+    var scale_end_date = new Date();
+    scale_start_date.setMonth(scale_start_date.getMonth() - <%= @date_scalar %>);
+    xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([scale_start_date, scale_end_date]);
+		yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([.9*<%= @low.to_f %>, 1.1*<%= @max.to_f %>]);
+		xAxis = d3.svg.axis().scale(xScale);
+		yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(10, "$.2f");
+
+    vis.append("svg:g").attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")").call(xAxis).selectAll("text").attr("y", 5)
+    .attr("x", 5).attr("transform", "rotate(45)").style("text-anchor", "start");
+    
+    vis.append("svg:g").attr("transform", "translate(" + (MARGINS.left) + ",0)").call(yAxis);
+
+    vis.selectAll("scatter-dots").data(data).enter().append("svg:circle")
+        .attr("cx", function (d,i) { return xScale(d[0]); } )
+        .attr("cy", function (d) { return yScale(d[1]); } )
+        .attr("r", <%= @date_scalar >= 12 ? 1.5 : 2.5 %>);
+	}
+
+
+
+	$('body').ready(makeGraph);
+</script>
+<script>
+function hideWarning() {
+    $("#overflow_warning").hide();
+}
+
+function loadBasicInfo() {
+  console.log("Function is working")
+  $("#basic_info").load( "test" );
+}
+</script>
+<!-- <script>
+  $(document).ready(function(){
+    $.ajax({
+      url : "/basic_info.html"
+      success: function(data){
+        $("#render_container").html(data);
+      }
+    });
+  })
+</script> -->
+<div class='center_text'>
+  <h1 id="show_header"><%= @stock.company_name %></h1>
+  <% if !(session[:current_user_firstname].nil?) %>
+    <%= link_to "Stop Tracking", stock_path(@stock), method: :delete, data: { confirm: "Are you sure you want to delete #{@stock.ticker_symbol} from your dashboard?" }, class: 'btn btn-danger' %>
+  <% end %>
+
+  <div id="overflow_warning" onclick="hideWarning()"><h2><%= params.has_key?(:overflow) ? "Data not available beyond " + @date_scalar.to_s + " months. (Click to dismiss)" : "" %></h2></div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-4">
+  <%= render 'basic_info' %>
+  <!-- <div id="render_container"></div> -->
+    <div class="overview_wrapper" >
+      <h3>Graph Time Span</h3>
+        <%= link_to "3-Months", stock_path(@stock, date_scalar_selector: 3) %><br>
+        <%= link_to "6-Months", stock_path(@stock, date_scalar_selector: 6) %><br>
+        <%= link_to "1-Year", stock_path(@stock, date_scalar_selector: 12) %><br>
+        <%= link_to "2-Years", stock_path(@stock, date_scalar_selector: 24) %><br>
+        <%= link_to "5-Years", stock_path(@stock, date_scalar_selector: 60) %><br>
+        <%= link_to "10-Years", stock_path(@stock, date_scalar_selector: 120) %><br>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="overview_wrapper">
+      <h2 class='center_text' id="graph_header"><%= @date_scalar %>-Month History</h2>
+      <svg id="visualisation" width="700" height="500"></svg>
+    </div>
+  </div>
+</div>
