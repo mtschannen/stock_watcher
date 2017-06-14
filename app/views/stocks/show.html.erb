@@ -21,7 +21,7 @@
 	    };
     var scale_start_date = new Date();
     var scale_end_date = new Date();
-    scale_start_date.setDate(scale_start_date.getDate() - <%= @i*1.47 %>);
+    scale_start_date.setDate(scale_start_date.getDate() - <%= @i*1.465 %>);
     xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([scale_start_date, scale_end_date]);
 		yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([.9*<%= @low.to_f %>, 1.1*<%= @max.to_f %>]);
 		xAxis = d3.svg.axis().scale(xScale);
