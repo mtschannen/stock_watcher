@@ -3,7 +3,7 @@
   function makeGraph(){
     var data = <%= raw @json_string %>;
     var current_data;
-    for (var i = 0; i < <%= (251 * (@date_scalar_float/12.0)).to_i %>; i++){
+    for (var i = 0; i < <%= @i %>; i++){
       current_data = data[i][0];
       var pieces = current_data.split('-');
       var new_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));
@@ -21,7 +21,7 @@
 	    };
     var scale_start_date = new Date();
     var scale_end_date = new Date();
-    scale_start_date.setMonth(scale_start_date.getMonth() - <%= @date_scalar %>);
+    scale_start_date.setDate(scale_start_date.getDate() - <%= @i*1.47 %>);
     xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([scale_start_date, scale_end_date]);
 		yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([.9*<%= @low.to_f %>, 1.1*<%= @max.to_f %>]);
 		xAxis = d3.svg.axis().scale(xScale);
@@ -35,7 +35,7 @@
     vis.selectAll("scatter-dots").data(data).enter().append("svg:circle")
         .attr("cx", function (d,i) { return xScale(d[0]); } )
         .attr("cy", function (d) { return yScale(d[1]); } )
-        .attr("r", <%= @date_scalar >= 12 ? 1.5 : 2.5 %>);
+        .attr("r", <%= (@i/20) >= 12 ? 1.5 : 2.5 %>);
 	}
 
 
@@ -68,7 +68,7 @@ function loadBasicInfo() {
     <%= link_to "Stop Tracking", stock_path(@stock), method: :delete, data: { confirm: "Are you sure you want to delete #{@stock.ticker_symbol} from your dashboard?" }, class: 'btn btn-danger' %>
   <% end %>
 
-  <div id="overflow_warning" onclick="hideWarning()"><h2><%= params.has_key?(:overflow) ? "Data not available beyond " + @date_scalar.to_s + " months. (Click to dismiss)" : "" %></h2></div>
+  <div id="overflow_warning" onclick="hideWarning()"><h2><%= @overflow ? "Data not available beyond " + (@i/20.6).to_i.to_s + " months. (Click to dismiss)" : "" %></h2></div>
 </div>
 <br>
 <div class="row">
@@ -87,9 +87,8 @@ function loadBasicInfo() {
   </div>
   <div class="col-md-8">
     <div class="overview_wrapper">
-      <h2 class='center_text' id="graph_header"><%= @date_scalar %>-Month History</h2>
+      <h2 class='center_text' id="graph_header"><%= @overflow ? (@i/20.6).to_i : @date_scalar %>-Month History</h2>
       <svg id="visualisation" width="700" height="500"></svg>
     </div>
   </div>
 </div>
-<!-- <p style="color:white;"><% @graph_data %></p> -->
