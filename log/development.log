@@ -47723,3 +47723,719 @@ Processing by StocksController#show as HTML
 Completed 200 OK in 7073ms (Views: 381.5ms | ActiveRecord: 0.5ms)
 
 
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:33:44 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (5.5ms)
+Completed 200 OK in 380ms (Views: 92.0ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-14 11:33:50 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (302.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (305.0ms)
+Completed 200 OK in 2173ms (Views: 395.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-14 11:35:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (1.0ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (302.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (306.5ms)
+Completed 200 OK in 7387ms (Views: 2319.5ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:35:24 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=0090660e53a4475baf8ac241c955c8ac
+Completed 302 Found in 608ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:35:25 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=40418cb19c754a0f863b20416c702798
+Completed 302 Found in 726ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-14 11:35:26 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:35:26 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 566ms (Views: 132.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:35:52 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.9ms)
+Completed 200 OK in 420ms (Views: 95.6ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:35:56 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (1.5ms)
+Completed 200 OK in 367ms (Views: 80.4ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:36:02 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 0ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:36:02 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=98a3b138e23045e6a49ba16b3203fb37" for 127.0.0.1 at 2017-06-14 11:36:06 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"98a3b138e23045e6a49ba16b3203fb37"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 706ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:36:07 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.7ms)
+Completed 200 OK in 423ms (Views: 80.5ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:40:48 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=da5d22d1a8664d6884c5200c9355c7f2
+Completed 302 Found in 462ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:40:49 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=33f92b460f0849c995f2b46c3393f652
+Completed 302 Found in 613ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-14 11:40:50 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 5ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:40:51 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (2.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.6ms)
+Completed 200 OK in 557ms (Views: 162.0ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:41:09 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:41:09 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=cf1251498bee40108acc1641744c5ae2" for 127.0.0.1 at 2017-06-14 11:41:22 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"cf1251498bee40108acc1641744c5ae2"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 540ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:41:22 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (24.2ms)
+Completed 200 OK in 535ms (Views: 164.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-14 11:41:32 -0500
+Processing by StocksController#new as HTML
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (13.4ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (18.2ms)
+Completed 200 OK in 159ms (Views: 156.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:41:35 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.2ms)
+Completed 200 OK in 479ms (Views: 111.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/37" for 127.0.0.1 at 2017-06-14 11:41:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"37"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (386.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (390.5ms)
+Completed 200 OK in 6705ms (Views: 504.0ms | ActiveRecord: 0.6ms)
+
+
+Started DELETE "/stocks/37" for 127.0.0.1 at 2017-06-14 11:41:50 -0500
+Processing by StocksController#destroy as HTML
+  Parameters: {"authenticity_token"=>"uqVl75a69E8rcf8lfNTfCy/bTjRUWq5RLzo1AplHDqqcjFoBdhmIdR1bslpLuId7nS1D0euYwUhO4L7N+DlNrA==", "id"=>"37"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  [1m[35m (3.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (14.8ms)[0m  [1m[31mDELETE FROM "stocks" WHERE "stocks"."id" = $1[0m  [["id", 37]]
+  [1m[35m (3.5ms)[0m  [1m[35mCOMMIT[0m
+[paperclip] deleting /home/mtschannen/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/037/original/apple-logo-rob-janoff-01.jpg
+[paperclip] deleting /home/mtschannen/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/037/medium/apple-logo-rob-janoff-01.jpg
+[paperclip] deleting /home/mtschannen/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/037/thumb/apple-logo-rob-janoff-01.jpg
+Redirected to http://localhost:3000/
+Completed 302 Found in 35ms (ActiveRecord: 22.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:41:50 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (18.4ms)
+Completed 200 OK in 481ms (Views: 117.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-14 11:41:54 -0500
+Processing by StocksController#new as HTML
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (12.3ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (21.0ms)
+Completed 200 OK in 281ms (Views: 277.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/stocks" for 127.0.0.1 at 2017-06-14 11:42:10 -0500
+Processing by StocksController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"jt0KO2POY9nsLS03lktAywlQC9ltjdzOy1m8PBrT5So0HWQESjIzDOn2/Qv90IZZwh0VSqSysvcQjNjx2wqg7Q==", "stock"=>{"ticker_symbol"=>"aapl", "company_name"=>"Apple Inc.", "user_id"=>"sh8ew2sa96s6wp9t", "stock_logo"=>#<ActionDispatch::Http::UploadedFile:0x007ff29164efc0 @tempfile=#<Tempfile:/tmp/RackMultipart20170614-5195-f8vlhy.jpg>, @original_filename="apple-logo-rob-janoff-01.jpg", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"stock[stock_logo]\"; filename=\"apple-logo-rob-janoff-01.jpg\"\r\nContent-Type: image/jpeg\r\n">}, "commit"=>"Track"}
+Command :: PATH=/usr/bin/:$PATH; file -b --mime '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-11fua30.jpg'
+Command :: PATH=/usr/bin/:$PATH; identify -format '%wx%h,%[exif:orientation]' '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]' 2>/dev/null
+Command :: PATH=/usr/bin/:$PATH; identify -format %m '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]'
+Command :: PATH=/usr/bin/:$PATH; convert '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]' -auto-orient -resize "300x300>" '/tmp/a9221f010b6a761abc67133f9284584b20170614-5195-1hc1tkq'
+Command :: PATH=/usr/bin/:$PATH; identify -format '%wx%h,%[exif:orientation]' '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]' 2>/dev/null
+Command :: PATH=/usr/bin/:$PATH; identify -format %m '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]'
+Command :: PATH=/usr/bin/:$PATH; convert '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-1n7dq4e.jpg[0]' -auto-orient -resize "500x500>" '/tmp/a9221f010b6a761abc67133f9284584b20170614-5195-xmaaik'
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."ticker_symbol" = $1 AND "stocks"."user_id" = $2 LIMIT $3[0m  [["ticker_symbol", "AAPL"], ["user_id", "sh8ew2sa96s6wp9t"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+Command :: PATH=/usr/bin/:$PATH; file -b --mime '/tmp/af95ad3c3bf7743d40386e56dfcbad3620170614-5195-zl30po.jpg'
+  [1m[35mSQL (7.0ms)[0m  [1m[32mINSERT INTO "stocks" ("ticker_symbol", "company_name", "created_at", "updated_at", "stock_logo_file_name", "stock_logo_content_type", "stock_logo_file_size", "stock_logo_updated_at", "user_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["ticker_symbol", "AAPL"], ["company_name", "Apple Inc."], ["created_at", "2017-06-14 16:42:11.396027"], ["updated_at", "2017-06-14 16:42:11.396027"], ["stock_logo_file_name", "apple-logo-rob-janoff-01.jpg"], ["stock_logo_content_type", "image/jpeg"], ["stock_logo_file_size", 32199], ["stock_logo_updated_at", "2017-06-14 16:42:10.517212"], ["user_id", "sh8ew2sa96s6wp9t"]]
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 902ms (ActiveRecord: 11.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:42:11 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.7ms)
+Completed 200 OK in 498ms (Views: 116.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/60" for 127.0.0.1 at 2017-06-14 11:42:15 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"60"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 60], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (360.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (365.2ms)
+Completed 200 OK in 2744ms (Views: 473.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/60?date_scalar_selector=12" for 127.0.0.1 at 2017-06-14 11:42:42 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"60"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 60], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (351.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (354.5ms)
+Completed 200 OK in 3053ms (Views: 444.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/60?date_scalar_selector=120" for 127.0.0.1 at 2017-06-14 11:42:49 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"60"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 60], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (394.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (397.9ms)
+Completed 200 OK in 7883ms (Views: 530.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:43:03 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (17.7ms)
+Completed 200 OK in 438ms (Views: 131.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-14 11:43:12 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (359.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (362.3ms)
+Completed 200 OK in 2399ms (Views: 417.5ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=60" for 127.0.0.1 at 2017-06-14 11:43:21 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"48"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (278.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (282.8ms)
+Completed 200 OK in 3245ms (Views: 375.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/resources" for 127.0.0.1 at 2017-06-14 11:43:37 -0500
+Processing by ResourcesController#index as HTML
+  Rendering resources/index.html.erb within layouts/application
+  Rendered resources/index.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 73ms (Views: 70.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:43:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (34.6ms)
+Completed 200 OK in 508ms (Views: 140.7ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/43" for 127.0.0.1 at 2017-06-14 11:43:45 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"43"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 43], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (347.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (350.6ms)
+Completed 200 OK in 2265ms (Views: 440.6ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:44:21 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (14.8ms)
+Completed 200 OK in 439ms (Views: 60.9ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:44:51 -0500
+Processing by UsersController#before_ch_out as HTML
+Completed 500 Internal Server Error in 22ms (ActiveRecord: 0.0ms)
+
+
+  
+HTTP::ConnectionError (failed to connect: getaddrinfo: Temporary failure in name resolution):
+  
+app/controllers/users_controller.rb:16:in `before_ch_out'
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:46:06 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.0ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.4ms)
+Completed 200 OK in 714ms (Views: 99.7ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:46:10 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=cc916ba975914643b1e416412c6e2629
+Completed 302 Found in 1415ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-14 11:46:12 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=4dbe239bcfe54225b18eebba7f86e166
+Completed 302 Found in 251ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-14 11:46:13 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:46:13 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 783ms (Views: 131.0ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:46:37 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-14 11:46:37 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=20990619a2e04cbdb5cb62dc8f1ca55d" for 127.0.0.1 at 2017-06-14 11:46:52 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"20990619a2e04cbdb5cb62dc8f1ca55d"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 289ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:46:52 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.6ms)
+Completed 200 OK in 393ms (Views: 107.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-14 11:47:21 -0500
+Processing by StocksController#new as HTML
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (15.0ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (23.9ms)
+Completed 200 OK in 167ms (Views: 165.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-14 11:47:25 -0500
+Processing by StocksController#new as HTML
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (5.9ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 76ms (Views: 74.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:47:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (21.8ms)
+Completed 200 OK in 1008ms (Views: 132.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:50:13 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (27.9ms)
+Completed 200 OK in 524ms (Views: 162.8ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/stocks/45" for 127.0.0.1 at 2017-06-14 11:50:22 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"45"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (985.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (989.0ms)
+Completed 200 OK in 7341ms (Views: 1066.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:50:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (9.0ms)
+Completed 200 OK in 1946ms (Views: 120.3ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/57" for 127.0.0.1 at 2017-06-14 11:50:58 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"57"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (624.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (629.1ms)
+Completed 200 OK in 2924ms (Views: 711.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-14 11:51:06 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (2.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (476.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (480.5ms)
+Completed 200 OK in 8372ms (Views: 574.2ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=60" for 127.0.0.1 at 2017-06-14 11:52:04 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"57"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (413.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (423.0ms)
+Completed 200 OK in 6686ms (Views: 586.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-14 11:56:55 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.9ms)
+Completed 200 OK in 446ms (Views: 102.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:19:55 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (16.7ms)
+Completed 200 OK in 464ms (Views: 132.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/45" for 127.0.0.1 at 2017-06-15 09:20:01 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"45"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (298.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (304.8ms)
+Completed 200 OK in 2720ms (Views: 384.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:22:22 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (10.0ms)
+Completed 200 OK in 1040ms (Views: 85.9ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:23:20 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (9.5ms)
+Completed 200 OK in 441ms (Views: 77.7ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/stocks/43" for 127.0.0.1 at 2017-06-15 09:23:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"43"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 43], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (319.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (321.9ms)
+Completed 200 OK in 2477ms (Views: 401.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:23:32 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (14.4ms)
+Completed 200 OK in 353ms (Views: 84.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/45" for 127.0.0.1 at 2017-06-15 09:23:42 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"45"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (429.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (432.4ms)
+Completed 200 OK in 4353ms (Views: 516.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/45?date_scalar_selector=120" for 127.0.0.1 at 2017-06-15 09:23:52 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"120", "id"=>"45"}
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (1024.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (1027.9ms)
+Completed 200 OK in 7757ms (Views: 1094.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:28:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (3.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.7ms)
+Completed 500 Internal Server Error in 865ms (ActiveRecord: 3.8ms)
+
+
+  
+SyntaxError (/home/mtschannen/Desktop/stock_watcher/app/views/stocks/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting keyword_do or '{' or '('
+ No stocks to show, please add some to get started! );@outpu
+                              ^
+/home/mtschannen/Desktop/stock_watcher/app/views/stocks/index.html.erb:7: syntax error, unexpected keyword_do_block, expecting keyword_end
+	 @stocks.each do |stock| 
+	                ^
+/home/mtschannen/Desktop/stock_watcher/app/views/stocks/index.html.erb:28: syntax error, unexpected keyword_ensure, expecting end-of-input
+          ensure
+                ^):
+  
+app/views/stocks/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting keyword_do or '{' or '('
+app/views/stocks/index.html.erb:7: syntax error, unexpected keyword_do_block, expecting keyword_end
+app/views/stocks/index.html.erb:28: syntax error, unexpected keyword_ensure, expecting end-of-input
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:29:16 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (15.3ms)
+Completed 200 OK in 437ms (Views: 103.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-15 09:31:04 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (321.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (324.3ms)
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-15 09:31:08 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (100.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+Completed 200 OK in 5331ms (Views: 3146.6ms | ActiveRecord: 0.4ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (321.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (325.8ms)
+Completed 200 OK in 2804ms (Views: 436.9ms | ActiveRecord: 100.8ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-15 09:31:11 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (2044.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (2048.1ms)
+Completed 200 OK in 4173ms (Views: 2145.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=60" for 127.0.0.1 at 2017-06-15 09:31:19 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"48"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (286.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (291.3ms)
+Completed 200 OK in 3967ms (Views: 418.6ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=60" for 127.0.0.1 at 2017-06-15 09:31:49 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"48"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (300.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (303.2ms)
+Completed 200 OK in 4067ms (Views: 429.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:32:39 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (9.6ms)
+Completed 200 OK in 375ms (Views: 67.6ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/56" for 127.0.0.1 at 2017-06-15 09:33:34 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"56"}
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 56], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (291.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (295.6ms)
+Completed 200 OK in 2094ms (Views: 367.0ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/56?date_scalar_selector=6" for 127.0.0.1 at 2017-06-15 09:33:39 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"56"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 56], ["LIMIT", 1]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (656.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (659.2ms)
+Completed 200 OK in 3160ms (Views: 712.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:36:57 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (7.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.2ms)
+Completed 200 OK in 2385ms (Views: 2022.5ms | ActiveRecord: 7.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:37:00 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "sh8ew2sa96s6wp9t"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (30.7ms)
+Completed 200 OK in 509ms (Views: 131.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-15 09:37:03 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=41e4abcc31244bad9a476d333f495a4b
+Completed 302 Found in 219ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectout" for 127.0.0.1 at 2017-06-15 09:37:03 -0500
+Processing by UsersController#before_ch_out as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/logout?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/logout&nonce=719f7f5132bf419b902a5b19554611cf
+Completed 302 Found in 243ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/logout" for 127.0.0.1 at 2017-06-15 09:37:04 -0500
+Processing by UsersController#after_ch_out as HTML
+Redirected to http://localhost:3000/
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-15 09:37:04 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (2.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 415ms (Views: 98.9ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-15 09:37:08 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-15 09:37:08 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
