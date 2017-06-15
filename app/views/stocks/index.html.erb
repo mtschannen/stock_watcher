@@ -6,7 +6,6 @@
   }
 </script>
 <% if !(session[:current_user_firstname].nil?) %>
-<<<<<<< HEAD
   <% if @stocks.empty? %>
     <div class="overflow_warning" onclick="hideWarning()">
       <h2>You are not tracking any stocks. Click this to start tracking a stock.</h2>
@@ -27,26 +26,6 @@
   		<% @i += 1 %>
     <% end %>
   </div>
-=======
-<div class="row">
-  <% if @stocks.empty? %>
-    <h2>No stocks to show, please <a href="/new">add</a> some to get started!</h2>
-  <% end %>
-	<% @stocks.each do |stock| %>
-		<div class="col-md-3 center-tiles">
-      <div class="logo_div" style='background-image: url(<%= stock.stock_logo.url(:thumb) %>);'>
-      </div>
-      <div class="display_div">
-          <h1 id="ticker_symbol"><%= stock.ticker_symbol %></h1>
-          <h1 id="index_arrow" class="<%= @index_data[@i].change.to_f >= 0 ? 'greenPriceChange' : 'redPriceChange' %>"><%= @index_data[@i].change.to_f >= 0 ? '▲' : '▼' %></h1>
-          <h4><%= stock.company_name %></h4>
-          <p><a class="divLink" href="/stocks/<%= stock.id %>">Webpage URL</a></p>
-      </div>
-		</div>
-		<% @i += 1 %>
-	<% end %>
-</div>
->>>>>>> 89677b3ba45e16e3c132c5ef8bfc34f8a35c0869
 <% else %>
 <div id="welcome_div">
   <h1 id="welcome_text">Welcome to StockWatcher!</h1>
