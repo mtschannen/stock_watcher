@@ -109,13 +109,18 @@ class StocksController < ApplicationController
 		@i = 0
 		j = 0
 		@array_size = @graph_data.size
+		num_points = @array_size/100
 		start_time = Time.now
 		@array_data = Array.new
 		# if((251*(@date_scalar_float/12.0)) <= @graph_data.size)
 		if (@array_size > (251*(@date_scalar_float/12.0)))
 			((251*(@date_scalar_float/12.0)).to_i).times do
 				current_date = (start_time - (365*(@date_scalar_float/12.0) -j).day).strftime("%Y-%m-%d")
-				if @i % 2 == 0
+				if !(num_points == 0)
+					if @i % num_points == 0
+						@array_data.push([current_date, @graph_data.adj_close[@i]])
+					end
+				else
 					@array_data.push([current_date, @graph_data.adj_close[@i]])
 				end
 				@i += 1
@@ -125,7 +130,11 @@ class StocksController < ApplicationController
 		else
 			(@array_size).times do
 				current_date = (start_time - ((@array_size*1.47) -j).day).strftime("%Y-%m-%d")
-				if @i % 2 == 0
+				if !(num_points == 0)
+					if @i % num_points == 0
+						@array_data.push([current_date, @graph_data.adj_close[@i]])
+					end
+				else
 					@array_data.push([current_date, @graph_data.adj_close[@i]])
 				end
 				@i += 1
