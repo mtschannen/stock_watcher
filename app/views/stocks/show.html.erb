@@ -3,7 +3,7 @@
   function makeGraph(){
     var data = <%= raw @json_string %>;
     var current_data;
-    for (var i = 0; i < <%= @i %>; i++){
+    for (var i = 0; i < <%= @array_data.size %>; i++){
       current_data = data[i][0];
       var pieces = current_data.split('-');
       var new_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));

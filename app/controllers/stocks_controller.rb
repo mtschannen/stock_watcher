@@ -115,7 +115,9 @@ class StocksController < ApplicationController
 		if (@array_size > (251*(@date_scalar_float/12.0)))
 			((251*(@date_scalar_float/12.0)).to_i).times do
 				current_date = (start_time - (365*(@date_scalar_float/12.0) -j).day).strftime("%Y-%m-%d")
-				@array_data.push([current_date, @graph_data.adj_close[@i]])
+				if @i % 2 == 0
+					@array_data.push([current_date, @graph_data.adj_close[@i]])
+				end
 				@i += 1
 				@i % 5 == 0 || @i % 5 == 1 ? j += 2 : j += 1
 				j += 1 if @i % 20 == 0
@@ -123,7 +125,9 @@ class StocksController < ApplicationController
 		else
 			(@array_size).times do
 				current_date = (start_time - ((@array_size*1.47) -j).day).strftime("%Y-%m-%d")
-				@array_data.push([current_date, @graph_data.adj_close[@i]])
+				if @i % 2 == 0
+					@array_data.push([current_date, @graph_data.adj_close[@i]])
+				end
 				@i += 1
 				@i % 5 == 0 || @i % 5 == 1 ? j += 2 : j += 1
 				j += 1 if @i % 20 == 0
