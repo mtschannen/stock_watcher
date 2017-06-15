@@ -122,7 +122,7 @@ class StocksController < ApplicationController
 			end
 		else
 			(@array_size).times do
-				current_date = (start_time - ((@array_size*1.45) -j).day).strftime("%Y-%m-%d")
+				current_date = (start_time - ((@array_size*1.47) -j).day).strftime("%Y-%m-%d")
 				@array_data.push([current_date, @graph_data.adj_close[@i]])
 				@i += 1
 				@i % 5 == 0 || @i % 5 == 1 ? j += 2 : j += 1

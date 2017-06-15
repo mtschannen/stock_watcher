@@ -155,13 +155,14 @@ body {
     margin-top: -190px;
 }
 
-#overflow_warning {
+.overflow_warning {
     background-color: rgba(255,0,0,0.5);
     color: white;
     border-radius: 5px;
+    text-align: center;
 }
 
-#overflow_warning:hover {
+.overflow_warning:hover {
     background-color: rgba(255,100,100,0.5);
 }
 
@@ -185,8 +186,8 @@ body {
 
 #welcome_text {
     color: white;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 40px;
+    margin-bottom: 45px;
 }
 
 #welcome_image {
@@ -199,3 +200,6 @@ body {
     text-align: center;
 }
 
+.row {
+    margin-top: -10px;
+}
