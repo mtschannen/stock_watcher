@@ -75,22 +75,6 @@ class StocksController < ApplicationController
 	helper_method :get_basic_info
 
 	private def get_graph_data
-		# yahoo_client = YQuotes::Client.new
-		# @graph_data = yahoo_client.get_quote(@stock.ticker_symbol, { period: 'w', start_date: (Time.now - (24*60*60*365)).strftime("%Y-%m-%d"), end_date: Time.now.strftime("%Y-%m-%d")})
-		# @low = @graph_data[0].min
-		# @max = @graph_data[0].max
-		# i = 0
-		# start_time = Time.now
-		# @array_data = Array.new
-		# 51.times do
-		# 	current_date = (start_time - (52-i).week).strftime("%Y-%m-%d")
-		# 	@array_data.push([current_date, @graph_data[0][i]])
-		# 	i += 1
-		# end
-		# @json_string = @array_data.to_json
-
-		################################################
-
 		@date_scalar = (params.has_key?(:date_scalar_selector) ? params[:date_scalar_selector] : 3)
 		@date_scalar = @date_scalar.to_i
 		@date_scalar_float = @date_scalar.to_f
@@ -109,54 +93,38 @@ class StocksController < ApplicationController
 		@i = 0
 		j = 0
 		@array_size = @graph_data.size
-		num_points = @array_size/100
+		num_points = @array_size/150
 		start_time = Time.now
 		@array_data = Array.new
-		# if((251*(@date_scalar_float/12.0)) <= @graph_data.size)
 		if (@array_size > (251*(@date_scalar_float/12.0)))
 			((251*(@date_scalar_float/12.0)).to_i).times do
-				current_date = (start_time - (365*(@date_scalar_float/12.0) -j).day).strftime("%Y-%m-%d")
-				if @i % num_points == 0
-					@array_data.push([current_date, @graph_data.adj_close[@i]])
+				if !(num_points == 0)
+					if @i % num_points == 0
+						@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
+					end
+				else
+					@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
 				end
+				
 				@i += 1
-				@i % 5 == 0 || @i % 5 == 1 ? j += 2 : j += 1
-				j += 1 if @i % 20 == 0
 			end
 		else
 			(@array_size).times do
-				current_date = (start_time - ((@array_size*1.47) -j).day).strftime("%Y-%m-%d")
-				if @i % num_points == 0
-					@array_data.push([current_date, @graph_data.adj_close[@i]])
+				
+
+				if !(num_points == 0)
+					if @i % num_points == 0
+						@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
+					end
+				else
+					@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
 				end
+				
 				@i += 1
-				@i % 5 == 0 || @i % 5 == 1 ? j += 2 : j += 1
-				j += 1 if @i % 20 == 0
 				@overflow = true
 			end
 		end
 		@json_string = @array_data.to_json 
-		# else
-		# 	if(@date_scalar <= 6)
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 1), overflow: true)
-		# 	elsif (@date_scalar <= 12)
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 3), overflow: true)
-		# 	elsif (@date_scalar <= 24)
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 6), overflow: true)
-		# 	elsif (@date_scalar <= 60)
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 12), overflow: true)
-		# 	elsif (@date_scalar <= 120)
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 24), overflow: true)
-		# 	else
-		# 		redirect_to stock_path(@stock, date_scalar_selector: (@date_scalar - 60), overflow: true)
-		# 	end
-		# end
-		# @test_data = yahoo_client.get_quote(
-		# 	@stock.ticker_symbol, { 
-		# 	period: 'd', 
-		# 	start_date: (Time.now - (24*60*60*365*(10))).strftime("%Y-%m-%d"), 
-		# 	end_date: Time.now.strftime("%Y-%m-%d")
-		# 	})
 	end
 end
 

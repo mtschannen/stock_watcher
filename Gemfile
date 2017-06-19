@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'simple_form', '~> 3.5'
 gem 'yahoo-finance'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
-gem 'yquotes', '~> 1.4'
+gem 'yquotes', '~> 1.9'
 gem 'd3_rails'
 gem 'paperclip', '~> 5.1'
 gem 'whenever', :require => false

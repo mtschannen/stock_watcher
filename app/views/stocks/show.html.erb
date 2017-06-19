@@ -3,9 +3,13 @@
   function makeGraph(){
     var data = <%= raw @json_string %>;
     var current_data;
+    var first_date;
     for (var i = 0; i < <%= @array_data.size %>; i++){
       current_data = data[i][0];
       var pieces = current_data.split('-');
+      if (i == 0){
+        first_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));
+      }
       var new_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));
       data[i][0] = new_date;
     }	
@@ -19,23 +23,80 @@
         bottom: 65,
         left: <%= 1.1 * @max > 9999 ? 100 : 70 %> 
 	    };
-    var scale_start_date = new Date();
+    
+    var valueLine = d3.svg.line()
+      .x(function(d) { return xScale(d[0]); })
+      .y(function(d) { return yScale(d[1]); });
+
+    
+
+    var scale_start_date = first_date;
     var scale_end_date = new Date();
-    scale_start_date.setDate(scale_start_date.getDate() - <%= @i*1.47 %>);
     xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]).domain([scale_start_date, scale_end_date]);
 		yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([.9*<%= @low.to_f %>, 1.1*<%= @max.to_f %>]);
 		xAxis = d3.svg.axis().scale(xScale);
 		yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(10, "$.2f");
+    
+    var div = document.getElementById("tooltip");
+    var g = document.getElementById("group");
+    var text = document.getElementById("tooltip_text");
+    var line = document.getElementById("tooltip_line");
 
     vis.append("svg:g").attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")").call(xAxis).selectAll("text").attr("y", 5)
     .attr("x", 5).attr("transform", "rotate(45)").style("text-anchor", "start");
     
     vis.append("svg:g").attr("transform", "translate(" + (MARGINS.left) + ",0)").call(yAxis);
 
+    vis.append("path").attr("d", valueLine(data));
+
     vis.selectAll("scatter-dots").data(data).enter().append("svg:circle")
         .attr("cx", function (d,i) { return xScale(d[0]); } )
         .attr("cy", function (d) { return yScale(d[1]); } )
-        .attr("r", <%= (@i/20) >= 12 ? 1.5 : 2.5 %>);
+        .attr("r", 4).attr("style", "opacity:0")
+        .on("mouseover", function(d) {    
+            var xpos = d3.event.pageX;
+            var ypos = d3.event.pageY;
+            this.setAttribute("style", "opacity:.9;fill:red");
+            g.setAttribute("style", "opacity: 1");    
+
+            var price = d[1]
+            
+            if(price >= 100000){
+              div.setAttribute("width", 90);
+            }
+            else if(price >= 10000){
+              div.setAttribute("width", 80);
+            }
+            else if (price >= 1000){
+              div.setAttribute("width", 80);
+            }
+            else if (price >= 100){
+              div.setAttribute("width", 80);
+            }
+            else {
+              div.setAttribute("width", 80);
+            }
+
+            var month_index = d[0].getMonth();
+            var year = d[0].getYear()+1900;
+            var day = d[0].getDate();
+            text.innerHTML = (month_index + 1) + "/" + day + "/" + year;
+            document.getElementById("tooltip_text_price").innerHTML = "$" + price.toFixed(2);
+
+
+            
+            var self = d3.select(this);
+            line.setAttribute('x2', (self.attr('cx')));
+            line.setAttribute('y2', (self.attr("cy")));
+            console.log("in"); 
+            })          
+        .on("mouseout", function(d) {   
+            g.setAttribute("style", "opacity: 0"); 
+            this.setAttribute("style", "opacity:0");
+            console.log("out"); 
+        });
+
+
 	}
 
 
@@ -67,28 +128,60 @@ function loadBasicInfo() {
   <% if !(session[:current_user_firstname].nil?) %>
     <%= link_to "Stop Tracking", stock_path(@stock), method: :delete, data: { confirm: "Are you sure you want to delete #{@stock.ticker_symbol} from your dashboard?" }, class: 'btn btn-danger' %>
   <% end %>
-
-  <div class="overflow_warning" onclick="hideWarning()"><h2><%= @overflow ? "Data not available beyond " + (@i/20.6).to_i.to_s + " months. (Click to dismiss)" : "" %></h2></div>
+  <% if params[:date_scalar_selector] != '1000' %>
+    <div class="overflow_warning" onclick="hideWarning()"><h2><%= @overflow ? "Data not available beyond " + (@i/20.6).to_i.to_s + " months. (Click to dismiss)" : "" %></h2></div>
+  <% end %>
 </div>
 <br>
 <div class="row">
   <div class="col-md-4">
   <%= render 'basic_info' %>
   <!-- <div id="render_container"></div> -->
-    <div class="overview_wrapper" >
+    <div class="overview_wrapper">
       <h3>Graph Time Span</h3>
-        <%= link_to "3-Months", stock_path(@stock, date_scalar_selector: 3) %><br>
-        <%= link_to "6-Months", stock_path(@stock, date_scalar_selector: 6) %><br>
-        <%= link_to "1-Year", stock_path(@stock, date_scalar_selector: 12) %><br>
-        <%= link_to "2-Years", stock_path(@stock, date_scalar_selector: 24) %><br>
-        <%= link_to "5-Years", stock_path(@stock, date_scalar_selector: 60) %><br>
-        <%= link_to "10-Years", stock_path(@stock, date_scalar_selector: 120) %><br>
+        <div class="dropdown show pull-center">
+          <button id="dropdown_button" class="btn btn-secondary dropdown-toggle" href="https://example.com" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select Time Frame ▼
+          </button>
+
+          <div class="dropdown-menu pull-center" aria-labelledby="dropdownMenuLink">
+            <div class="graph_timeframes">  
+              <%= link_to "3-Months", stock_path(@stock, date_scalar_selector: 3), class: "graph_links" %><br>
+            </div>  
+            <div class="graph_timeframes">  
+              <%= link_to "6-Months", stock_path(@stock, date_scalar_selector: 6), class: "graph_links" %><br>
+            </div>
+            <div class="graph_timeframes">    
+              <%= link_to "1-Year", stock_path(@stock, date_scalar_selector: 12), class: "graph_links" %><br>
+            </div>
+            <div class="graph_timeframes">    
+              <%= link_to "2-Years", stock_path(@stock, date_scalar_selector: 24), class: "graph_links" %><br>
+            </div>
+            <div class="graph_timeframes">    
+              <%= link_to "5-Years", stock_path(@stock, date_scalar_selector: 60), class: "graph_links" %><br>
+            </div>
+            <div class="graph_timeframes">    
+              <%= link_to "Max", stock_path(@stock, date_scalar_selector: 1000), class: "graph_links" %><br>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <div class="col-md-8">
     <div class="overview_wrapper">
-      <h2 class='center_text' id="graph_header"><%= @overflow ? (@i/20.6).to_i : @date_scalar %>-Month History</h2>
-      <svg id="visualisation" width="700" height="500"></svg>
+      <% if params[:date_scalar_selector] == "1000" %>
+        <h2 class='center_text' id="graph_header">All History</h2>
+      <% else %>
+        <h2 class='center_text' id="graph_header"><%= @overflow ? (@i/20.6).to_i : @date_scalar %>-Month History</h2>
+      <% end %>
+      <svg id="visualisation" width="700" height="500">
+        <g id="group" style="opacity: 0">
+          <rect id="tooltip" x="330" y="60" rx="5" ry="5" width="65" height="45" style="fill:lightgray;stroke:black"></rect>
+          <line id="tooltip_line" x1="370" y1="105" stroke-dasharray="5,5" style="stroke:rgb(150,150,150);stroke-width:2" />
+          <text id="tooltip_text" style="fill:black" transform="translate(335,78)"></text>
+          <text id="tooltip_text_price" style="fill:black" transform="translate(335,98)"></text>
+        </g>
+      </svg>
     </div>
   </div>
 </div>

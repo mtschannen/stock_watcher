@@ -246,7 +246,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   whenever
   yahoo-finance
-  yquotes (~> 1.4)
+  yquotes (~> 1.9)
 
 BUNDLED WITH
    1.15.1
