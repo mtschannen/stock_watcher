@@ -40,7 +40,8 @@
     var div = document.getElementById("tooltip");
     var g = document.getElementById("group");
     var text = document.getElementById("tooltip_text");
-    var line = document.getElementById("tooltip_line");
+    var horiz_line = document.getElementById("tooltip_line_horiz");
+    var vert_line = document.getElementById("tooltip_line_vert");
 
     vis.append("svg:g").attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")").call(xAxis).selectAll("text").attr("y", 5)
     .attr("x", 5).attr("transform", "rotate(45)").style("text-anchor", "start");
@@ -86,14 +87,19 @@
 
             
             var self = d3.select(this);
-            line.setAttribute('x2', (self.attr('cx')));
-            line.setAttribute('y2', (self.attr("cy")));
-            console.log("in"); 
+            horiz_line.setAttribute('x2', (self.attr('cx')));
+            horiz_line.setAttribute('y2', (self.attr("cy")));
+            horiz_line.setAttribute('x1', <%= 1.1 * @max > 9999 ? 100 : 70 %>);
+            horiz_line.setAttribute('y1', (self.attr('cy')));
+
+            vert_line.setAttribute('x2', (self.attr('cx')));
+            vert_line.setAttribute('y2', (self.attr("cy")));
+            vert_line.setAttribute('x1', (self.attr('cx')));
+            vert_line.setAttribute('y1', 435);
             })          
         .on("mouseout", function(d) {   
             g.setAttribute("style", "opacity: 0"); 
             this.setAttribute("style", "opacity:0");
-            console.log("out"); 
         });
 
 
@@ -140,11 +146,11 @@ function loadBasicInfo() {
     <div class="overview_wrapper">
       <h3>Graph Time Span</h3>
         <div class="dropdown show pull-center">
-          <button id="dropdown_button" class="btn btn-secondary dropdown-toggle" href="https://example.com" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button id="dropdown_button" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Select Time Frame ▼
           </button>
 
-          <div class="dropdown-menu pull-center" aria-labelledby="dropdownMenuLink">
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <div class="graph_timeframes">  
               <%= link_to "3-Months", stock_path(@stock, date_scalar_selector: 3), class: "graph_links" %><br>
             </div>  
@@ -177,7 +183,8 @@ function loadBasicInfo() {
       <svg id="visualisation" width="700" height="500">
         <g id="group" style="opacity: 0">
           <rect id="tooltip" x="330" y="60" rx="5" ry="5" width="65" height="45" style="fill:lightgray;stroke:black"></rect>
-          <line id="tooltip_line" x1="370" y1="105" stroke-dasharray="5,5" style="stroke:rgb(150,150,150);stroke-width:2" />
+          <line id="tooltip_line_horiz" x1="370" y1="105" stroke-dasharray="5,5" style="stroke:rgb(150,150,150);stroke-width:2" />
+          <line id="tooltip_line_vert" x1="370" y1="105" stroke-dasharray="5,5" style="stroke:rgb(150,150,150);stroke-width:2" />
           <text id="tooltip_text" style="fill:black" transform="translate(335,78)"></text>
           <text id="tooltip_text_price" style="fill:black" transform="translate(335,98)"></text>
         </g>
@@ -185,3 +192,4 @@ function loadBasicInfo() {
     </div>
   </div>
 </div>
+

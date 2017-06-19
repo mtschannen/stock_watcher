@@ -1,13 +1,16 @@
 class StocksController < ApplicationController
 	before_action :find_stock, only: [:show, :destroy]
+	before_action :get_stocks
+	before_action :get_info_index
 	# before_action :get_basic_info, only: [:show]
 	# before_action :get_graph_data, only: [:show]
 
+	def get_stocks
+		@stocks = Stock.where(user_id: session[:current_user_id]).order("ticker_symbol ASC")
+	end
 
 	def index
-		@stocks = Stock.where(user_id: session[:current_user_id]).order("ticker_symbol ASC")
-		get_info_index
-		@i = 0
+		
 	end
 
 	def new
@@ -50,6 +53,7 @@ class StocksController < ApplicationController
 	end
 
 	def get_info_index
+		@i = 0
 		yahoo_client = YahooFinance::Client.new
 		@tickers = Array.new
 		@stocks.each do |stock|
@@ -84,7 +88,7 @@ class StocksController < ApplicationController
 		@graph_data = yahoo_client.get_quote(
 			@stock.ticker_symbol, { 
 			period: 'd', 
-			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/11.9))).strftime("%Y-%m-%d"), 
+			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/11.8))).strftime("%Y-%m-%d"), 
 			end_date: Time.now.strftime("%Y-%m-%d")
 			})
 		@low = @graph_data.adj_close.min
