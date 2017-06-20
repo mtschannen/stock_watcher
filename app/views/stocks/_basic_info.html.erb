@@ -1,14 +1,12 @@
 <% basic_info = get_basic_info %>
 <div class="overview_wrapper">
-  <% unless basic_info[0].last_trade_price.eql? "N/A" %>
-    <h1 class='center_text'><%= @stock.ticker_symbol %></h1>
-    <h2>$<%= '%.2f' % basic_info[0].last_trade_price %></h2>
-    <h3 class="<%= basic_info[0].change.to_f >= 0 ? 'greenPriceChange' : 'redPriceChange' %>">
-    <%= basic_info[0].change.to_f >= 0 ? '▲' : '▼' %><%= '%.2f' % basic_info[0].change.to_f %> (<%= basic_info[0].change_in_percent %>)</h3>
-    <h3>Opening Price: $<%= '%.2f' % basic_info[0].open.to_f %></h3>
-    <h3>Highest Price: $<%= '%.2f' % basic_info[0].high.to_f %></h3>
-    <h3>Lowest Price: $<%= '%.2f' % basic_info[0].low.to_f %></h3>
-  <% else %>
-      <h2>No data to show. Verify that stock ticker symbol is accurate.</h2>
-  <% end %>
+  <h1 class='center_text'><%= @stock.ticker_symbol %></h1>
+  <h2>$<%= '%.2f' % basic_info[0].last_trade_price %></h2>
+  <h3 class="<%= basic_info[0].change.to_f >= 0 ? 'greenPriceChange' : 'redPriceChange' %>">
+  <%= basic_info[0].change.to_f >= 0 ? '▲' : '▼' %><%= '%.2f' % basic_info[0].change.to_f %> (<%= basic_info[0].change_in_percent %>)</h3>
+  <h3>Opening Price: $<%= '%.2f' % basic_info[0].open.to_f %></h3>
+  <h3>Highest Price: $<%= '%.2f' % basic_info[0].high.to_f %></h3>
+  <h3>Lowest Price: $<%= '%.2f' % basic_info[0].low.to_f %></h3>
+</div>
+<div class="logo_div_overview" style='background-image: url(<%= @stock.stock_logo.url(:thumb) %>);'>
 </div>

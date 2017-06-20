@@ -88,20 +88,19 @@ class StocksController < ApplicationController
 		@graph_data = yahoo_client.get_quote(
 			@stock.ticker_symbol, { 
 			period: 'd', 
-			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/11.8))).strftime("%Y-%m-%d"), 
+			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/12))).strftime("%Y-%m-%d"), 
 			end_date: Time.now.strftime("%Y-%m-%d")
 			})
 		@low = @graph_data.adj_close.min
 		@max = @graph_data.adj_close.max
 		@overflow = false;
+		@array_size = @graph_data.index.max+1
 		@i = 0
-		j = 0
-		@array_size = @graph_data.size
 		num_points = @array_size/150
 		start_time = Time.now
 		@array_data = Array.new
-		if (@array_size > (251*(@date_scalar_float/12.0)))
-			((251*(@date_scalar_float/12.0)).to_i).times do
+		if (@array_size > (251*(@date_scalar_float/12))-2)
+			(@array_size).times do
 				if !(num_points == 0)
 					if @i % num_points == 0
 						@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
@@ -109,13 +108,10 @@ class StocksController < ApplicationController
 				else
 					@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])
 				end
-				
 				@i += 1
 			end
 		else
 			(@array_size).times do
-				
-
 				if !(num_points == 0)
 					if @i % num_points == 0
 						@array_data.push([@graph_data.date[@i], @graph_data.adj_close[@i]])

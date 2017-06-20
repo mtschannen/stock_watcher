@@ -17,22 +17,24 @@
       <ul class="nav navbar-nav">
         <li><%= link_to "Helpful Resources", resources_path %></li>
       </ul>
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Quick Link<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-          <% @i = 0 %>
-          <% @stocks.each do |stock| %>
-            <li class="<%= 'active_stock ' if params[:id] == stock.id.to_s %>">
-              <% arrow = @index_data[@i].change.to_f >= 0 ? '▲' : '▼' %>
-              <% text = arrow + " " + stock.ticker_symbol %>
-              <%= link_to text, stock_path(stock) %>
-            </li>
-            <% @i += 1 %>
-          <% end %>
-          </ul>
-        </li>
-      </ul>
+      <% unless (session[:current_user_firstname].nil?) %>
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Quick Link<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+            <% @i = 0 %>
+            <% @stocks.each do |stock| %>
+              <li class="<%= 'active_stock ' if params[:id] == stock.id.to_s %>">
+                <% arrow = @index_data[@i].change.to_f >= 0 ? '▲' : '▼' %>
+                <% text = arrow + " " + stock.ticker_symbol %>
+                <%= link_to text, stock_path(stock) %>
+              </li>
+              <% @i += 1 %>
+            <% end %>
+            </ul>
+          </li>
+        </ul>
+      <% end %>  
       <ul class="nav navbar-nav navbar-right">
         <% if (session[:current_user_firstname].nil?) %>
           <li class="headButton"><a href='http://localhost:3000/redirectauth'><div id='loginButton' class='btn btn-success'>Log In</div></a></li> 
@@ -45,7 +47,6 @@
   	</nav>
     <div class="container" id="yield_container">
     	<%= yield %>
-      <%= @index_data %>
     </div>
   </body>
 </html>

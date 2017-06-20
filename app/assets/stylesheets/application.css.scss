@@ -114,6 +114,7 @@ body {
 
 .resource_links {
     color: white;
+    font-size: 30px;
 }
 
 .resource_links:hover {
@@ -147,8 +148,9 @@ body {
 .logo_div {
     background-repeat: no-repeat;
     background-position: center;
-    height: 190px;
+    height: 186px;
     opacity: 0.15;
+    border-radius: 15px;
 }
 
 .display_div {
@@ -258,4 +260,22 @@ path {
 
 .active_stock {
     background-color: lightblue;
+}
+
+.logo_div_overview {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 600px;
+    height: 320px;
+    opacity: 0.1;
+    border-radius: 15px;
+    margin: -337px 5px 0 5px;
+}
+
+.link_description {
+    font-size: 16px;
+}
+
+#shadow {
+    text-shadow: 2px 2px 5px  #ffffff;
 }
