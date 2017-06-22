@@ -1,8 +1,8 @@
 class StocksController < ApplicationController
-	before_action :find_stock, only: [:show, :destroy]
+	before_action :find_stock, only: [:get_basic_info, :get_graph_data, :show, :destroy]
 	before_action :get_stocks
 	before_action :get_info_index
-	# before_action :get_basic_info, only: [:show]
+	before_action :get_basic_info, only: [:show]
 	# before_action :get_graph_data, only: [:show]
 
 	def get_stocks
@@ -44,7 +44,7 @@ class StocksController < ApplicationController
 	end
 
 	def show
-			get_graph_data
+			
 	end
 
 	def destroy
@@ -71,19 +71,28 @@ class StocksController < ApplicationController
 		@stock = Stock.find(params[:id])
 	end
 
-	private def get_basic_info
+	def get_basic_info
 		#retrieve data here
 		yahoo_client = YahooFinance::Client.new
 		@data = yahoo_client.quotes([@stock.ticker_symbol], [:open, :high, :low, :close, :last_trade_price, :change, :change_in_percent])
+		respond_to do |format|
+      format.json { render json: @data, status: :ok }
+      format.html { @data }
+    end
 	end
 	helper_method :get_basic_info
 
-	private def get_graph_data
-		@date_scalar = (params.has_key?(:date_scalar_selector) ? params[:date_scalar_selector] : 3)
+	def get_graph_data
+		@date_scalar = params.has_key?(:num_months) ? params[:num_months] : 3
 		@date_scalar = @date_scalar.to_i
 		@date_scalar_float = @date_scalar.to_f
 
 		yahoo_client = YQuotes::Client.new
+   	
+   	puts @stock.id
+		puts @stock.ticker_symbol
+		puts @date_scalar_float
+		puts "heelo"
 
 		@graph_data = yahoo_client.get_quote(
 			@stock.ticker_symbol, { 
@@ -91,6 +100,9 @@ class StocksController < ApplicationController
 			start_date: (Time.now - (24*60*60*365*(@date_scalar_float/12))).strftime("%Y-%m-%d"), 
 			end_date: Time.now.strftime("%Y-%m-%d")
 			})
+
+		#print @graph_data
+
 		@low = @graph_data.adj_close.min
 		@max = @graph_data.adj_close.max
 		@overflow = false;
@@ -124,6 +136,9 @@ class StocksController < ApplicationController
 				@overflow = true
 			end
 		end
+
+		print @array_data
+
 		@json_string = @array_data.to_json 
 		respond_to do |format|
       format.json { render json: @array_data, status: :ok }

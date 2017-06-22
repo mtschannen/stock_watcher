@@ -276,6 +276,25 @@ path {
     font-size: 16px;
 }
 
-#shadow {
-    text-shadow: 2px 2px 5px  #ffffff;
+.load_div {
+    margin: 10px;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: black;
+    display:inline-block;
+}
+
+#overview_div_container {
+    text-align: center;
+    margin-top: 20px;
+    height: 39.6px;
+}
+
+#overview_div {
+    height: 322.2px;
+}
+
+#graph_container {
+    height: 527px;
 }

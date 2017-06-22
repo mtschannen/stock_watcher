@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   get '/redirectout', to: 'users#before_ch_out', as: 'redirectout'
   get '/logout', to: 'users#after_ch_out', as: 'logout'
   get '/test', to: 'stocks#test', as: 'test'
-  get '/stocks/:id/update_graph/:num_months', to: 'stocks#get_graph_data', as: 'update_graph'
+  get '/stocks/:id/update_graph', to: 'stocks#get_graph_data'
+  get '/stocks/:id/update_info', to: 'stocks#get_basic_info'
 end
