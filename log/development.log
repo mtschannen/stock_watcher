@@ -60341,3 +60341,2395 @@ Processing by StocksController#show as HTML
 Completed 200 OK in 3016ms (Views: 640.7ms | ActiveRecord: 5.4ms)
 
 
+Started GET "/" for 127.0.0.1 at 2017-06-20 13:33:36 -0500
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (15.5ms)
+Completed 200 OK in 949ms (Views: 615.6ms | ActiveRecord: 10.9ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-20 13:33:41 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (278.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (281.0ms)
+Completed 200 OK in 2786ms (Views: 377.0ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=60" for 127.0.0.1 at 2017-06-20 13:33:50 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"48"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (268.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (276.3ms)
+Completed 200 OK in 5525ms (Views: 367.7ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-20 13:34:33 -0500
+Processing by StocksController#new as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (47.6ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (48.4ms)
+Completed 200 OK in 351ms (Views: 91.5ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/stocks" for 127.0.0.1 at 2017-06-20 13:34:54 -0500
+Processing by StocksController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ygRHLudQsMCZzCyLioU994fZpRBUjdi15JtoyPNYIEXwxFjCYdX6z9aZqHtIl3vHw2YySSiv33O6uew19ChDyg==", "stock"=>{"ticker_symbol"=>"NVDA", "company_name"=>"NVIDIA Corporation", "user_id"=>"le2fz9xm92m3gi59"}, "commit"=>"Track"}
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[36mStock Load (6.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."ticker_symbol" = $1 AND "stocks"."user_id" = $2 LIMIT $3[0m  [["ticker_symbol", "NVDA"], ["user_id", "le2fz9xm92m3gi59"], ["LIMIT", 1]]
+  [1m[35m (5.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (9.3ms)[0m  [1m[32mINSERT INTO "stocks" ("ticker_symbol", "company_name", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["ticker_symbol", "NVDA"], ["company_name", "NVIDIA Corporation"], ["created_at", "2017-06-20 18:34:55.446414"], ["updated_at", "2017-06-20 18:34:55.446414"], ["user_id", "le2fz9xm92m3gi59"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 608ms (ActiveRecord: 23.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 13:34:55 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.6ms)
+Completed 200 OK in 346ms (Views: 86.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 13:34:56 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/57" for 127.0.0.1 at 2017-06-20 13:34:58 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"57"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (1.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (285.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (293.1ms)
+Completed 200 OK in 2569ms (Views: 393.8ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=60" for 127.0.0.1 at 2017-06-20 13:35:03 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"57"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (2.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (1425.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (1428.3ms)
+Completed 200 OK in 8803ms (Views: 1525.9ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-20 13:35:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (2.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (279.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (292.9ms)
+Completed 200 OK in 2609ms (Views: 400.1ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=24" for 127.0.0.1 at 2017-06-20 13:36:06 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"48"}
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (294.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (298.7ms)
+Completed 200 OK in 5589ms (Views: 401.3ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/stocks/45" for 127.0.0.1 at 2017-06-20 13:37:33 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"45"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (347.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (370.2ms)
+Completed 200 OK in 4467ms (Views: 464.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/45?date_scalar_selector=3" for 127.0.0.1 at 2017-06-20 13:37:41 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"3", "id"=>"45"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (256.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (260.8ms)
+Completed 200 OK in 2679ms (Views: 358.1ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-20 13:40:30 -0500
+Processing by StocksController#new as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (9.0ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (13.2ms)
+Completed 200 OK in 390ms (Views: 96.6ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/stocks" for 127.0.0.1 at 2017-06-20 13:40:36 -0500
+Processing by StocksController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Uf+K5e88CXxEBm4e/sHekeqCt7MXfGOYtES4pxlFKx1rP5UJablDcwtT6u4805ihrj0g6mteZF7qZjxaHjVIkg==", "stock"=>{"ticker_symbol"=>"DCTH", "company_name"=>"Delcath Systems Inc.", "user_id"=>"le2fz9xm92m3gi59"}, "commit"=>"Track"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[36mStock Load (1.0ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."ticker_symbol" = $1 AND "stocks"."user_id" = $2 LIMIT $3[0m  [["ticker_symbol", "DCTH"], ["user_id", "le2fz9xm92m3gi59"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[32mINSERT INTO "stocks" ("ticker_symbol", "company_name", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["ticker_symbol", "DCTH"], ["company_name", "Delcath Systems Inc."], ["created_at", "2017-06-20 18:40:37.461119"], ["updated_at", "2017-06-20 18:40:37.461119"], ["user_id", "le2fz9xm92m3gi59"]]
+  [1m[35m (4.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 774ms (ActiveRecord: 7.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 13:40:37 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (14.6ms)
+Completed 200 OK in 483ms (Views: 92.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 13:40:38 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 13:40:39 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (433.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (437.7ms)
+Completed 200 OK in 10831ms (Views: 553.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/new" for 127.0.0.1 at 2017-06-20 14:02:47 -0500
+Processing by StocksController#new as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/new.html.erb within layouts/application
+  Rendered stocks/_form.html.erb (28.2ms) [cache miss]
+  Rendered stocks/new.html.erb within layouts/application (35.2ms)
+Completed 200 OK in 4528ms (Views: 120.1ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/stocks" for 127.0.0.1 at 2017-06-20 14:02:58 -0500
+Processing by StocksController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"PdcMtqHAF7Ub1to3ZMs82QFtpvOxSVRTJGKJqg0X2AYHFxNaJ0VdulSDXsem2XrpRdIxqs1rU5V6QA1XCme7iQ==", "stock"=>{"ticker_symbol"=>"GPACW", "company_name"=>"Global Partner Acquisition Corp. Warrants", "user_id"=>"le2fz9xm92m3gi59"}, "commit"=>"Track"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."ticker_symbol" = $1 AND "stocks"."user_id" = $2 LIMIT $3[0m  [["ticker_symbol", "GPACW"], ["user_id", "le2fz9xm92m3gi59"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "stocks" ("ticker_symbol", "company_name", "created_at", "updated_at", "user_id") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["ticker_symbol", "GPACW"], ["company_name", "Global Partner Acquisition Corp. Warrants"], ["created_at", "2017-06-20 19:02:59.201681"], ["updated_at", "2017-06-20 19:02:59.201681"], ["user_id", "le2fz9xm92m3gi59"]]
+  [1m[35m (4.1ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 524ms (ActiveRecord: 5.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:02:59 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 320ms (Views: 55.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:02:59 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:03:11 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 11077ms (ActiveRecord: 0.6ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:03:28 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 7651ms (ActiveRecord: 0.7ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:03:39 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 14:03:41 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (266.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (276.6ms)
+Completed 200 OK in 3001ms (Views: 449.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:03:50 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 8341ms (ActiveRecord: 1.7ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:04:03 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (5.6ms)
+Completed 200 OK in 371ms (Views: 110.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:04:03 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 14:04:05 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (323.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (325.7ms)
+Completed 200 OK in 2427ms (Views: 402.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:04:12 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 7357ms (ActiveRecord: 0.5ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:05:43 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.3ms)
+Completed 200 OK in 375ms (Views: 112.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:05:44 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:06:13 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (1.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 6748ms (ActiveRecord: 2.0ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 14:06:48 -0500
+  
+SyntaxError (/home/logan/Desktop/stock_watcher/app/controllers/stocks_controller.rb:130: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/controllers/stocks_controller.rb:130: syntax error, unexpected end-of-input, expecting keyword_end
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:06:50 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 14:16:51 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (1.8ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (5.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (275.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (280.4ms)
+Completed 200 OK in 4360ms (Views: 372.2ms | ActiveRecord: 11.8ms)
+
+
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 14:17:36 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (367.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (370.2ms)
+Completed 200 OK in 2671ms (Views: 438.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:17:39 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/55" for 127.0.0.1 at 2017-06-20 14:17:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"55"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 55], ["LIMIT", 1]]
+  [1m[36mStock Load (1.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (247.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (260.0ms)
+Completed 200 OK in 2904ms (Views: 376.6ms | ActiveRecord: 1.9ms)
+
+
+Started GET "/stocks/50" for 127.0.0.1 at 2017-06-20 14:18:11 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"50"}
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 50], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (253.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (256.5ms)
+Completed 200 OK in 2572ms (Views: 372.0ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:23:49 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (21.7ms)
+Completed 200 OK in 385ms (Views: 89.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:23:49 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 14:24:01 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (259.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (261.3ms)
+Completed 200 OK in 2677ms (Views: 353.0ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/58?date_scalar_selector=1000" for 127.0.0.1 at 2017-06-20 14:24:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"1000", "id"=>"58"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (261.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (265.1ms)
+Completed 200 OK in 11015ms (Views: 359.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:24:38 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 338ms (Views: 57.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/56" for 127.0.0.1 at 2017-06-20 14:24:40 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"56"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 56], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (357.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (361.8ms)
+Completed 200 OK in 2934ms (Views: 462.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/56?date_scalar_selector=1000" for 127.0.0.1 at 2017-06-20 14:24:47 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"1000", "id"=>"56"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 56], ["LIMIT", 1]]
+  [1m[36mStock Load (2.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (263.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (265.1ms)
+Completed 200 OK in 22084ms (Views: 360.6ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:25:23 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.6ms)
+Completed 200 OK in 341ms (Views: 80.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:25:24 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 14:25:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (277.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (280.2ms)
+Completed 200 OK in 2483ms (Views: 389.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/stocks/51?date_scalar_selector=1000" for 127.0.0.1 at 2017-06-20 14:25:35 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"1000", "id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (2.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (267.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (273.0ms)
+Completed 200 OK in 17777ms (Views: 356.3ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:27:03 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.2ms)
+Completed 200 OK in 447ms (Views: 144.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:27:04 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/42" for 127.0.0.1 at 2017-06-20 14:27:04 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"42"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 42], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (266.9ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (270.2ms)
+Completed 200 OK in 2502ms (Views: 341.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:27:15 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (11.6ms)
+Completed 200 OK in 1368ms (Views: 125.6ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 14:27:17 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (556.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (558.7ms)
+Completed 200 OK in 2708ms (Views: 633.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:27:49 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.1ms)
+Completed 200 OK in 403ms (Views: 108.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:27:49 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/57" for 127.0.0.1 at 2017-06-20 14:27:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"57"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (281.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (284.1ms)
+Completed 200 OK in 2597ms (Views: 446.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/52" for 127.0.0.1 at 2017-06-20 14:31:14 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"52"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 52], ["LIMIT", 1]]
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (258.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (260.9ms)
+Completed 200 OK in 2378ms (Views: 342.6ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/stocks/52?date_scalar_selector=60" for 127.0.0.1 at 2017-06-20 14:31:34 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"52"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 52], ["LIMIT", 1]]
+  [1m[36mStock Load (1.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (305.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (309.8ms)
+Completed 200 OK in 5657ms (Views: 406.9ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/resources" for 127.0.0.1 at 2017-06-20 14:34:57 -0500
+Processing by ResourcesController#index as HTML
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering resources/index.html.erb within layouts/application
+  Rendered resources/index.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 456ms (Views: 72.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:44:58 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.8ms)
+Completed 200 OK in 418ms (Views: 113.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:44:58 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:37 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.4ms)
+Completed 200 OK in 664ms (Views: 85.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:46:38 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:41 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 823ms (Views: 71.9ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:46:43 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:46 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (23.0ms)
+Completed 200 OK in 831ms (Views: 145.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:46:47 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:50 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.6ms)
+Completed 200 OK in 489ms (Views: 87.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:46:51 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:54 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (11.0ms)
+Completed 200 OK in 1062ms (Views: 91.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:46:56 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:46:59 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.5ms)
+Completed 200 OK in 582ms (Views: 80.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:00 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:03 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (2.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (10.6ms)
+Completed 200 OK in 579ms (Views: 68.4ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:04 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:07 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 401ms (Views: 70.6ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:08 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:11 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.8ms)
+Completed 200 OK in 1481ms (Views: 68.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:13 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:16 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.6ms)
+Completed 200 OK in 465ms (Views: 52.9ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:17 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:20 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.9ms)
+Completed 200 OK in 659ms (Views: 57.2ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:21 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:24 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 537ms (Views: 43.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:25 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:28 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (5.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.5ms)
+Completed 200 OK in 669ms (Views: 62.0ms | ActiveRecord: 5.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:29 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:32 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (16.0ms)
+Completed 200 OK in 530ms (Views: 98.3ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:33 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:36 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (15.4ms)
+Completed 200 OK in 471ms (Views: 97.4ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:37 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (8.0ms)
+Completed 200 OK in 725ms (Views: 123.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:41 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:47:44 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.2ms)
+Completed 200 OK in 514ms (Views: 79.7ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:47:45 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-20 14:48:59 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (256.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (260.1ms)
+Completed 200 OK in 4227ms (Views: 342.5ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 14:51:48 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 649ms (Views: 103.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 14:51:49 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/48" for 127.0.0.1 at 2017-06-20 14:51:55 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"48"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (310.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (316.6ms)
+Completed 200 OK in 4270ms (Views: 402.1ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/stocks/48?date_scalar_selector=24" for 127.0.0.1 at 2017-06-20 14:52:15 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"24", "id"=>"48"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 48], ["LIMIT", 1]]
+  [1m[36mStock Load (3.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (266.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (275.1ms)
+Completed 200 OK in 3824ms (Views: 379.3ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 15:05:57 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 366ms (Views: 88.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 15:05:58 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/49" for 127.0.0.1 at 2017-06-20 15:06:20 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"49"}
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (262.1ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (264.6ms)
+Completed 200 OK in 4520ms (Views: 346.6ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/stocks/57" for 127.0.0.1 at 2017-06-20 15:07:18 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"57"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (267.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (269.7ms)
+Completed 200 OK in 2477ms (Views: 372.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 15:07:20 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 15:16:07 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 337ms (Views: 68.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 15:51:19 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (267.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (278.1ms)
+Completed 200 OK in 2600ms (Views: 381.2ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:05:24 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (22.8ms)
+Completed 200 OK in 430ms (Views: 77.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 16:05:44 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (2.6ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (4950.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (4956.8ms)
+Completed 200 OK in 9330ms (Views: 5053.7ms | ActiveRecord: 2.9ms)
+
+
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 16:06:00 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (1.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 13336ms (ActiveRecord: 1.6ms)
+
+
+  
+NoMethodError (undefined method `read' for nil:NilClass):
+  
+app/controllers/stocks_controller.rb:88:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:07:05 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "stocks" WHERE "stocks"."id" = $1[0m  [["id", 59]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.0ms)
+Completed 200 OK in 347ms (Views: 47.5ms | ActiveRecord: 9.7ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 16:07:06 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/59" for 127.0.0.1 at 2017-06-20 16:07:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"59"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+Completed 404 Not Found in 2ms (ActiveRecord: 0.3ms)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Stock with 'id'=59):
+  
+app/controllers/stocks_controller.rb:72:in `find_stock'
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:07:27 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+Completed 404 Not Found in 371ms (ActiveRecord: 1.1ms)
+
+
+  
+ActiveRecord::RecordNotFound (Couldn't find Stock with 'id'=59):
+  
+app/controllers/stocks_controller.rb:13:in `index'
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:07:40 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (6.1ms)
+Completed 200 OK in 398ms (Views: 81.3ms | ActiveRecord: 7.8ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 16:07:41 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 16:08:43 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (374.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (381.6ms)
+Completed 200 OK in 5878ms (Views: 461.0ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/resources" for 127.0.0.1 at 2017-06-20 16:09:01 -0500
+Processing by ResourcesController#index as HTML
+  [1m[36mStock Load (1.1ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering resources/index.html.erb within layouts/application
+  Rendered resources/index.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 3371ms (Views: 87.4ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/stocks/53" for 127.0.0.1 at 2017-06-20 16:09:09 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"53"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 53], ["LIMIT", 1]]
+  [1m[36mStock Load (1.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (525.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (530.0ms)
+Completed 200 OK in 5084ms (Views: 618.7ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:09:39 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (32.9ms)
+Completed 200 OK in 613ms (Views: 132.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 16:11:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+Started DELETE "/stocks/51" for 127.0.0.1 at 2017-06-20 16:11:29 -0500
+Processing by StocksController#destroy as HTML
+  Parameters: {"authenticity_token"=>"ow+KAk98K4Jgx0pNqUn0PI561I5WsPm94v2hyYnNFdoMtxNVeRdrbLsSfDYWC5/f0VuvoUX/SVyFvUPoFrO9XA==", "id"=>"51"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Started GET "/stocks/51" for 127.0.0.1 at 2017-06-20 16:11:29 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"51"}
+  [1m[36mStock Load (3.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM "stocks" WHERE "stocks"."id" = $1[0m  [["id", 51]]
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+[paperclip] deleting /home/logan/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/051/original/Ford-logo-2003-1366x768.png
+[paperclip] deleting /home/logan/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/051/medium/Ford-logo-2003-1366x768.png
+[paperclip] deleting /home/logan/Desktop/stock_watcher/public/system/stocks/stock_logos/000/000/051/thumb/Ford-logo-2003-1366x768.png
+Redirected to http://localhost:3000/
+Completed 302 Found in 356ms (ActiveRecord: 9.0ms)
+
+
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (339.3ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (342.0ms)
+Completed 200 OK in 2590ms (Views: 412.0ms | ActiveRecord: 8.2ms)
+
+
+  Rendered stocks/_basic_info.html.erb (3347.0ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (3358.8ms)
+Completed 200 OK in 5814ms (Views: 3481.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/system/stocks/stock_logos/000/000/051/thumb/Ford-logo-2003-1366x768.png?1497895432" for 127.0.0.1 at 2017-06-20 16:11:32 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/system/stocks/stock_logos/000/000/051/thumb/Ford-logo-2003-1366x768.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2017-06-20 16:11:41 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (21.0ms)
+Completed 200 OK in 450ms (Views: 90.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-20 16:11:41 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/58" for 127.0.0.1 at 2017-06-20 16:11:49 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"58"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (264.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (267.3ms)
+Completed 200 OK in 2582ms (Views: 377.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/stocks/38" for 127.0.0.1 at 2017-06-20 16:12:06 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"38"}
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mStock Load (2.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (263.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (265.7ms)
+Completed 200 OK in 2599ms (Views: 360.2ms | ActiveRecord: 3.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-22 09:06:08 -0500
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (2.9ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" IS NULL ORDER BY ticker_symbol ASC[0m
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (305.3ms)
+Completed 200 OK in 827ms (Views: 502.0ms | ActiveRecord: 6.6ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-22 09:06:12 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/redirectauth" for 127.0.0.1 at 2017-06-22 09:06:12 -0500
+Processing by UsersController#before_ch_auth as HTML
+Redirected to https://sandboxcernerhealth.com/oauth/authenticate?client_id=449294363c8b4c79b873aaeb150ee74e&redirect_uri=http://localhost:3000/authenticate
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/authenticate?code=01224f2ba13f420b9a1e4966cb2ab75c" for 127.0.0.1 at 2017-06-22 09:06:14 -0500
+Processing by UsersController#after_ch_auth as HTML
+  Parameters: {"code"=>"01224f2ba13f420b9a1e4966cb2ab75c"}
+Redirected to http://localhost:3000/
+Completed 302 Found in 301ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-22 09:06:14 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (10.2ms)
+Completed 200 OK in 435ms (Views: 147.3ms | ActiveRecord: 13.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-22 09:06:15 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/41" for 127.0.0.1 at 2017-06-22 09:06:18 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"41"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 41], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (268.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (271.9ms)
+Completed 200 OK in 2380ms (Views: 369.5ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/stocks/41?date_scalar_selector=12" for 127.0.0.1 at 2017-06-22 09:06:26 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"12", "id"=>"41"}
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 41], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (265.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (274.1ms)
+Completed 200 OK in 4740ms (Views: 391.2ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/stocks/47" for 127.0.0.1 at 2017-06-22 09:07:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"47"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 47], ["LIMIT", 1]]
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (298.5ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (302.0ms)
+Completed 200 OK in 2692ms (Views: 389.8ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2017-06-22 09:07:56 -0500
+Processing by StocksController#index as HTML
+  [1m[36mStock Load (1.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/index.html.erb within layouts/application
+  Rendered stocks/index.html.erb within layouts/application (4.3ms)
+Completed 200 OK in 346ms (Views: 82.4ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-22 09:07:56 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/57" for 127.0.0.1 at 2017-06-22 09:11:07 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"id"=>"57"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (1.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (289.8ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (292.1ms)
+Completed 200 OK in 2666ms (Views: 389.3ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=60" for 127.0.0.1 at 2017-06-22 09:11:35 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"60", "id"=>"57"}
+  [1m[36mStock Load (0.2ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (1.2ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (259.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (264.0ms)
+Completed 200 OK in 5259ms (Views: 351.7ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=1000" for 127.0.0.1 at 2017-06-22 09:12:08 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"1000", "id"=>"57"}
+  [1m[36mStock Load (0.3ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (265.4ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (273.7ms)
+Completed 200 OK in 16725ms (Views: 332.5ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:25:37 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (4.0ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (266.7ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (274.8ms)
+Completed 200 OK in 4860ms (Views: 350.8ms | ActiveRecord: 5.4ms)
+
+
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:26:39 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (0.7ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (1.7ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 1943ms (ActiveRecord: 2.4ms)
+
+
+  
+ArgumentError (too few arguments):
+  
+app/controllers/stocks_controller.rb:128:in `format'
+app/controllers/stocks_controller.rb:128:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:26:57 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (0.5ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 500 Internal Server Error in 2013ms (ActiveRecord: 0.9ms)
+
+
+  
+ArgumentError (too few arguments):
+  
+app/controllers/stocks_controller.rb:129:in `format'
+app/controllers/stocks_controller.rb:129:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:30:36 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (1.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (1.5ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (308.2ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (313.6ms)
+Completed 200 OK in 2738ms (Views: 385.1ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-22 09:30:39 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:31:34 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (0.4ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.8ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+Completed 406 Not Acceptable in 4858ms (ActiveRecord: 1.2ms)
+
+
+  
+ActionController::UnknownFormat (ActionController::UnknownFormat):
+  
+app/controllers/stocks_controller.rb:128:in `get_graph_data'
+app/controllers/stocks_controller.rb:47:in `show'
+Started GET "/stocks/57?date_scalar_selector=6" for 127.0.0.1 at 2017-06-22 09:34:22 -0500
+Processing by StocksController#show as HTML
+  Parameters: {"date_scalar_selector"=>"6", "id"=>"57"}
+  [1m[36mStock Load (0.9ms)[0m  [1m[34mSELECT  "stocks".* FROM "stocks" WHERE "stocks"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mStock Load (0.6ms)[0m  [1m[34mSELECT "stocks".* FROM "stocks" WHERE "stocks"."user_id" = $1 ORDER BY ticker_symbol ASC[0m  [["user_id", "le2fz9xm92m3gi59"]]
+  Rendering stocks/show.html.erb within layouts/application
+  Rendered stocks/_basic_info.html.erb (243.6ms) [cache miss]
+  Rendered stocks/show.html.erb within layouts/application (245.6ms)
+Completed 200 OK in 2503ms (Views: 312.0ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/images/thumb/missing.png" for 127.0.0.1 at 2017-06-22 09:34:25 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  
+actionpack (5.1.1) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.1) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.1) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.1) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.1) lib/rails/engine.rb:522:in `call'
+puma (3.9.1) lib/puma/configuration.rb:224:in `call'
+puma (3.9.1) lib/puma/server.rb:602:in `handle_request'
+puma (3.9.1) lib/puma/server.rb:435:in `process_client'
+puma (3.9.1) lib/puma/server.rb:299:in `block in run'
+puma (3.9.1) lib/puma/thread_pool.rb:120:in `block in spawn_thread'

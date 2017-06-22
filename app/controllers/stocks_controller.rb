@@ -10,7 +10,7 @@ class StocksController < ApplicationController
 	end
 
 	def index
-		
+
 	end
 
 	def new
@@ -125,6 +125,10 @@ class StocksController < ApplicationController
 			end
 		end
 		@json_string = @array_data.to_json 
+		respond_to do |format|
+      format.json { render json: @array_data, status: :ok }
+      format.html { @json_string }
+    end
 	end
 end
 
