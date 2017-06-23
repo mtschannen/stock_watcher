@@ -47,7 +47,25 @@
     </div>
   	</nav>
     <script>
+      
       function update_ticker() {  
+        var now = new Date();
+        var mins = now.getMinutes();      
+        var market_close = new Date();
+        market_close.setHours(15);
+        market_close.setMinutes(0);
+        market_close.setSeconds(0);
+        var diff = market_close - now;
+        diff /= 1000;
+        diff /= 60;
+        var hours_left = Math.floor(diff/60);
+        var minutes_left = Math.ceil(diff%60);
+        var market_close_announcement = hours_left + " HOURS AND " + minutes_left + " MINUTES UNTIL MARKET CLOSE";
+        market_close_announcement += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + market_close_announcement;
+        market_close_announcement += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + market_close_announcement;
+        $('#time_tape').html(market_close_announcement);
+        $('#time_tape').attr("style", "color: red; text-shadow: 0 0 3px red;");
+
         var ticker_info  = $.getJSON('/ticker_info', function () {
           console.log("success");
         }).done(function (){
@@ -100,6 +118,15 @@
       $('body').ready(update_ticker);
       $('body').ready(liveUpdateTicker);
     </script>
+    <marquee id="time_tape" truespeed scrolldelay=80 behavior="scroll" direction="left" 
+        onmouseover="this.stop();" 
+        onmouseout="this.start();">
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        lllllll
+    </marquee>
     <marquee id="ticker_tape" truespeed scrolldelay=60 behavior="scroll" direction="left" 
         onmouseover="this.stop();" 
         onmouseout="this.start();">
@@ -109,6 +136,7 @@
         llllllllllllllllllllllllllllllllllllllll
         lllllll
     </marquee>
+
     <div class="container" id="yield_container">
     	<%= yield %>
     </div>
