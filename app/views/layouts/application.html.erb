@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>StockWatcher</title>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,7 +10,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-default">
+    <nav id="navbar_id" class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
         <%= link_to "Stock Watcher", root_path, class: "navbar-brand" %>
@@ -45,6 +46,69 @@
       </ul>
     </div>
   	</nav>
+    <script>
+      function update_ticker() {  
+        var ticker_info  = $.getJSON('/ticker_info', function () {
+          console.log("success");
+        }).done(function (){
+          var data1 = ticker_info.responseJSON[0].table;
+          var data2 = ticker_info.responseJSON[1].table;
+          var data3 = ticker_info.responseJSON[2].table;
+          var data4 = ticker_info.responseJSON[3].table;
+          var data5 = ticker_info.responseJSON[4].table;
+
+          var ticker_string = "S&P 500: " + Number(data1.last_trade_price).toFixed(2);
+          if(Number(data1.change) >= 0)
+            ticker_string += " +" + Number(data1.change).toFixed(2) + "(" + data1.change_in_percent;
+          else
+            ticker_string += " - " + Number(data1.change).toFixed(2) + "(" + data1.change_in_percent;
+
+          ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspNASDAQ: " + Number(data2.last_trade_price).toFixed(2);
+          if(Number(data2.change) >= 0)
+            ticker_string += " +" + Number(data2.change).toFixed(2) + "(" + data2.change_in_percent;
+          else
+            ticker_string += " -" + Number(data2.change).toFixed(2) + "(" + data2.change_in_percent;
+          
+          ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOIL: " + Number(data3.last_trade_price).toFixed(2);
+          if(Number(data3.change) >= 0)
+            ticker_string += " +" + Number(data3.change).toFixed(2) + "(" + data3.change_in_percent;
+          else
+            ticker_string += " -" + Number(data3.change).toFixed(2) + "(" + data3.change_in_percent;
+
+          ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspGOLD: " + Number(data4.last_trade_price).toFixed(2);
+          if(Number(data4.change) >= 0)
+            ticker_string += " +" + Number(data4.change).toFixed(2) + "(" + data4.change_in_percent;
+          else
+            ticker_string += " -" + Number(data4.change).toFixed(2) + "(" + data4.change_in_percent;
+
+          ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspEUR/USD: " + Number(data5.last_trade_price).toFixed(2);
+          if(Number(data5.change) >= 0)
+            ticker_string += " +" + Number(data5.change).toFixed(2) + "(" + data5.change_in_percent + ")";
+          else
+            ticker_string += " -" + Number(data5.change).toFixed(2) + "(" + data5.change_in_percent + ")";
+          
+
+          $('#ticker_tape').html(ticker_string);
+          $('#ticker_tape').attr("style", "color: #FFC266; text-shadow: 0 0 3px #ffe0b3;");
+        });
+      }
+      function liveUpdateTicker(){
+        setInterval(function(){
+          update_ticker();
+        }, 15000);
+      }
+      $('body').ready(update_ticker);
+      $('body').ready(liveUpdateTicker);
+    </script>
+    <marquee id="ticker_tape" truespeed scrolldelay=60 behavior="scroll" direction="left" 
+        onmouseover="this.stop();" 
+        onmouseout="this.start();">
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        llllllllllllllllllllllllllllllllllllllll
+        lllllll
+    </marquee>
     <div class="container" id="yield_container">
     	<%= yield %>
     </div>

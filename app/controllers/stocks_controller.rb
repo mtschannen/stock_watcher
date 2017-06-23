@@ -82,6 +82,15 @@ class StocksController < ApplicationController
 	end
 	helper_method :get_basic_info
 
+	def get_ticker_tape_info 
+		yahoo_client = YahooFinance::Client.new
+		@ticker_data = yahoo_client.quotes(["^GSPC", "^IXIC", "CL=F", "GC=F", "EURUSD=X"], [:last_trade_price, :change, :change_in_percent])
+		respond_to do |format|
+      format.json { render json: @ticker_data, status: :ok }
+      format.html { @ticker_data }
+    end
+	end
+
 	def get_graph_data
 		@date_scalar = params.has_key?(:num_months) ? params[:num_months] : 3
 		@date_scalar = @date_scalar.to_i

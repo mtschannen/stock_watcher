@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get '/test', to: 'stocks#test', as: 'test'
   get '/stocks/:id/update_graph', to: 'stocks#get_graph_data'
   get '/stocks/:id/update_info', to: 'stocks#get_basic_info'
+  get '/ticker_info', to: 'stocks#get_ticker_tape_info'
 end
