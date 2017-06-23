@@ -193,25 +193,17 @@
     }).done(function() {
       stopOverviewLoadingIcon();
       overview_data = overviewResponseObj.responseJSON[0].table;
-      $('#overview_last_trade_price').html('$' + overview_data.last_trade_price);
-      $('#overview_opening_price').html('Opening Price: $' + overview_data.open);
-      $('#overview_high_price').html('Highest Price: $' + overview_data.high);
-      $('#overview_low_price').html('Lowest Price: $' + overview_data.low);
-      $('#overview_change').html(overview_data.change + " (" + overview_data.change_in_percent + ")");
-      if(overview_data.change >= 0){
-        $('#overview_change').html('▲' + overview_data.change + " (" + overview_data.change_in_percent + ")");
+      $('#overview_last_trade_price').html('$' + Number(overview_data.last_trade_price).toFixed(2));
+      $('#overview_opening_price').html('Opening Price: $' + Number(overview_data.open).toFixed(2));
+      $('#overview_high_price').html('Highest Price: $' + Number(overview_data.high).toFixed(2));
+      $('#overview_low_price').html('Lowest Price: $' + Number(overview_data.low).toFixed(2));
+      if(Number(overview_data.change) >= 0){
+        $('#overview_change').html('▲' + Number(overview_data.change).toFixed(2) + " (" + overview_data.change_in_percent + ")");
         $('#overview_change').attr('class', 'greenPriceChange');
       } else {
-        $('#overview_change').html('▼' + overview_data.change + " (" + overview_data.change_in_percent + ")");
+        $('#overview_change').html('▼' + Number(overview_data.change).toFixed(2) + " (" + overview_data.change_in_percent + ")");
         $('#overview_change').attr('class', 'redPriceChange');
       }
-
-      // $('#overview_last_trade_price').show();
-      // $('#overview_opening_price').show();
-      // $('#overview_high_price').show();
-      // $('#overview_low_price').show();
-      // $('#overview_change').show();
-
     });
   }
 
