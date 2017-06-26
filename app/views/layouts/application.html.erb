@@ -47,89 +47,145 @@
     </div>
   	</nav>
     <script>
-      
       function update_ticker() {  
-        var now = new Date();
-        var mins = now.getMinutes();      
+        var market_close_announcement = "";
+
+        //get the current local time
+        var d = new Date();
+        //convert into ms that represents UTC time
+        now_utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+
+        //set the time for the market closing
         var market_close = new Date();
-        market_close.setHours(15);
+        market_close.setHours(16);
         market_close.setMinutes(0);
         market_close.setSeconds(0);
-        var diff = market_close - now;
-        diff /= 1000;
-        diff /= 60;
-        var hours_left = Math.floor(diff/60);
-        var minutes_left = Math.ceil(diff%60);
-        var market_close_announcement = hours_left + " HOURS AND " + minutes_left + " MINUTES UNTIL MARKET CLOSE";
-        market_close_announcement += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + market_close_announcement;
-        market_close_announcement += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + market_close_announcement;
+        
+        //get the ms that represents market close in UTC time
+        //14400000 represents the number of ms that east coast time is behind UTC 0
+        market_close_utc = market_close.getTime() + 14400000;
+        
+        //set the time for market opening
+        var market_open = new Date();
+        market_open.setHours(8);
+        market_open.setMinutes(30);
+        market_open.setSeconds(0);
+        market_open_utc = market_open.getTime() + 14400000;
+
+        //create dates using UTC offsets
+        var date_now = new Date(now_utc);
+        var date_market_close = new Date(market_close_utc);
+        var date_market_open = new Date(market_open_utc);
+
+        var day_of_week = date_now.getDay();
+        //if the market is currently open
+        if (date_now >= date_market_open && date_now < date_market_close && day_of_week >= 1 && day_of_week <= 5){
+          //get ms difference between when the market closes and the current east coast time
+          var diff = date_market_close - date_now;
+          
+          //convert difference to seconds from ms
+          diff /= 1000;
+          //convert difference from seconds to minutes
+          diff /= 60;
+          //calculate the hours left
+          var hours_left = Math.floor(diff/60);
+          //calculate the minutes left
+          var minutes_left = Math.ceil(diff%60);
+          
+          //set the variable to be populated in marquee
+          if (hours_left == 1)
+            market_close_announcement = hours_left + " HOUR AND " + minutes_left + " MINUTES UNTIL MARKET CLOSE";
+          else if (hours_left == 0)
+            market_close_announcement = minutes_left + " MINUTES UNTIL MARKET CLOSE";
+          else
+            market_close_announcement = hours_left + " HOURS AND " + minutes_left + " MINUTES UNTIL MARKET CLOSE";
+        
+        //market closed
+        } else {
+          market_close_announcement = "MARKET CLOSED";
+        }
+        
+        //set the contents of the HTML element
         $('#time_tape').html(market_close_announcement);
         $('#time_tape').attr("style", "color: red; text-shadow: 0 0 3px red;");
 
-        var ticker_info  = $.getJSON('/ticker_info', function () {
-          console.log("success");
-        }).done(function (){
+        //AJAX call to get the data for the top ticker
+        var ticker_info  = $.getJSON('/ticker_info').done(function (){
+          //set variables to hold the object corresponding to each comodity being tracked
           var data1 = ticker_info.responseJSON[0].table;
           var data2 = ticker_info.responseJSON[1].table;
           var data3 = ticker_info.responseJSON[2].table;
           var data4 = ticker_info.responseJSON[3].table;
           var data5 = ticker_info.responseJSON[4].table;
 
+          //initialize the string that will be put in the marquee element
           var ticker_string = "S&P 500: " + Number(data1.last_trade_price).toFixed(2);
+          
+          //add data for S&P 500
           if(Number(data1.change) >= 0)
             ticker_string += " +" + Number(data1.change).toFixed(2) + "(" + data1.change_in_percent;
           else
-            ticker_string += " - " + Number(data1.change).toFixed(2) + "(" + data1.change_in_percent;
+            ticker_string += " " +  Number(data1.change).toFixed(2) + "(" + data1.change_in_percent;
 
+          //add data for NASDAQ - &nbsp is used to create space between elements on the ticker
           ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspNASDAQ: " + Number(data2.last_trade_price).toFixed(2);
           if(Number(data2.change) >= 0)
             ticker_string += " +" + Number(data2.change).toFixed(2) + "(" + data2.change_in_percent;
           else
-            ticker_string += " -" + Number(data2.change).toFixed(2) + "(" + data2.change_in_percent;
+            ticker_string += " " + Number(data2.change).toFixed(2) + "(" + data2.change_in_percent;
           
+          //add data for oil
           ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspOIL: " + Number(data3.last_trade_price).toFixed(2);
           if(Number(data3.change) >= 0)
             ticker_string += " +" + Number(data3.change).toFixed(2) + "(" + data3.change_in_percent;
           else
-            ticker_string += " -" + Number(data3.change).toFixed(2) + "(" + data3.change_in_percent;
+            ticker_string += " " + Number(data3.change).toFixed(2) + "(" + data3.change_in_percent;
 
+          //add data for gold
           ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspGOLD: " + Number(data4.last_trade_price).toFixed(2);
           if(Number(data4.change) >= 0)
             ticker_string += " +" + Number(data4.change).toFixed(2) + "(" + data4.change_in_percent;
           else
-            ticker_string += " -" + Number(data4.change).toFixed(2) + "(" + data4.change_in_percent;
+            ticker_string += " " + Number(data4.change).toFixed(2) + "(" + data4.change_in_percent;
 
+          //add data for exchange rate from Euros to dollars
           ticker_string += ")&nbsp&nbsp&nbsp&nbsp&nbsp&nbspEUR/USD: " + Number(data5.last_trade_price).toFixed(2);
           if(Number(data5.change) >= 0)
             ticker_string += " +" + Number(data5.change).toFixed(2) + "(" + data5.change_in_percent + ")";
           else
-            ticker_string += " -" + Number(data5.change).toFixed(2) + "(" + data5.change_in_percent + ")";
+            ticker_string += " " + Number(data5.change).toFixed(2) + "(" + data5.change_in_percent + ")";
           
-
+          //update the HTML marquee
           $('#ticker_tape').html(ticker_string);
           $('#ticker_tape').attr("style", "color: #FFC266; text-shadow: 0 0 3px #ffe0b3;");
         });
       }
+      
+      //calls update_ticker() iteratively
       function liveUpdateTicker(){
         setInterval(function(){
           update_ticker();
-        }, 15000);
+        }, 5000);
       }
+
+      //updates the ticker when the page is loaded
       $('body').ready(update_ticker);
+      //starts the function to live update the ticker
       $('body').ready(liveUpdateTicker);
     </script>
-    <marquee id="time_tape" truespeed scrolldelay=80 behavior="scroll" direction="left" 
-        onmouseover="this.stop();" 
-        onmouseout="this.start();">
+    
+    <!-- the block of text is added to pad the text that will be inserted -->
+    <!-- HTML marquee calculates the width of the text when page is rendered, 
+         if you modify the contents dynamically, the known width does not change, 
+         thus the marquee does not behave properly -->
+    <marquee id="time_tape" truespeed scrolldelay=130 behavior="scroll" direction="left">
         llllllllllllllllllllllllllllllllllllllll
         llllllllllllllllllllllllllllllllllllllll
         llllllllllllllllllllllllllllllllllllllll
         llllllllllllllllllllllllllllllllllllllll
         lllllll
     </marquee>
-    <marquee id="ticker_tape" truespeed scrolldelay=60 behavior="scroll" direction="left" 
-        onmouseover="this.stop();" 
-        onmouseout="this.start();">
+    <marquee id="ticker_tape" truespeed scrolldelay=55 behavior="scroll" direction="left">
         llllllllllllllllllllllllllllllllllllllll
         llllllllllllllllllllllllllllllllllllllll
         llllllllllllllllllllllllllllllllllllllll
