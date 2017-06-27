@@ -174,9 +174,11 @@ class StocksController < ApplicationController
         end
         
         @i += 1
-        #used to display warning
-        @overflow = true
+        
       end
+      #used to display warning
+      @overflow = true
+      @array_data.push(@overflow)
     end
 
     #convert to a json string for easy parsing in javascript function

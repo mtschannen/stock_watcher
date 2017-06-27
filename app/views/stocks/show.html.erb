@@ -1,7 +1,6 @@
 <!--<script language="javascript" type="text/javascript">setTimeout("location.reload();",10000);</script>-->
 <script>
   function makeGraph(months){
-
     //removes previously loaded graph
     $('#graph_header').hide();
     $('#xAxisG').remove();
@@ -10,13 +9,10 @@
     $('#graphPath').remove();
 
     loading_icon(); //initiates loading animation
-    var responseObj = $.getJSON('<%= params[:id] %>/update_graph?num_months=' + months, function () {
-      console.log("success");
-    }).fail(function() {
-      console.log("fail");
-    }).done(function() {
+    var responseObj = $.getJSON('<%= params[:id] %>/update_graph?num_months=' + months).done(function() {
       stop_loading_icon(); //after data fetch, ends loading animation
       //creates graph tite
+      
       if(months == 1000)
         $('#graph_header').html('All History');
       else
@@ -26,6 +22,14 @@
       var data = responseObj.responseJSON;
       var current_data;
       var first_date;
+      
+      //check for the overflow variable
+      if(data[data.length-1] == true){
+        data.pop();
+        alert("You requested more data than is available for this stock. Showing all history.");
+        $('#graph_header').html('All History');
+      }
+
       //parses JSON data into array
       for (var i = 0; i < data.length; i++){
         current_data = data[i][0];
@@ -137,8 +141,6 @@
               g.setAttribute("style", "opacity: 0"); 
               this.setAttribute("style", "opacity:0");
           });
-
-
     });
 	}
 
@@ -181,11 +183,6 @@
     $("#loading_circle8").hide();
   }
 	
-  //allows the overflow warning to be clicked away
-  function hideWarning() {
-      $(".overflow_warning").hide();
-  }
-
   function loadBasicInfo() {
     console.log("Function is working")
     $("#basic_info").load( "test" );
@@ -238,28 +235,33 @@
     $('#overview_ticker').show();
   }
   //updates overview info at 15 second intervals
+  var overview_updater;
   function liveUpdateOverview(){
-    setInterval(function(){
+    overview_updater = setInterval(function(){
       console.log("test");
       updateOverviewInfo();
     }, 15000);
   }
 
+  function stopOverviewUpdate() {
+    console.log("stopped updating");
+    clearInterval(overview_updater);
+  }
+
   $('body').ready(updateOverviewInfo);
   $('body').ready(liveUpdateOverview);
+  //$('body').unload(stopOverviewUpdate);
+  $(window).on('unload', stopOverviewUpdate);
 </script>
+
 <div class='center_text'>
   <h1 id="show_header"><%= @stock.company_name %></h1>
   <% if !(session[:current_user_firstname].nil?) %>
     <%= link_to "Stop Tracking", stock_path(@stock), method: :delete, data: { confirm: "Are you sure you want to delete #{@stock.ticker_symbol} from your dashboard?" }, class: 'btn btn-danger' %>
   <% end %>
-  <% if params[:date_scalar_selector] != '1000' %>
-    <div class="overflow_warning" onclick="hideWarning()"><h2><%= @overflow ? "Data not available beyond " + (@i/20.6).to_i.to_s + " months. (Click to dismiss)" : "" %></h2></div>
-  <% end %>
-</div>
 <br>
-<div class="row">
-  <div class="col-md-4">
+<div class="row" id="show_page_content">
+  <div class="col-md-4" id="left-show">
     <div id="overview_div" class="overview_wrapper">
       <div id="overview_div_container">  
         <div class="load_div" id="overview_load_div1"></div>

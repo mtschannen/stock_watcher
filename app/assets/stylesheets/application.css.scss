@@ -162,8 +162,12 @@ body {
 .overflow_warning {
     background-color: rgba(255,0,0,0.5);
     color: white;
-    border-radius: 5px;
+    border-radius: 15px;
     text-align: center;
+    width: 85%;
+    margin: 15px auto;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 .overflow_warning:hover {
@@ -338,4 +342,12 @@ path {
     box-shadow: 5px 5px 20px black;
     margin-top: -40px;
     border: 3px solid black;
+}
+
+#left-show {
+    text-align: left;
+}
+
+#show_page_content {
+    margin-top: 15px;
 }

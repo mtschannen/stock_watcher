@@ -92,6 +92,11 @@
           //calculate the minutes left
           var minutes_left = Math.ceil(diff%60);
           
+          if(minutes_left == 60){
+            minutes_left = 0;
+            hours_left += 1;
+          }
+
           //set the variable to be populated in marquee
           if (hours_left == 1)
             market_close_announcement = hours_left + " HOUR AND " + minutes_left + " MINUTES UNTIL MARKET CLOSE";
@@ -161,17 +166,24 @@
         });
       }
       
+      var ticker_updater;
       //calls update_ticker() iteratively
       function liveUpdateTicker(){
-        setInterval(function(){
+        ticker_updater = setInterval(function(){
           update_ticker();
         }, 5000);
+      }
+
+      function stopTickerUpdate() {
+        console.log("trying to stop update");
+        clearInterval(ticker_updater);
       }
 
       //updates the ticker when the page is loaded
       $('body').ready(update_ticker);
       //starts the function to live update the ticker
       $('body').ready(liveUpdateTicker);
+      $(window).on('beforeunload', stopTickerUpdate);
     </script>
     
     <!-- the block of text is added to pad the text that will be inserted -->
