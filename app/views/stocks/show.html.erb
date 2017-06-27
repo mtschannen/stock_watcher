@@ -40,8 +40,25 @@
         var new_date = new Date(Number(pieces[0]), Number(pieces[1])-1, Number(pieces[2]));
         data[i][0] = new_date;
       }	
+      
+      var graph_min = 99999999999;
+      var graph_max = 0;
+      for(var i = 0; i < data.length; i++){
+        if(data[i][1] < graph_min)
+          graph_min = data[i][1];
+      }
+      
+      for(var i = 0; i < data.length; i++){
+        if(data[i][1] > graph_max)
+          graph_max = data[i][1];
+      }
+
       //sets upper boundary for graph
-      var xOffset = ((1.1 * graph_max) > 9999) ? 100 : 70;
+      var xOffset = 70;
+      if(graph_max > 9999){
+        xOffset = 100;
+      }
+
       //sets graph specs
       var vis = d3.select("#visualisation"),
   	    WIDTH = 700,
@@ -56,18 +73,9 @@
       var valueLine = d3.svg.line()
         .x(function(d) { return xScale(d[0]); })
         .y(function(d) { return yScale(d[1]); });
-      //finds graph mins and maxes
-      var graph_min = 99999999999;
-      var graph_max = 0;
-      for(var i = 0; i < data.length; i++){
-        if(data[i][1] < graph_min)
-          graph_min = data[i][1];
-      }
+
       
-      for(var i = 0; i < data.length; i++){
-        if(data[i][1] > graph_max)
-          graph_max = data[i][1];
-      }
+
       //builds axis and scales
       var scale_start_date = first_date;
       var scale_end_date = new Date();
@@ -103,21 +111,8 @@
 
               var price = d[1]
               //adjusts tooltip width to content
-              if(price >= 100000){
-                div.setAttribute("width", 90);
-              }
-              else if(price >= 10000){
-                div.setAttribute("width", 80);
-              }
-              else if (price >= 1000){
-                div.setAttribute("width", 80);
-              }
-              else if (price >= 100){
-                div.setAttribute("width", 80);
-              }
-              else {
-                div.setAttribute("width", 80);
-              }
+              
+              
               //adds date to tooltip
               var month_index = d[0].getMonth();
               var year = d[0].getYear()+1900;
@@ -251,7 +246,10 @@
   $('body').ready(updateOverviewInfo);
   $('body').ready(liveUpdateOverview);
   //$('body').unload(stopOverviewUpdate);
-  $(window).on('unload', stopOverviewUpdate);
+  $(document).ready(function(){
+    $(window).on('unload', stopOverviewUpdate);
+  });
+  
 </script>
 
 <div class='center_text'>

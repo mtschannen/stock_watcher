@@ -5,8 +5,8 @@
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> 
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
@@ -183,7 +183,9 @@
       $('body').ready(update_ticker);
       //starts the function to live update the ticker
       $('body').ready(liveUpdateTicker);
-      $(window).on('beforeunload', stopTickerUpdate);
+      $(document).ready(function(){
+        $(window).on('unload', stopTickerUpdate);
+      });
     </script>
     
     <!-- the block of text is added to pad the text that will be inserted -->
