@@ -84,5 +84,5 @@ test:
 production:
   <<: *default
   database: stock_watcher_production
-  username: stock_watcher
-  password: <%= ENV['STOCK_WATCHER_DATABASE_PASSWORD'] %>
+  # username: stock_watcher
+  # password: <%= ENV['STOCK_WATCHER_DATABASE_PASSWORD'] %>
