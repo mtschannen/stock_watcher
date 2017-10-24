@@ -272,6 +272,8 @@
     <h3 id="overview_opening_price"></h3>
     <h3 id="overview_high_price"></h3>
     <h3 id="overview_low_price"></h3>
+    <h3 id="non_derivative_fypm">FYPM: <%= @non_derivative_fypm %></h3>
+    <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm %></h3>
     
   </div>
     <div class="logo_div_overview" style='background-image: url(<%= @stock.stock_logo.url(:thumb) %>);'>
@@ -330,7 +332,5 @@
       </svg>
     </div>
   </div>
-  <%= @non_derivative_fypm %>
-  <%= @derivative_fypm %>
 </div>
 
