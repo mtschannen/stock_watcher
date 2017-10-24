@@ -61,12 +61,8 @@ class StocksController < ApplicationController
   end
 
   def show
-    client = YQuotes::Client.new
-    @history = client.get_quote(@stock.ticker_symbol, {
-      period: 'm',
-      start_date: '2017-01-30',
-      end_date: '2017-09-30'
-      })
+    url = "www.quandl.com/api/v3/datasets/SF0/{@stock.ticker_symbol}_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
+    @history = HTTP.get(url)
   end
 
   def destroy
