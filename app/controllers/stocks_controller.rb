@@ -18,7 +18,8 @@ class StocksController < ApplicationController
   end
 
   def index
-
+    yahoo_client = YahooFinance::Client.new
+    data = yahoo_client.historical_quotes("AAPL")
   end
 
   def new
