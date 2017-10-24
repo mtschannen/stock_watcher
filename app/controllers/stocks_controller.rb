@@ -139,7 +139,7 @@ class StocksController < ApplicationController
     # non-derivative book value linear fit
     a = ((sigma_y*sigma_x_squared) - (sigma_x*sigma_xy))/((n*sigma_x_squared)-(sigma_x**2))
     b = ((n*sigma_xy) - (sigma_x*sigma_y))/((n*sigma_x_squared)-(sigma_x**2))
-    five_year_book_value_added = (7.5*b + a)*5.0
+    five_year_book_value_added = 5.0*b
     @five_year_book_value_yield = (five_year_book_value_added/price)*100
     # non-derivative FYPM final calc
     @non_derivative_fypm = (@five_year_book_value_yield + @five_year_div_yield)/10
