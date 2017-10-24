@@ -93,7 +93,6 @@ class StocksController < ApplicationController
   def get_basic_info
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes([@stock.ticker_symbol], [:open, :high, :low, :close, :last_trade_price, :change, :change_in_percent, :dividend_yield])
-    @raw_data = @data
     respond_to do |format|
       format.json { render json: @data, status: :ok }
       format.html { @data }
@@ -108,6 +107,11 @@ class StocksController < ApplicationController
     book_values[2][1]
     book_values[3][1]
     book_values[4][1]
+    #test
+    @person = OpenStruct.new
+    @person.name    = "John Smith"
+    @person.age     = 70
+    @person.pension = 300
   end
   helper_method :get_basic_info
 
