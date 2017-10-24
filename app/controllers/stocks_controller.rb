@@ -101,7 +101,7 @@ class StocksController < ApplicationController
     resp = HTTP.get(url)
     @history = JSON.parse(resp, symbolize_keys: true)
 
-    if @history["dataset"].eql? "N/A"
+    if !(@history["dataset"].eql? "N/A")
       book_values = @history["dataset"]["data"]
 
       # derivative FYPM values
