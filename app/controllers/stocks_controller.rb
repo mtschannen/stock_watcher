@@ -62,7 +62,7 @@ class StocksController < ApplicationController
 
   def show
     client = YQuotes::Client.new
-    @history = client.get_quote([@stock.ticker_symbol], {
+    @history = client.get_quote(@stock.ticker_symbol, {
       period: 'm',
       start_date: '2017-01-30',
       end_date: '2017-09-31'
