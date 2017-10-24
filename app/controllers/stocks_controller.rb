@@ -108,20 +108,20 @@ class StocksController < ApplicationController
     v4 = book_values[0][1].to_f - book_values[1][1].to_f
     @div = @data[0].dividend_yield.to_f
     price = @data[0].last_trade_price.to_f
-    @five_year_div_yield = ((((@div * 0.01) + 1.0) ** 5) - 1.0) * 100
+    @five_year_div_yield = ((((@div * 0.01) + 1.0) ** 5.0) - 1.0) * 100.0
     # variables for book value linear fit
     sigma_x = 6.0
     sigma_x_squared = 14.0
     sigma_y = v1 + v2 + v3 + v4
     sigma_xy = v2 + v3*2.0 + v4*3.0
-    n = 4
+    n = 4.0
     # linear fit
     a = ((sigma_y*sigma_x_squared) - (sigma_x*sigma_xy))/((n*sigma_x_squared)-(sigma_x**2))
     b = ((n*sigma_xy) - (sigma_x*sigma_y))/((n*sigma_x_squared)-(sigma_x**2))
-    five_year_book_value_added = (6.5*b + a)*5
+    five_year_book_value_added = (6.5*b + a)*5.0
     @five_year_book_value_yield = (five_year_book_value_added/price)*100
     # FYPM final calc
-    @fypm = (@five_year_book_value_yield + @five_year_div_yield)/(((1.0205*5)-1)*100)
+    @fypm = (@five_year_book_value_yield + @five_year_div_yield)/(((1.0205**5)-1)*100.0)
   end
   helper_method :get_basic_info
 
