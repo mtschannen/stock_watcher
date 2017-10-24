@@ -108,10 +108,9 @@ class StocksController < ApplicationController
     book_values[3][1]
     book_values[4][1]
     #test
-    @person = OpenStruct.new
-    @person.name    = "John Smith"
-    @person.age     = 70
-    @person.pension = 300
+    @open_struct = OpenStruct.new(@data)
+
+    
   end
   helper_method :get_basic_info
 
