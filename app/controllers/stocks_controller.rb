@@ -65,7 +65,7 @@ class StocksController < ApplicationController
     @history = client.get_quote(@stock.ticker_symbol, {
       period: 'm',
       start_date: '2017-01-30',
-      end_date: '2017-09-31'
+      end_date: '2017-09-30'
       })
   end
 
