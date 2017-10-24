@@ -97,7 +97,8 @@ class StocksController < ApplicationController
       format.json { render json: @data, status: :ok }
       format.html { @data }
     end
-    @book_values = yahoo_client.historical_quotes([@stock.ticker_symbol], {period: :monthly})
+    yahoo_client_two = YahooFinance::Client.new
+    @book_values = yahoo_client_two.historical_quotes([@stock.ticker_symbol], { period: :monthly })
   end
   helper_method :get_basic_info
 
