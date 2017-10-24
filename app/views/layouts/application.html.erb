@@ -38,10 +38,10 @@
       <% end %>  
       <ul class="nav navbar-nav navbar-right">
         <% if (session[:current_user_firstname].nil?) %>
-          <li class="headButton"><a href='http://obduros.com/redirectauth'><div id='loginButton' class='btn btn-success'>Log In</div></a></li> 
+          <li class="headButton"><a href='http://www.obduros.com/redirectauth'><div id='loginButton' class='btn btn-success'>Log In</div></a></li> 
         <% else %>
           <li><%= link_to "Track a new Stock", new_stock_path %></li>
-          <li class="headButton"><a href="http://obduros.com/redirectout"><div id="logoutButton" class="btn btn-danger">Log<%= session[:current_user_firstname] %> Out</div></a></li>
+          <li class="headButton"><a href="http://www.obduros.com/redirectout"><div id="logoutButton" class="btn btn-danger">Log<%= session[:current_user_firstname] %> Out</div></a></li>
         <% end %>
       </ul>
     </div>
