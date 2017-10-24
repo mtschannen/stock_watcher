@@ -99,7 +99,6 @@ class StocksController < ApplicationController
     end
     url = "https://www.quandl.com/api/v3/datasets/SF0/" + @stock.ticker_symbol + "_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
     @history = HTTP.get(url)
-
   end
   helper_method :get_basic_info
 
