@@ -108,7 +108,7 @@ class StocksController < ApplicationController
     v4 = book_values[0][1] - book_values[1][1]
     @div = @data[0].dividend_yield
     price = @data[0].last_trade_price
-    @five_year_div_yield = ((div*0.01) + 1.0) ** 5
+    @five_year_div_yield = (((@div*0.01) + 1.0) ** 5)
   end
   helper_method :get_basic_info
 
