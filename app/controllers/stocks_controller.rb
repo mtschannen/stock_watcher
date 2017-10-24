@@ -61,7 +61,8 @@ class StocksController < ApplicationController
   end
 
   def show
-      
+      yahoo_client = YahooFinance::Client.new
+      @history = yahoo_client.historical_quotes("AAPL", { period: :monthly })
   end
 
   def destroy
@@ -97,8 +98,6 @@ class StocksController < ApplicationController
       format.json { render json: @data, status: :ok }
       format.html { @data }
     end
-    yahoo_client_two = YahooFinance::Client.new
-    @book_values = yahoo_client_two.historical_quotes("AAPL", { period: :monthly })
   end
   helper_method :get_basic_info
 
