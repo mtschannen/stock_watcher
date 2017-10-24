@@ -194,8 +194,6 @@
       overview_data = overviewResponseObj.responseJSON[0].table;
       $('#overview_last_trade_price').html('$' + Number(overview_data.last_trade_price).toFixed(2));
       $('#overview_opening_price').html('Opening Price: $' + Number(overview_data.open).toFixed(2));
-      $('#overview_high_price').html('Highest Price: $' + Number(overview_data.high).toFixed(2));
-      $('#overview_low_price').html('Lowest Price: $' + Number(overview_data.low).toFixed(2));
       //picks arrow (up or down) and changes text color to reflect an up or down price
       if(Number(overview_data.change) >= 0){
         $('#overview_change').html('▲' + Number(overview_data.change).toFixed(2) + " (" + overview_data.change_in_percent + ")");
@@ -270,10 +268,9 @@
       <h2 id="overview_last_trade_price"></h2>
       <h3 id="overview_change"></h3>
       <h3 id="overview_opening_price"></h3>
-      <h3 id="overview_high_price"></h3>
-      <h3 id="overview_low_price"></h3>
       <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %></h3>
-      <h3 id="non_derivative_fypm">FYPM: <%= @non_derivative_fypm.round(2) %></h3>
+      <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %></h3>
+      <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %></h3>
   </div>
     <div class="logo_div_overview" style='background-image: url(<%= @stock.stock_logo.url(:thumb) %>);'>
   </div>
