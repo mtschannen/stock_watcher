@@ -93,7 +93,7 @@ class StocksController < ApplicationController
   def get_basic_info
     yahoo_client = YahooFinance::Client.new
     @data = yahoo_client.quotes([@stock.ticker_symbol], [:open, :high, :low, :close, :last_trade_price, :change, :change_in_percent, :dividend_yield])
-    @raw data = @data
+    @raw_data = @data
     respond_to do |format|
       format.json { render json: @data, status: :ok }
       format.html { @data }
