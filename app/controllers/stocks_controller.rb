@@ -121,7 +121,7 @@ class StocksController < ApplicationController
     five_year_book_value_added = (6.5*b + a)*5.0
     @five_year_book_value_yield = (five_year_book_value_added/price)*100
     # FYPM final calc
-    @fypm = (@five_year_book_value_yield + @five_year_div_yield)/(((1.0205**5)-1)*100.0)
+    @fypm = (@five_year_book_value_yield + @five_year_div_yield)/10
   end
   helper_method :get_basic_info
 
