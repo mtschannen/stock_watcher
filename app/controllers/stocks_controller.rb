@@ -124,7 +124,7 @@ class StocksController < ApplicationController
       # five_year_book_value_added = (6.5*b + a)*5.0
       # @five_year_book_value_yield = (five_year_book_value_added/price)*100
       # # derivative FYPM final calc
-      # @derivative_fypm = (@five_year_book_value_yield + @five_year_div_yield)/10
+      # @derivative_fypm.round(2).to_s = (@five_year_book_value_yield + @five_year_div_yield)/10
 
       # # non- derivative FYPM values
       # v1 = book_values[4][1].to_f
@@ -146,8 +146,8 @@ class StocksController < ApplicationController
       # @five_year_book_value_yield_linear = (five_year_book_value_added_linear/price)*100
       # @five_year_book_value_yield_rate = (five_year_book_value_added_rate/price)*100
       # # non-derivative FYPM final calc
-      # @linear_fypm = (@five_year_book_value_yield_linear + @five_year_div_yield)/10
-      # @rate_fypm = (@five_year_book_value_yield_rate + @five_year_div_yield)/10
+      # @linear_fypm.round(2).to_s = (@five_year_book_value_yield_linear + @five_year_div_yield)/10
+      # @rate_fypm.round(2).to_s = (@five_year_book_value_yield_rate + @five_year_div_yield)/10
     else
       @derivative_fypm = "N/A"
       @linear_fypm = "N/A"
