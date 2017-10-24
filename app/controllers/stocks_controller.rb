@@ -102,13 +102,13 @@ class StocksController < ApplicationController
     @history = JSON.parse(resp, symbolize_keys: true)
     book_values = @history["dataset"]["data"]
     # FYPM calculation
-    v1 = book_values[3][1] - book_values[4][1]
-    v2 = book_values[2][1] - book_values[3][1]
-    v3 = book_values[1][1] - book_values[2][1]
-    v4 = book_values[0][1] - book_values[1][1]
-    @div = @data[0].dividend_yield
-    price = @data[0].last_trade_price
-    @five_year_div_yield = (((@div*0.01) + 1.0) ** 5)
+    v1 = book_values[3][1].to_f - book_values[4][1].to_f
+    v2 = book_values[2][1].to_f - book_values[3][1].to_f
+    v3 = book_values[1][1].to_f - book_values[2][1].to_f
+    v4 = book_values[0][1].to_f - book_values[1][1].to_f
+    @div = @data[0].dividend_yield.to_f
+    price = @data[0].last_trade_price.to_f
+    @five_year_div_yield = (((@div * 0.01) + 1.0) ** 5)
   end
   helper_method :get_basic_info
 
