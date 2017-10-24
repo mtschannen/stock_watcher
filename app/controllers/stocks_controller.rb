@@ -99,7 +99,10 @@ class StocksController < ApplicationController
     end
     url = "https://www.quandl.com/api/v3/datasets/SF0/" + @stock.ticker_symbol + "_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
     resp = HTTP.get(url)
-    @history = JSON.parse(resp, symbolize_keys: true)
+    history = JSON.parse(resp, symbolize_keys: true)
+    book_values = history["dataset"]["data"]
+    
+
   end
   helper_method :get_basic_info
 
