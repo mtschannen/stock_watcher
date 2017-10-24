@@ -107,10 +107,6 @@ class StocksController < ApplicationController
     book_values[2][1]
     book_values[3][1]
     book_values[4][1]
-    #test
-    @open_struct = OpenStruct.new(@data)
-
-    
   end
   helper_method :get_basic_info
 
