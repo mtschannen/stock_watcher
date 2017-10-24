@@ -97,11 +97,6 @@ class StocksController < ApplicationController
       format.json { render json: @data, status: :ok }
       format.html { @data }
     end
-    @book_values = yahoo_client.historical_quotes([@stock.ticker_symbol], [:book_value], {period: :monthly})
-    respond_to do |format|
-      format.json { render json: @book_values, status: :ok }
-      format.html { @book_values }
-    end
   end
   helper_method :get_basic_info
 
