@@ -61,8 +61,7 @@ class StocksController < ApplicationController
   end
 
   def show
-      yahoo_client = YahooFinance::Client.new
-      @history = yahoo_client.historical_quotes("AAPL")
+      
   end
 
   def destroy
