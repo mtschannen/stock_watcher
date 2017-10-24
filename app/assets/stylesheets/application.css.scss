@@ -100,12 +100,7 @@ a.divLink {
 
 
 body {
-    background-image: url('background.jpg');
-}
-
-#background {
-    z-index: -1000;
-    margin-top: -100%;
+    background-image: asset-data-url("background.jpg")
 }
 
 #show_header {
