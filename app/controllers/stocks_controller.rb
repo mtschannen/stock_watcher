@@ -92,7 +92,7 @@ class StocksController < ApplicationController
   #used to get overview data for show page
   def get_basic_info
     yahoo_client = YahooFinance::Client.new
-    @data = yahoo_client.quotes([@stock.ticker_symbol], [:open, :high, :low, :close, :last_trade_price, :change, :change_in_percent])
+    @data = yahoo_client.quotes([@stock.ticker_symbol], [:open, :high, :low, :close, :last_trade_price, :change, :change_in_percent, :dividend_yield])
     respond_to do |format|
       format.json { render json: @data, status: :ok }
       format.html { @data }
@@ -101,7 +101,12 @@ class StocksController < ApplicationController
     resp = HTTP.get(url)
     @history = JSON.parse(resp, symbolize_keys: true)
     book_values = @history["dataset"]["data"]
-
+    # FYPM calculation
+    book_values[0][1]
+    book_values[1][1]
+    book_values[2][1]
+    book_values[3][1]
+    book_values[4][1]
   end
   helper_method :get_basic_info
 
