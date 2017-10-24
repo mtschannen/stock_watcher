@@ -129,11 +129,11 @@ class StocksController < ApplicationController
     v2 = book_values[3][1].to_f
     v3 = book_values[2][1].to_f
     v4 = book_values[1][1].to_f
-    v4 = book_values[0][1].to_f
+    v5 = book_values[0][1].to_f
     # variables for non-derivative book value linear fit
     sigma_x = 10.0
     sigma_x_squared = 30.0
-    sigma_y = v1 + v2 + v3 + v4 + v4
+    sigma_y = v1 + v2 + v3 + v4 + v5
     sigma_xy = v2 + v3*2.0 + v4*3.0 + v5*4.0
     n = 5.0
     # non-derivative book value linear fit
