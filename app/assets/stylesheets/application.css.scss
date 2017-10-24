@@ -103,6 +103,11 @@ body {
     background-image: url('background.jpg');
 }
 
+#background {
+    z-index: -5;
+    margin-bottom: 100%;
+}
+
 #show_header {
     font-size: 72px;
     color: white;
