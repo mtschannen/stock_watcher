@@ -1,0 +1,2 @@
+class StockDatum < ApplicationRecord
+end
