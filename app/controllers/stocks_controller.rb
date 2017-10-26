@@ -108,7 +108,7 @@ class StocksController < ApplicationController
     @history = JSON.parse(resp, symbolize_keys: true)
 
     end_date = Date.today()
-    start_date = Date.prev_day() 
+    start_date = Date.today().prev_day() 
 
     fred_url = "https://api.stlouisfed.org/fred/series/observations?series_id=DGS5&api_key=d9f592689a18d841cab93825d4e060c7&file_type=json&observation_start=" + start_date.strftime('%Y-%m-%e') + "&observation_end=" + end_date.strftime('%Y-%m-%e') + ""
     fred_resp = HTTP.get(fred_url)
