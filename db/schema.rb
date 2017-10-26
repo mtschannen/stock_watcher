@@ -34,5 +34,4 @@ ActiveRecord::Schema.define(version: 20170612201600) do
     t.string "firstname"
     t.string "lastname"
   end
-
 end
