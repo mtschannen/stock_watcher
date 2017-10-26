@@ -18,7 +18,7 @@ class StocksController < ApplicationController
   end
 
   def index
-    
+    UpdateStockDataJob.perform_now()
   end
 
   def new
