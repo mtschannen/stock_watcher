@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612201600) do
+ActiveRecord::Schema.define(version: 20171026150737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "stock_data", force: :cascade do |t|
+    t.string "ticker_symbol"
+    t.datetime "date"
+    t.float "derivative_fypm"
+    t.float "linear_fypm"
+    t.float "rate_fypm"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "stocks", force: :cascade do |t|
     t.string "ticker_symbol"
@@ -34,5 +44,5 @@ ActiveRecord::Schema.define(version: 20170612201600) do
     t.string "firstname"
     t.string "lastname"
   end
-  
+
 end
