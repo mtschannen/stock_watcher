@@ -71,7 +71,7 @@ class UpdateStockDataJob < ApplicationJob
       stock_data.derivative_fypm = @derivative_fypm
       stock_data.save
 
-      UpdateStockDataJob.set(wait_until: DateTime.tomorrow.change({ hour: 22 })).perform_later()
+      UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 46 })).perform_later()
 
     end
   end
