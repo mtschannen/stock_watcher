@@ -24,6 +24,7 @@ class StocksController < ApplicationController
   def start_data_collection
     # UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
     UpdateStockDataJob.perform_now()
+    redirect_to root_path
   end
 
   def new
