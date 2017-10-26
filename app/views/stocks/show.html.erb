@@ -328,8 +328,8 @@
       </svg>
     </div>
   </div>
-  <%= @five_year_interest_rates %>
-  <% date = Date.new %>
+  <%= @five_year_interest_rates.observations %>
+  <% date = Date.today() %>
   <%= date.strftime('%Y-%m-%e') %>
 </div>
 
