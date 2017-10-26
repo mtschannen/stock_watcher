@@ -114,7 +114,7 @@ class StocksController < ApplicationController
       v4 = book_values[0][1].to_f - book_values[1][1].to_f
       @div = @data[0].dividend_yield.to_f
       price = @data[0].last_trade_price.to_f
-      @five_year_div_yield = ((((@div * 0.01) + 1.0) ** 5.0) - 1.0) * 100.0
+      five_year_div_yield = ((((@div * 0.01) + 1.0) ** 5.0) - 1.0) * 100.0
       # variables for derivative book value linear fit
       sigma_x = 6.0
       sigma_x_squared = 14.0
@@ -125,9 +125,9 @@ class StocksController < ApplicationController
       a = ((sigma_y*sigma_x_squared) - (sigma_x*sigma_xy))/((n*sigma_x_squared)-(sigma_x**2))
       b = ((n*sigma_xy) - (sigma_x*sigma_y))/((n*sigma_x_squared)-(sigma_x**2))
       five_year_book_value_added = (6.5*b + a)*5.0
-      @five_year_book_value_yield = (five_year_book_value_added/price)*100
+      five_year_book_value_yield = (five_year_book_value_added/price)*100
       # derivative FYPM final calc
-      @derivative_fypm = ((@five_year_book_value_yield + @five_year_div_yield)/10).round(2)
+      @derivative_fypm = ((five_year_book_value_yield + five_year_div_yield)/10).round(2)
 
       # non- derivative FYPM values
       v1 = book_values[4][1].to_f
@@ -146,11 +146,11 @@ class StocksController < ApplicationController
       b = ((n*sigma_xy) - (sigma_x*sigma_y))/((n*sigma_x_squared)-(sigma_x**2))
       five_year_book_value_added_linear = (10.0*b + a) - v5
       five_year_book_value_added_rate = 5.0*b
-      @five_year_book_value_yield_linear = (five_year_book_value_added_linear/price)*100
-      @five_year_book_value_yield_rate = (five_year_book_value_added_rate/price)*100
+      five_year_book_value_yield_linear = (five_year_book_value_added_linear/price)*100
+      five_year_book_value_yield_rate = (five_year_book_value_added_rate/price)*100
       # non-derivative FYPM final calc
-      @linear_fypm = ((@five_year_book_value_yield_linear + @five_year_div_yield)/10).round(2)
-      @rate_fypm = ((@five_year_book_value_yield_rate + @five_year_div_yield)/10).round(2)
+      @linear_fypm = ((five_year_book_value_yield_linear + five_year_div_yield)/10).round(2)
+      @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/10).round(2)
     end
   end
   helper_method :get_basic_info
