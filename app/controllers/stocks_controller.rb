@@ -113,7 +113,7 @@ class StocksController < ApplicationController
     fred_url = "https://api.stlouisfed.org/fred/series/observations?series_id=DGS5&api_key=d9f592689a18d841cab93825d4e060c7&file_type=json&observation_start=" + start_date.strftime('%Y-%m-%e') + "&observation_end=" + end_date.strftime('%Y-%m-%e') + ""
     fred_resp = HTTP.get(fred_url)
     five_year_interest_rates = JSON.parse(fred_resp, symbolize_keys: true)
-    interest_rate = five_year_interest_rates["observations"].last["value"]
+    interest_rate = five_year_interest_rates["observations"].last["value"].to_f
 
     if @history["dataset"].nil?
       @derivative_fypm = "N/A"
