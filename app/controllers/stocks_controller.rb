@@ -108,7 +108,7 @@ class StocksController < ApplicationController
     @history = JSON.parse(resp, symbolize_keys: true)
 
     fred_url = "https://api.stlouisfed.org/fred/series?series_id=DGS5&api_key=d9f592689a18d841cab93825d4e060c7"
-    fred_resp = HTTP.get(url)
+    fred_resp = HTTP.get(fred_url)
     @five_year_interest_rates = JSON.parse(fred_resp, symbolize_keys: true)
 
     if @history["dataset"].nil?
