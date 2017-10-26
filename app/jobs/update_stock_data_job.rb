@@ -2,8 +2,8 @@ class UpdateStockDataJob < ApplicationJob
   queue_as :default
 
   def perform()
-    # Do something later
     stocks = Stock.all
+    # retrieves full list of stocks to be evaluated
     for stock in stocks
       stock_data = StockDatum.new
       stock_data.ticker_symbol = stock.ticker_symbol
@@ -13,6 +13,10 @@ class UpdateStockDataJob < ApplicationJob
       url = "https://www.quandl.com/api/v3/datasets/SF0/" + stock.ticker_symbol + "_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
       resp = HTTP.get(url)
       history = JSON.parse(resp, symbolize_keys: true)
+
+      fred_url = "https://api.stlouisfed.org/fred/series?series_id=DGS5&api_key=d9f592689a18d841cab93825d4e060c7"
+      fred_resp = HTTP.get(url)
+      five_year_interest_rates = JSON.parse(fred_resp, symbolize_keys: true)
 
       if history["dataset"].nil?
         @derivative_fypm = "N/A"
@@ -66,11 +70,13 @@ class UpdateStockDataJob < ApplicationJob
         @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/10).round(2)
       end
 
+      #saves data to database 
       stock_data.linear_fypm = @linear_fypm
       stock_data.rate_fypm = @rate_fypm
       stock_data.derivative_fypm = @derivative_fypm
       stock_data.save
 
+      # schedules tomorrows data collection
       UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
 
     end
