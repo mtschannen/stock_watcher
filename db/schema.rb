@@ -34,13 +34,5 @@ ActiveRecord::Schema.define(version: 20170612201600) do
     t.string "firstname"
     t.string "lastname"
   end
-
-  create_table "stock_fypm_history", force: :cascade do |t|
-    t.string "ticker_symbol"
-    t.datetime "time"
-    t.float "derivative_fypm"
-    t.float "linear_fypm"
-    t.float "rate_fypm"
-  end
-
+  
 end
