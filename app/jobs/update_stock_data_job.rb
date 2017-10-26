@@ -10,7 +10,7 @@ class UpdateStockDataJob < ApplicationJob
 
       yahoo_client = YahooFinance::Client.new
       data = yahoo_client.quotes([stock.ticker_symbol], [:last_trade_price, :dividend_yield])
-      url = "https://www.quandl.com/api/v3/datasets/SF0/" + @stock.ticker_symbol + "_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
+      url = "https://www.quandl.com/api/v3/datasets/SF0/" + stock.ticker_symbol + "_BVPS_MRY.json?api_key=rWvJtw9jPu2px-yskKZ4"
       resp = HTTP.get(url)
       history = JSON.parse(resp, symbolize_keys: true)
 
