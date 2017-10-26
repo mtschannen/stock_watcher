@@ -18,7 +18,12 @@ class StocksController < ApplicationController
   end
 
   def index
-    UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 19, min: 8, sec: 0 })).perform_later()
+    
+  end
+
+  def start_data_collection
+    # UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
+    UpdateStockDataJob.perform_now()
   end
 
   def new
