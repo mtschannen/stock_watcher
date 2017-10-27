@@ -74,11 +74,12 @@ class UpdateStockDataJob < ApplicationJob
       stock_data.linear_fypm = @linear_fypm
       stock_data.rate_fypm = @rate_fypm
       stock_data.derivative_fypm = @derivative_fypm
+      stock_data.date = DateTime.now.change({ hour: 22 })
       stock_data.save
 
-      # schedules tomorrows data collection
-      UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
-
     end
+
+    # schedules tomorrows data collection
+    UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
   end
 end
