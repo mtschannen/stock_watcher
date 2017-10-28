@@ -82,4 +82,24 @@ class UpdateStockDataJob < ApplicationJob
     # schedules tomorrows data collection
     UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
   end
+
+  def send_email(to, stock_ticker, fypm_change)
+    opts[:server]      ||= 'localhost'
+    opts[:from]        ||= 'tschannenmatt@example.com'
+    opts[:from_alias]  ||= 'Obduros'
+    opts[:subject]     ||= "FYPM alert for " + stock_ticker + "!"
+    opts[:body]        ||= stock_ticker + "\'s FYPM is up " + fypm_change + " today.\n\n-Obduros"
+
+    msg = <<END_OF_MESSAGE
+    From: #{opts[:from_alias]} <#{opts[:from]}>
+    To: <#{to}>
+    Subject: #{opts[:subject]}
+
+    #{opts[:body]}
+    END_OF_MESSAGE
+
+    Net::SMTP.start(opts[:server]) do |smtp|
+      smtp.send_message msg, opts[:from], to
+    end
+  end
 end
