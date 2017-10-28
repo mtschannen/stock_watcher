@@ -268,9 +268,9 @@
       <h2 id="overview_last_trade_price"></h2>
       <h3 id="overview_change"></h3>
       <h3 id="overview_opening_price"></h3>
-      <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm %></h3>
-      <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm %></h3>
-      <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm %></h3>
+      <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %>, <%= @derivative_change.round(2) %></h3>
+      <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %>, <%= @linear_change.round(2) %></h3>
+      <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %>, <%= @rate_change.round(2) %></h3>
   </div>
     <div class="logo_div_overview" style='background-image: url(<%= @stock.stock_logo.url(:thumb) %>);'>
   </div>
@@ -328,8 +328,5 @@
       </svg>
     </div>
   </div>
-  <%= @last_fypm.derivative_fypm %>
-  <%= @last_fypm.rate_fypm %>
-  <%= @last_fypm.linear_fypm %>
 </div>
 

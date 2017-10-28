@@ -42,15 +42,15 @@ class StocksController < ApplicationController
   # end
 
   def start_data_collection
-    # if DateTime.now.hour < 22
-    #   UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
-    # else
-    #   UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
-    # end
-    # redirect_to root_path(collection_status: 'Data collection successfully initiated!')
+    if DateTime.now.hour < 22
+      UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
+    else
+      UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
+    end
+    redirect_to root_path(collection_status: 'Data collection successfully initiated!')
     # TESTING CODE BELOW
-    UpdateStockDataJob.perform_now()
-    redirect_to root_path(collection_status: 'Data collection just performed!')
+    # UpdateStockDataJob.perform_now()
+    # redirect_to root_path(collection_status: 'Data collection just performed!')
   end
 
   def new
@@ -168,7 +168,7 @@ class StocksController < ApplicationController
       five_year_book_value_added = (6.5*b + a)*5.0
       five_year_book_value_yield = (five_year_book_value_added/price)*100
       # derivative FYPM final calc
-      @derivative_fypm = ((five_year_book_value_yield + five_year_div_yield)/five_year_interest_rate_yield).round(2)
+      @derivative_fypm = ((five_year_book_value_yield + five_year_div_yield)/five_year_interest_rate_yield)
 
       # non- derivative FYPM values
       v1 = book_values[4][1].to_f
@@ -190,11 +190,15 @@ class StocksController < ApplicationController
       five_year_book_value_yield_linear = (five_year_book_value_added_linear/price)*100
       five_year_book_value_yield_rate = (five_year_book_value_added_rate/price)*100
       # non-derivative FYPM final calc
-      @linear_fypm = ((five_year_book_value_yield_linear + five_year_div_yield)/five_year_interest_rate_yield).round(2)
-      @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/five_year_interest_rate_yield).round(2)
+      @linear_fypm = ((five_year_book_value_yield_linear + five_year_div_yield)/five_year_interest_rate_yield)
+      @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/five_year_interest_rate_yield)
 
       # get change from previous day
-      @last_fypm = StockDatum.where(ticker_symbol: @stock.ticker_symbol).order("date DESC").first
+      last_fypm = StockDatum.where(ticker_symbol: @stock.ticker_symbol).order("date DESC").first
+      @linear_change = ((@linear_fypm / last_fypm.linear_fypm ) - 1.0) * 100.0
+      @rate_change = ((@rate_fypm / last_fypm.rate_fypm ) - 1) * 100
+      @derivative_change = ((@derivative_fypm / last_fypm.derivative_fypm ) - 1) * 100
+
     end
   end
   helper_method :get_basic_info
