@@ -27,7 +27,7 @@ class StocksController < ApplicationController
     else
       UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
     end
-    redirect_to root_path
+    redirect_to root_path(collection_status: 'Collection successfully started!')
   end
 
   def new

@@ -13,6 +13,11 @@
       <h2>You are not tracking any stocks. Click this to start tracking a stock.</h2>
     </div>
   <% end %>
+  <% if !(@collection_status.nil?) %>
+    <div class="overflow_warning" onclick="hideWarning()">
+      <h2>collection_status</h2>
+    </div>
+  <% end %>
   <div class="row">
   	<% @stocks.each do |stock| %>
   		<div class="col-md-3 center-tiles">
