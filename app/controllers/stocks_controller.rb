@@ -189,6 +189,9 @@ class StocksController < ApplicationController
       # non-derivative FYPM final calc
       @linear_fypm = ((five_year_book_value_yield_linear + five_year_div_yield)/five_year_interest_rate_yield).round(2)
       @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/five_year_interest_rate_yield).round(2)
+
+      # get change from previous day
+      @last_fypm = Stock.where(ticker_symbol: @stock.ticker_symbol).order("date DESC").first
     end
   end
   helper_method :get_basic_info
