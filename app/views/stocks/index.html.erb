@@ -13,9 +13,9 @@
       <h2>You are not tracking any stocks. Click this to start tracking a stock.</h2>
     </div>
   <% end %>
-  <% if !(@collection_status.nil?) %>
+  <% if @collection_status %>
     <div class="overflow_warning" onclick="hideWarning()">
-      <h2>collection_status</h2>
+      <h2>@collection_status</h2>
     </div>
   <% end %>
   <div class="row">
