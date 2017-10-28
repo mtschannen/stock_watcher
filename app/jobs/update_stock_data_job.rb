@@ -79,7 +79,7 @@ class UpdateStockDataJob < ApplicationJob
       stock_data.linear_fypm = @linear_fypm
       stock_data.rate_fypm = @rate_fypm
       stock_data.derivative_fypm = @derivative_fypm
-      stock_data.date = DateTime.now.change({ hour: 23, min: 30 })
+      stock_data.date = DateTime.now.change({ hour: 22})
       stock_data.save
 
     end
