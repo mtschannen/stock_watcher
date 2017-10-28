@@ -195,9 +195,15 @@ class StocksController < ApplicationController
 
       # get change from previous day
       last_fypm = StockDatum.where(ticker_symbol: @stock.ticker_symbol).order("date DESC").first
-      @linear_change = ((@linear_fypm / last_fypm.linear_fypm ) - 1.0) * 100.0
-      @rate_change = ((@rate_fypm / last_fypm.rate_fypm ) - 1) * 100
-      @derivative_change = ((@derivative_fypm / last_fypm.derivative_fypm ) - 1) * 100
+      if last_fypm.nil?
+        @linear_change = nil
+        @rate_change = nil
+        @derivative_change = nil
+      else
+        @linear_change = ((@linear_fypm / last_fypm.linear_fypm ) - 1.0) * 100.0
+        @rate_change = ((@rate_fypm / last_fypm.rate_fypm ) - 1) * 100
+        @derivative_change = ((@derivative_fypm / last_fypm.derivative_fypm ) - 1) * 100
+      end
 
     end
   end
