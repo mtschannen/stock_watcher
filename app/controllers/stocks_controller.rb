@@ -42,15 +42,15 @@ class StocksController < ApplicationController
   # end
 
   def start_data_collection
-    # if DateTime.now.hour < 22
-    #   UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
-    # else
-    #   UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
-    # end
-    # redirect_to root_path(collection_status: 'Data collection successfully initiated!')
+    if DateTime.now.hour < 22
+      UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
+    else
+      UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
+    end
+    redirect_to root_path(collection_status: 'Data collection successfully initiated!')
     # TESTING CODE BELOW
-    UpdateStockDataJob.perform_now()
-    redirect_to root_path(collection_status: 'Data collection just performed!')
+    # UpdateStockDataJob.perform_now()
+    # redirect_to root_path(collection_status: 'Data collection just performed!')
   end
 
   def new
