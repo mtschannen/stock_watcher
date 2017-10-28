@@ -22,7 +22,7 @@ class StocksController < ApplicationController
   end
 
   def start_data_collection
-    if DateTime.now < DateTime.now.change({ hour: 22 })
+    if DateTime.now.hour < 22
       UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
     else
       UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
