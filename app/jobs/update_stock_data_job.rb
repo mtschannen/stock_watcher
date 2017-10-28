@@ -90,13 +90,11 @@ class UpdateStockDataJob < ApplicationJob
     opts[:subject]     ||= "FYPM alert for " + stock_ticker + "!"
     opts[:body]        ||= stock_ticker + "\'s FYPM is up " + fypm_change + " today.\n\n-Obduros"
 
-    msg = <<END_OF_MESSAGE
-    From: #{opts[:from_alias]} <#{opts[:from]}>
+    msg = "From: #{opts[:from_alias]} <#{opts[:from]}>
     To: <#{to}>
     Subject: #{opts[:subject]}
 
-    #{opts[:body]}
-    END_OF_MESSAGE
+    #{opts[:body]}"
 
     Net::SMTP.start(opts[:server]) do |smtp|
       smtp.send_message msg, opts[:from], to
