@@ -268,9 +268,15 @@
       <h2 id="overview_last_trade_price"></h2>
       <h3 id="overview_change"></h3>
       <h3 id="overview_opening_price"></h3>
-      <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %>, %<%= @derivative_change.round(2) %></h3>
-      <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %>, %<%= @linear_change.round(2) %></h3>
-      <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %>, %<%= @rate_change.round(2) %></h3>
+      <% if derivative_fypm.nil? %>
+        <h3 id="derivative_fypm">Derivative FYPM: N/A</h3>
+        <h3 id="linear_fypm">Linear FYPM: N/A</h3>
+        <h3 id="linear_fypm">Rate FYPM: N/A</h3>
+      <% else %>
+        <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %>, %<%= @derivative_change.round(2) %></h3>
+        <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %>, %<%= @linear_change.round(2) %></h3>
+        <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %>, %<%= @rate_change.round(2) %></h3>
+      <% end %>
   </div>
     <div class="logo_div_overview" style='background-image: url(<%= @stock.stock_logo.url(:thumb) %>);'>
   </div>
