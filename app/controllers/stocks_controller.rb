@@ -22,8 +22,11 @@ class StocksController < ApplicationController
   end
 
   def start_data_collection
-    UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
-    # UpdateStockDataJob.perform_now()
+    if DateTime.now < DateTime.now.change({ hour: 22 })
+      UpdateStockDataJob.set(wait_until: DateTime.now.change({ hour: 22 })).perform_later()
+    else
+      UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
+    end
     redirect_to root_path
   end
 

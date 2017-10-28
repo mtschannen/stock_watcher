@@ -328,5 +328,10 @@
       </svg>
     </div>
   </div>
+  <% if DateTime.now < DateTime.now.change({ hour: 22 }) %>
+    <%= "start the collection now" %>
+  <% else %>
+    <%= "start the collection tomorrow" %>
+  <% end %>
 </div>
 
