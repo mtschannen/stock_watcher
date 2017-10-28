@@ -19,26 +19,27 @@ class StocksController < ApplicationController
 
   def index
     @collection_status = params[:collection_status]
-    send_email("tschannenmatt@gmail.com", "TEST", "10.0")
+    # send_email("tschannenmatt@gmail.com", "TEST", "10.0")
   end
 
-  def send_email(to, stock_ticker, fypm_change, opts={})
-    opts[:server]      ||= 'localhost'
-    opts[:from]        ||= 'tschannenmatt@example.com'
-    opts[:from_alias]  ||= 'Obduros'
-    opts[:subject]     ||= "FYPM alert for " + stock_ticker + "!"
-    opts[:body]        ||= stock_ticker + "\'s FYPM is up " + fypm_change + " today.\n\n-Obduros"
+  # TODO: add email functionality, right now main need is to set up an SMTP server
+  # def send_email(to, stock_ticker, fypm_change, opts={})
+  #   opts[:server]      ||= 'localhost'
+  #   opts[:from]        ||= 'tschannenmatt@example.com'
+  #   opts[:from_alias]  ||= 'Obduros'
+  #   opts[:subject]     ||= "FYPM alert for " + stock_ticker + "!"
+  #   opts[:body]        ||= stock_ticker + "\'s FYPM is up " + fypm_change + " today.\n\n-Obduros"
 
-    msg = "From: #{opts[:from_alias]} <#{opts[:from]}>
-    To: <#{to}>
-    Subject: #{opts[:subject]}
+  #   msg = "From: #{opts[:from_alias]} <#{opts[:from]}>
+  #   To: <#{to}>
+  #   Subject: #{opts[:subject]}
 
-    #{opts[:body]}"
+  #   #{opts[:body]}"
 
-    Net::SMTP.start(opts[:server]) do |smtp|
-      smtp.send_message msg, opts[:from], to
-    end
-  end
+  #   Net::SMTP.start(opts[:server]) do |smtp|
+  #     smtp.send_message msg, opts[:from], to
+  #   end
+  # end
 
   def start_data_collection
     if DateTime.now.hour < 22
