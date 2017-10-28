@@ -22,7 +22,7 @@ class StocksController < ApplicationController
     send_email("tschannenmatt@gmail.com", "TEST", 10.0)
   end
 
-  def send_email(to, stock_ticker, fypm_change)
+  def send_email(to, stock_ticker, fypm_change, opts={})
     opts[:server]      ||= 'localhost'
     opts[:from]        ||= 'tschannenmatt@example.com'
     opts[:from_alias]  ||= 'Obduros'
