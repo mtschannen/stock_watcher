@@ -18,7 +18,7 @@ class StocksController < ApplicationController
   end
 
   def index
-    
+    @collection_status = params[:collection_status]
   end
 
   def start_data_collection
