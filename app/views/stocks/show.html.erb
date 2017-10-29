@@ -277,7 +277,7 @@
         <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %></h3>
         <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %></h3>
       <% else %>
-        <h3 style="display:inline" id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %>, <h3 style="color:green">%<%= @derivative_change.round(2) %></h3></h3>
+        <h3 id="derivative_fypm">Derivative FYPM: <%= @derivative_fypm.round(2) %>, <i style="color: green">%<%= @derivative_change.round(2) %></i></h3>
         <h3 id="linear_fypm">Linear FYPM: <%= @linear_fypm.round(2) %>, %<%= @linear_change.round(2) %></h3>
         <h3 id="linear_fypm">Rate FYPM: <%= @rate_fypm.round(2) %>, %<%= @rate_change.round(2) %></h3>
       <% end %>
