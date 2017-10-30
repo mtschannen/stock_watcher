@@ -79,13 +79,13 @@ class UpdateStockDataJob < ApplicationJob
       stock_data.linear_fypm = @linear_fypm
       stock_data.rate_fypm = @rate_fypm
       stock_data.derivative_fypm = @derivative_fypm
-      stock_data.date = DateTime.now.change({ hour: 22})
+      stock_data.date = DateTime.now.change({ hour: 21})
       stock_data.save
 
     end
 
     # schedules tomorrows data collection
-    UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 22 })).perform_later()
+    UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 21 })).perform_later()
   end
 
   # TODO: add email functionality, right now main need is to set up an SMTP server
