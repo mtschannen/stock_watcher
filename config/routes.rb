@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get '/stocks/:id/update_info', to: 'stocks#get_basic_info'
   get '/ticker_info', to: 'stocks#get_ticker_tape_info'
   get '/start_data_collection', to: 'stocks#start_data_collection'
+  get '/do_onetime_data_collection', to: 'stocks#do_onetime_data_collection'
 end

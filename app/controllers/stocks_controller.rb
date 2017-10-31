@@ -48,9 +48,11 @@ class StocksController < ApplicationController
       UpdateStockDataJob.set(wait_until: DateTime.now.tomorrow.change({ hour: 21 })).perform_later()
     end
     redirect_to root_path(collection_status: 'Data collection successfully initiated!')
-    # TESTING CODE BELOW
-    # UpdateStockDataJob.perform_now()
-    # redirect_to root_path(collection_status: 'Data collection just performed!')
+  end
+
+  def do_onetime_data_collection
+    DateTime.perform_now
+    redirect_to root_path(collection_status: 'Data collection just performed!')
   end
 
   def new
@@ -194,7 +196,7 @@ class StocksController < ApplicationController
       @rate_fypm = ((five_year_book_value_yield_rate + five_year_div_yield)/five_year_interest_rate_yield)
 
       # get change from previous day
-      last_fypm = StockDatum.where(ticker_symbol: @stock.ticker_symbol).order("date DESC").first
+      last_fypm = StockDatum.where(ticker_symbol: @stock.ticker_symbol).order("created_at DESC").first
       if last_fypm.nil?
         @linear_change = nil
         @rate_change = nil
