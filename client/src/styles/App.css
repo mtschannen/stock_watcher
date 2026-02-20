@@ -1,0 +1,387 @@
+/* ==========================================
+   Stock Watcher - Converted from Rails SCSS
+   ========================================== */
+
+body {
+  background-image: url("/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main container */
+#yield_container {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 30px;
+  margin: 15px auto;
+  margin-top: 130px;
+}
+
+/* Price change colors */
+.greenPriceChange {
+  color: green;
+}
+
+.redPriceChange {
+  color: red;
+}
+
+/* Stock tiles on dashboard */
+.center-tiles {
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 15px;
+  width: 20%;
+  margin: 2.5%;
+  height: 190px;
+  box-shadow: 5px 5px 25px 5px rgba(0, 0, 0, 0.75);
+  transition: transform 0.2s ease-out;
+  background-color: #f0f0f0;
+  padding-right: 0px;
+  padding-left: 0px;
+  position: relative;
+}
+
+.center-tiles:hover {
+  box-shadow: 5px 5px 25px 5px rgba(255, 255, 255, 0.75);
+  transform: translate(0, -20px);
+}
+
+#index_arrow {
+  font-size: 60px;
+  margin: -10px 0 0 0;
+}
+
+#ticker_symbol {
+  font-weight: bold;
+}
+
+a.divLink {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  z-index: 10;
+  background-color: white;
+  opacity: 0;
+}
+
+/* Text alignment */
+.center_text {
+  text-align: center;
+}
+
+/* Overview wrapper */
+.overview_wrapper {
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 5px;
+  padding: 10px;
+  padding-top: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
+}
+
+#graph_header {
+  margin-bottom: -45px;
+}
+
+/* Page header */
+#show_header {
+  font-size: 72px;
+  color: white;
+  text-align: center;
+}
+
+/* Resources page */
+#resource_content {
+  color: white;
+}
+
+.resource_links {
+  color: white;
+  font-size: 30px;
+}
+
+.resource_links:hover {
+  color: white;
+}
+
+.resource_links:visited {
+  color: white;
+}
+
+.link_description {
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* New stock form */
+.new_form {
+  background-color: #f0f0f0;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+#error_message_div {
+  text-align: center;
+  color: white;
+}
+
+/* Logo display */
+.logo_div {
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 186px;
+  opacity: 0.15;
+  border-radius: 15px;
+}
+
+.display_div {
+  margin-top: -190px;
+}
+
+/* Warning/notification banner */
+.overflow_warning {
+  background-color: rgba(255, 0, 0, 0.5);
+  color: white;
+  border-radius: 15px;
+  text-align: center;
+  width: 85%;
+  margin: 15px auto;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.overflow_warning:hover {
+  background-color: rgba(255, 100, 100, 0.5);
+}
+
+/* Buttons */
+.headButton {
+  margin-top: -5px;
+  margin-bottom: -5px;
+}
+
+#logoutButton {
+  height: 30px;
+}
+
+#loginButton {
+  height: 30px;
+  width: 82px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+/* Welcome page */
+#welcome_text {
+  color: white;
+  margin-top: 40px;
+  margin-bottom: 45px;
+}
+
+#welcome_image {
+  height: 95%;
+  width: 90%;
+  margin-bottom: 25px;
+}
+
+#welcome_div {
+  text-align: center;
+}
+
+.row {
+  margin-top: -10px;
+}
+
+/* D3 graph styling */
+path#graphPath {
+  stroke: black;
+  stroke-width: 3px;
+  fill: none;
+}
+
+/* Dropdown for time frame */
+#dropdown_button {
+  border: 2px solid black;
+  background-color: #e0e0e0;
+}
+
+.graph_timeframes {
+  text-decoration: none;
+  color: black;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.graph_timeframes:hover {
+  background-color: lightblue;
+  text-decoration: none;
+}
+
+/* Tooltip */
+#tooltip {
+  width: 90px;
+  height: 45px;
+  fill: steelblue;
+  z-index: 100;
+}
+
+.change_graph_timeframe {
+  text-align: center;
+}
+
+#group {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Active stock in dropdown */
+.active_stock {
+  background-color: lightblue;
+}
+
+/* Logo overlay on show page */
+.logo_div_overview {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 600px;
+  height: 320px;
+  opacity: 0.1;
+  border-radius: 15px;
+  margin: -337px 5px 0 5px;
+}
+
+/* Loading dots */
+.load_div {
+  margin: 10px;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  background-color: black;
+  display: inline-block;
+}
+
+#overview_div_container {
+  text-align: center;
+  margin-top: 20px;
+  height: 39.6px;
+}
+
+#overview_div {
+  height: 380px;
+}
+
+#graph_container {
+  height: 527px;
+}
+
+/* Marquee ticker tapes */
+.marquee-tape {
+  overflow: hidden;
+  white-space: nowrap;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  border: 3px solid black;
+}
+
+#time_tape {
+  padding-top: 3px;
+  background-color: black;
+  color: red;
+  text-shadow: 0 0 3px red;
+  font-size: 14px;
+  font-family: "Press Start 2P", cursive;
+  z-index: 10;
+  box-shadow: 5px 5px 20px black;
+  top: 50px;
+}
+
+#ticker_tape {
+  background-color: black;
+  font-size: 24px;
+  color: #ffc266;
+  text-shadow: 0 0 3px #ffe0b3;
+  padding-top: 3px;
+  font-family: "Press Start 2P", cursive;
+  top: 80px;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee-scroll 30s linear infinite;
+  padding-left: 100%;
+}
+
+#time_tape .marquee-content {
+  animation-duration: 20s;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Navbar */
+#navbar_id {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  top: 0;
+}
+
+/* Show page layout */
+#left-show {
+  text-align: left;
+}
+
+#show_page_content {
+  margin-top: 15px;
+}
+
+/* Navbar links */
+.navbar-nav > li > a {
+  color: #333;
+  text-decoration: none;
+}
+
+.navbar-nav > li > a:hover {
+  color: #000;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
