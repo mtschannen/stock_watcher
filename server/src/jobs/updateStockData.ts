@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { findAllStocks } from "../models/Stock";
 import { createStockDatum } from "../models/StockDatum";
 import { getQuotes } from "../services/yahooFinance";
-import { getBookValueHistory } from "../services/quandl";
+import { getBookValueHistory } from "../services/alphaVantage";
 import { getFiveYearInterestRate } from "../services/fred";
 import { calculateFypm } from "../services/fypmCalculator";
 

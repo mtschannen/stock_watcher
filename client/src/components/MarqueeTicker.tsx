@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { getTickerTape, TickerItem } from "../api/client";
 
-function getMarketStatus(): string {
+function getMarketStatus(): { text: string; isOpen: boolean } {
   const now = new Date();
   const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
 
@@ -28,42 +28,61 @@ function getMarketStatus(): string {
     const hoursLeft = Math.floor(diff / 60);
     let minutesLeft = Math.ceil(diff % 60);
     if (minutesLeft === 60) {
-      return `${hoursLeft + 1} HOURS AND 0 MINUTES UNTIL MARKET CLOSE`;
+      return { text: `${hoursLeft + 1}h until close`, isOpen: true };
     }
-    if (hoursLeft === 1)
-      return `${hoursLeft} HOUR AND ${minutesLeft} MINUTES UNTIL MARKET CLOSE`;
-    if (hoursLeft === 0)
-      return `${minutesLeft} MINUTES UNTIL MARKET CLOSE`;
-    return `${hoursLeft} HOURS AND ${minutesLeft} MINUTES UNTIL MARKET CLOSE`;
+    if (hoursLeft === 0) {
+      return { text: `${minutesLeft}m until close`, isOpen: true };
+    }
+    return { text: `${hoursLeft}h ${minutesLeft}m until close`, isOpen: true };
   }
 
-  return "MARKET CLOSED";
+  return { text: "Market Closed", isOpen: false };
 }
 
-function formatTickerString(data: TickerItem[]): string {
-  return data
-    .map((item) => {
-      const price = Number(item.last_trade_price).toFixed(2);
-      const change = Number(item.change);
-      const changeStr = change >= 0
-        ? ` +${change.toFixed(2)}(${item.change_in_percent})`
-        : ` ${change.toFixed(2)}(${item.change_in_percent})`;
-      return `${item.label}: ${price}${changeStr}`;
-    })
-    .join("      ");
+function TickerItems({ items }: { items: TickerItem[] }) {
+  if (!items.length) {
+    return (
+      <span className="ticker-item">
+        <span className="ticker-label" style={{ opacity: 0.4 }}>
+          Loading...
+        </span>
+      </span>
+    );
+  }
+
+  return (
+    <>
+      {items.map((item, i) => {
+        const change = Number(item.change);
+        const isUp = change >= 0;
+        const price = Number(item.last_trade_price).toFixed(2);
+        const changeStr = `${isUp ? "+" : ""}${change.toFixed(2)} (${item.change_in_percent})`;
+
+        return (
+          <span key={i} className="ticker-item">
+            <span className="ticker-label">{item.label}</span>
+            <span className="ticker-price">${price}</span>
+            <span className={isUp ? "ticker-up" : "ticker-down"}>
+              {changeStr}
+            </span>
+          </span>
+        );
+      })}
+    </>
+  );
 }
 
 export default function MarqueeTicker() {
   const [marketStatus, setMarketStatus] = useState(getMarketStatus());
-  const [tickerText, setTickerText] = useState("");
+  const [tickerItems, setTickerItems] = useState<TickerItem[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
 
   const fetchTickerData = async () => {
     try {
       const res = await getTickerTape();
-      setTickerText(formatTickerString(res.data));
+      setTickerItems(res.data);
     } catch {
-      // Silently fail - ticker will just not update
+      // silently fail
     }
     setMarketStatus(getMarketStatus());
   };
@@ -75,17 +94,15 @@ export default function MarqueeTicker() {
   }, []);
 
   return (
-    <>
-      <div id="time_tape" className="marquee-tape">
-        <div className="marquee-content">
-          <span>{marketStatus}</span>
+    <div className="ticker-bar">
+      <div className={`ticker-status${marketStatus.isOpen ? " market-open" : ""}`}>
+        {marketStatus.text}
+      </div>
+      <div className="ticker-scroll">
+        <div className="ticker-content">
+          <TickerItems items={tickerItems} />
         </div>
       </div>
-      <div id="ticker_tape" className="marquee-tape">
-        <div className="marquee-content">
-          <span>{tickerText || "Loading market data..."}</span>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }

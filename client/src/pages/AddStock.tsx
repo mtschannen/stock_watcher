@@ -26,8 +26,7 @@ export default function AddStock() {
       await createStock(formData);
       navigate("/");
     } catch (err: any) {
-      const errorMsg =
-        err.response?.data?.error || "Unknown Error";
+      const errorMsg = err.response?.data?.error || "Unknown Error";
       setMessage(errorMsg);
     } finally {
       setSubmitting(false);
@@ -35,61 +34,105 @@ export default function AddStock() {
   };
 
   return (
-    <>
-      <h1 id="show_header">New Stock</h1>
-      <div className="col-md-4 col-md-offset-4">
-        <div className="new_form">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="ticker_symbol">Ticker Symbol</label>
-              <input
-                type="text"
-                className="form-control"
-                id="ticker_symbol"
-                value={tickerSymbol}
-                onChange={(e) => setTickerSymbol(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="company_name">Company Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="company_name"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="stock_logo">Stock Logo</label>
-              <input
-                type="file"
-                className="form-control-file"
-                id="stock_logo"
-                accept="image/*"
-                onChange={(e) =>
-                  setLogoFile(e.target.files?.[0] || null)
-                }
-              />
-            </div>
-            <br />
-            <button
-              type="submit"
-              className="btn btn-success"
-              disabled={submitting}
-            >
-              {submitting ? "Adding..." : "Track"}
-            </button>
-          </form>
-        </div>
-        {message && (
-          <div id="error_message_div">
-            <h2>{message}</h2>
+    <div style={{ maxWidth: 480 }}>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text-primary)", marginBottom: 24, fontFamily: "var(--font-mono)" }}>
+        Add Stock
+      </h1>
+
+      <div className="overview_wrapper" style={{ padding: 24 }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Ticker Symbol
+            </label>
+            <input
+              type="text"
+              value={tickerSymbol}
+              onChange={(e) => setTickerSymbol(e.target.value.toUpperCase())}
+              required
+              placeholder="e.g. AAPL"
+              style={{
+                background: "var(--bg-base)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 6,
+                padding: "8px 12px",
+                color: "var(--text-primary)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 14,
+                outline: "none",
+              }}
+            />
           </div>
-        )}
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Company Name
+            </label>
+            <input
+              type="text"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              required
+              placeholder="e.g. Apple Inc."
+              style={{
+                background: "var(--bg-base)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 6,
+                padding: "8px 12px",
+                color: "var(--text-primary)",
+                fontSize: 14,
+                outline: "none",
+              }}
+            />
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Stock Logo
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
+              style={{
+                background: "var(--bg-base)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 6,
+                padding: "8px 12px",
+                color: "var(--text-secondary)",
+                fontSize: 13,
+                cursor: "pointer",
+              }}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={submitting}
+            style={{
+              marginTop: 4,
+              padding: "10px 20px",
+              background: submitting ? "var(--bg-surface-2)" : "var(--accent)",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              fontSize: 14,
+              fontWeight: 600,
+              cursor: submitting ? "not-allowed" : "pointer",
+              transition: "background 0.15s",
+              alignSelf: "flex-start",
+            }}
+          >
+            {submitting ? "Adding..." : "Track Stock"}
+          </button>
+        </form>
       </div>
-    </>
+
+      {message && (
+        <div style={{ marginTop: 16, padding: "12px 16px", background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 6, color: "var(--red)", fontSize: 13 }}>
+          {message}
+        </div>
+      )}
+    </div>
   );
 }

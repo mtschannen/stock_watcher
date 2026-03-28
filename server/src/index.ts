@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import session from "express-session";
@@ -5,7 +6,10 @@ import path from "path";
 import stocksRouter from "./routes/stocks";
 import usersRouter from "./routes/users";
 import resourcesRouter from "./routes/resources";
+import marketRouter from "./routes/market";
 import { scheduleDataCollection } from "./jobs/updateStockData";
+import { getAlphaVantageStatus, getBookValueStoreStatus } from "./services/alphaVantage";
+import { SP500_TICKERS } from "./data/sp500Tickers";
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "3001");
@@ -43,6 +47,17 @@ if (process.env.NODE_ENV === "production") {
 app.use("/api/stocks", stocksRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/resources", resourcesRouter);
+app.use("/api/market", marketRouter);
+
+// GET /api/alpha-vantage/status — diagnostic info for Alpha Vantage usage
+app.get("/api/alpha-vantage/status", (_req, res) => {
+  res.json(getAlphaVantageStatus());
+});
+
+// GET /api/book-values/status — persistent store coverage summary
+app.get("/api/book-values/status", (_req, res) => {
+  res.json(getBookValueStoreStatus(SP500_TICKERS));
+});
 
 // In production, serve the React app for all non-API routes
 if (process.env.NODE_ENV === "production") {
