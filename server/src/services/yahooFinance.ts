@@ -1,21 +1,10 @@
-import axios from "axios";
+import YahooFinance from "yahoo-finance2";
 
-const YAHOO_FINANCE_BASE = "https://query1.finance.yahoo.com/v8/finance";
-
-interface QuoteResult {
-  symbol: string;
-  regularMarketPrice: number;
-  regularMarketChange: number;
-  regularMarketChangePercent: number;
-  regularMarketOpen: number;
-  regularMarketDayHigh: number;
-  regularMarketDayLow: number;
-  regularMarketPreviousClose: number;
-  trailingAnnualDividendYield: number;
-}
+const yf = new YahooFinance({ suppressNotices: ["ripHistorical"] });
 
 export interface StockQuote {
   symbol: string;
+  company_name: string;
   last_trade_price: number;
   change: number;
   change_in_percent: string;
@@ -33,20 +22,10 @@ export interface HistoricalDataPoint {
 
 export async function getQuotes(symbols: string[]): Promise<StockQuote[]> {
   try {
-    const symbolStr = symbols.join(",");
-    const response = await axios.get(
-      `${YAHOO_FINANCE_BASE}/quote?symbols=${encodeURIComponent(symbolStr)}`,
-      {
-        headers: {
-          "User-Agent": "Mozilla/5.0",
-        },
-      }
-    );
-
-    const results: QuoteResult[] =
-      response.data?.quoteResponse?.result || [];
-    return results.map((q) => ({
-      symbol: q.symbol,
+    const quotes = await yf.quote(symbols);
+    return quotes.map((q) => ({
+      symbol: q.symbol || "",
+      company_name: q.longName || q.shortName || q.symbol || "",
       last_trade_price: q.regularMarketPrice || 0,
       change: q.regularMarketChange || 0,
       change_in_percent: `${(q.regularMarketChangePercent || 0).toFixed(2)}%`,
@@ -60,6 +39,7 @@ export async function getQuotes(symbols: string[]): Promise<StockQuote[]> {
     console.error("Yahoo Finance quote error:", err);
     return symbols.map((s) => ({
       symbol: s,
+      company_name: "",
       last_trade_price: 0,
       change: 0,
       change_in_percent: "0.00%",
@@ -69,6 +49,37 @@ export async function getQuotes(symbols: string[]): Promise<StockQuote[]> {
       close: 0,
       dividend_yield: 0,
     }));
+  }
+}
+
+const price30dCache = new Map<string, { price: number; expiresAt: number }>();
+
+/** Returns the cached ~30-day-ago price synchronously — never triggers an API call. */
+export function getCachedPrice30DaysAgo(symbol: string): number | null {
+  const now = Date.now();
+  const cached = price30dCache.get(symbol);
+  return cached && cached.expiresAt > now ? cached.price : null;
+}
+
+/** Fetches the closing price from ~30 days ago (window: 35–28 days ago). Caches 24 h. */
+export async function getPrice30DaysAgo(symbol: string): Promise<number | null> {
+  const now = Date.now();
+  const cached = price30dCache.get(symbol);
+  if (cached && cached.expiresAt > now) return cached.price;
+
+  try {
+    const period2 = new Date(Date.now() - 28 * 24 * 60 * 60 * 1000);
+    const period1 = new Date(Date.now() - 35 * 24 * 60 * 60 * 1000);
+    const result = await yf.chart(symbol, { period1, period2, interval: "1d" });
+    const quotes = result.quotes ?? [];
+    if (!quotes.length) return null;
+    const last = quotes[quotes.length - 1];
+    const price = last.adjclose ?? last.close ?? null;
+    if (!price) return null;
+    price30dCache.set(symbol, { price, expiresAt: now + 24 * 60 * 60 * 1000 });
+    return price;
+  } catch {
+    return null;
   }
 }
 
@@ -86,48 +97,29 @@ export async function getHistoricalData(
   months: number
 ): Promise<HistoricalDataPoint[]> {
   try {
-    const endDate = Math.floor(Date.now() / 1000);
-    const startDate = Math.floor(
-      (Date.now() - months * 30 * 24 * 60 * 60 * 1000) / 1000
+    const endDate = new Date();
+    const startDate = new Date(
+      Date.now() - months * 30 * 24 * 60 * 60 * 1000
     );
 
-    const response = await axios.get(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${startDate}&period2=${endDate}&interval=1d`,
-      {
-        headers: {
-          "User-Agent": "Mozilla/5.0",
-        },
-      }
-    );
+    const result = await yf.chart(symbol, {
+      period1: startDate,
+      period2: endDate,
+      interval: "1d",
+    });
 
-    const result = response.data?.chart?.result?.[0];
-    if (!result) return [];
-
-    const timestamps: number[] = result.timestamp || [];
-    const closes: number[] =
-      result.indicators?.adjclose?.[0]?.adjclose ||
-      result.indicators?.quote?.[0]?.close ||
-      [];
-
-    const data: HistoricalDataPoint[] = [];
-    const totalPoints = timestamps.length;
+    const quotes = result.quotes ?? [];
+    const totalPoints = quotes.length;
     const step = Math.max(1, Math.floor(totalPoints / 150));
 
-    for (let i = 0; i < totalPoints; i++) {
-      if (step <= 1 || i % step === 0) {
-        if (timestamps[i] && closes[i] != null) {
-          const date = new Date(timestamps[i] * 1000);
-          data.push({
-            date: date.toISOString().split("T")[0],
-            adjClose: closes[i],
-          });
-        }
-      }
-    }
-
-    return data;
+    return quotes
+      .filter((_point, i) => step <= 1 || i % step === 0)
+      .map((point) => ({
+        date: new Date(point.date).toISOString().split("T")[0],
+        adjClose: point.adjclose ?? point.close ?? 0,
+      }));
   } catch (err) {
-    console.error("Yahoo Finance historical data error:", err);
+    console.error("Yahoo Finance chart data error:", err);
     return [];
   }
 }

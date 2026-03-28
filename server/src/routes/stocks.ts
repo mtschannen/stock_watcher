@@ -16,7 +16,7 @@ import {
   isValidTicker,
   getHistoricalData,
 } from "../services/yahooFinance";
-import { getBookValueHistory } from "../services/quandl";
+import { getBookValueHistory } from "../services/alphaVantage";
 import { getFiveYearInterestRate } from "../services/fred";
 import { calculateFypm } from "../services/fypmCalculator";
 import { runDataCollection } from "../jobs/updateStockData";

@@ -5,17 +5,28 @@ const api = axios.create({
   withCredentials: true,
 });
 
-export interface Stock {
-  id: number;
-  ticker_symbol: string;
+export interface MarketStock {
+  ticker: string;
   company_name: string;
-  user_id: string;
-  stock_logo_filename: string | null;
-  change?: number;
+  price: number;
+  change: number;
+  change_pct: string;
+  dividend_yield: number;
+  prev_close: number;
+}
+
+export interface FypmBatchItem {
+  ticker: string;
+  derivative_fypm: number | null;
+  linear_fypm: number | null;
+  rate_fypm: number | null;
+  daily_change: number | null;
+  change_30d: number | null;
 }
 
 export interface StockQuote {
   symbol: string;
+  company_name: string;
   last_trade_price: number;
   change: number;
   change_in_percent: string;
@@ -35,8 +46,8 @@ export interface FypmData {
   rate_change: number | null;
 }
 
-export interface StockInfo {
-  stock: Stock;
+export interface MarketInfo {
+  ticker: string;
   quote: StockQuote;
   fypm: FypmData;
 }
@@ -44,6 +55,9 @@ export interface StockInfo {
 export interface HistoricalPoint {
   date: string;
   adjClose: number;
+  derivative_fypm: number | null;
+  linear_fypm: number | null;
+  rate_fypm: number | null;
 }
 
 export interface TickerItem {
@@ -60,30 +74,35 @@ export interface Resource {
   description: string;
 }
 
-export interface SessionInfo {
-  loggedIn: boolean;
-  userId: string | null;
-  firstname: string | null;
-}
+// Market (S&P 500 — no auth required)
+export const getMarketQuotes = () => api.get<MarketStock[]>("/market/quotes");
+export const getMarketFypmBatch = () => api.get<FypmBatchItem[]>("/market/fypm-batch");
+export const getMarketInfo = (ticker: string) =>
+  api.get<MarketInfo>(`/market/${ticker}/info`);
+export const getMarketGraph = (ticker: string, months: number) =>
+  api.get<HistoricalPoint[]>(`/market/${ticker}/graph?num_months=${months}`);
 
-// Session
-export const getSession = () => api.get<SessionInfo>("/users/session");
-export const login = () => api.post<{ success: boolean }>("/users/login");
-export const logout = () => api.post<{ success: boolean }>("/users/logout");
-
-// Stocks
-export const getStocks = () => api.get<Stock[]>("/stocks");
-export const createStock = (formData: FormData) =>
-  api.post<Stock>("/stocks", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-export const deleteStockApi = (id: number) => api.delete(`/stocks/${id}`);
-export const getStockInfo = (id: number) =>
-  api.get<StockInfo>(`/stocks/${id}/info`);
-export const getGraphData = (id: number, months: number) =>
-  api.get<HistoricalPoint[]>(`/stocks/${id}/graph?num_months=${months}`);
+// Ticker tape
 export const getTickerTape = () => api.get<TickerItem[]>("/stocks/ticker/tape");
-export const runDataCollection = () => api.post("/stocks/collect");
+
+// Alpha Vantage diagnostics
+export interface AlphaVantageStatus {
+  dailyCallCount: number;
+  dailyLimit: number;
+  remainingCalls: number;
+  cacheSize: number;
+  cacheEntries: { ticker: string; ageMs: number; expiresAt: number }[];
+  lastRateLimited: boolean;
+  lastCallTimestamp: string | null;
+}
+export const getAlphaVantageStatus = () =>
+  api.get<AlphaVantageStatus>("/alpha-vantage/status");
 
 // Resources
 export const getResources = () => api.get<Resource[]>("/resources");
+
+// Stocks (authenticated)
+export const createStock = (formData: FormData) =>
+  api.post("/stocks", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
