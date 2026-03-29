@@ -156,8 +156,12 @@ export interface FypmAnalysisResult {
   };
 }
 
-export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) =>
-  api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?months=${months}&tickers=${tickers}`, { signal });
+export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) => {
+  const params = new URLSearchParams();
+  params.set("months", String(months));
+  params.set("tickers", tickers);
+  return api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?${params.toString()}`, { signal });
+};
 
 // Stocks (authenticated)
 export const createStock = (formData: FormData) =>

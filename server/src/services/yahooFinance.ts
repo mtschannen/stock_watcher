@@ -1,4 +1,8 @@
 import YahooFinance from "yahoo-finance2";
+import type {
+  ChartOptions,
+  ChartResultArray,
+} from "yahoo-finance2/script/src/modules/chart";
 
 const yf = new YahooFinance({ suppressNotices: ["ripHistorical"] });
 
@@ -81,6 +85,10 @@ export async function getPrice30DaysAgo(symbol: string): Promise<number | null> 
   } catch {
     return null;
   }
+}
+
+export async function chart(symbol: string, options: ChartOptions): Promise<ChartResultArray> {
+  return yf.chart(symbol, options) as Promise<ChartResultArray>;
 }
 
 export async function isValidTicker(symbol: string): Promise<boolean> {

@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { requireAuth } from "../middleware/auth";
 import { runFypmBacktest, AnalysisResult } from "../services/fypmHistoricalAnalysis";
 
 const router = Router();
@@ -12,12 +13,12 @@ const CACHE_MAX_SIZE = 20;            // evict oldest entries beyond this limit
 const cache = new Map<string, { result: AnalysisResult; expiry: number }>();
 
 function cacheSet(key: string, value: { result: AnalysisResult; expiry: number }): void {
-  if (cache.size >= CACHE_MAX_SIZE) {
-    // Evict the oldest entry
+  cache.delete(key); // ensure key is re-inserted at end for correct LRU eviction order
+  cache.set(key, value);
+  if (cache.size > CACHE_MAX_SIZE) {
     const oldestKey = cache.keys().next().value;
     if (oldestKey !== undefined) cache.delete(oldestKey);
   }
-  cache.set(key, value);
 }
 
 // ── Concurrency guard ─────────────────────────────────────────────────────────
@@ -33,7 +34,7 @@ const REQUEST_TIMEOUT_MS = 5 * 60 * 1000;
  *   months  — number (default 24, max 36)
  *   tickers — "all" | comma-separated list  (default "all")
  */
-router.get("/fypm-backtest", async (req: Request, res: Response) => {
+router.get("/fypm-backtest", requireAuth, async (req: Request, res: Response) => {
   const months = Math.min(36, Math.max(1, parseInt(String(req.query.months ?? "24")) || 24));
 
   const tickersParam = req.query.tickers;
@@ -68,7 +69,6 @@ router.get("/fypm-backtest", async (req: Request, res: Response) => {
   const abortController = new AbortController();
   const timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {
     abortController.abort();
-    analysisInProgress = false;
     if (!res.headersSent) {
       res.status(503).json({
         error: "Analysis timed out. Try a shorter lookback period or fewer tickers.",
@@ -79,8 +79,6 @@ router.get("/fypm-backtest", async (req: Request, res: Response) => {
   analysisInProgress = true;
   try {
     const result = await runFypmBacktest(tickers, months, abortController.signal);
-    clearTimeout(timeoutId);
-    analysisInProgress = false;
     if (!abortController.signal.aborted) {
       cacheSet(cacheKey, { result, expiry: Date.now() + CACHE_TTL_MS });
     }
@@ -88,12 +86,13 @@ router.get("/fypm-backtest", async (req: Request, res: Response) => {
       res.json(result);
     }
   } catch (err) {
-    clearTimeout(timeoutId);
-    analysisInProgress = false;
     console.error("[Analysis] Route error:", err);
     if (!res.headersSent) {
-      res.status(500).json({ error: "Analysis failed", details: String(err) });
+      res.status(500).json({ error: "Analysis failed" });
     }
+  } finally {
+    clearTimeout(timeoutId);
+    analysisInProgress = false;
   }
 });
 

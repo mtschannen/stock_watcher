@@ -1,11 +1,8 @@
-import YahooFinance from "yahoo-finance2";
 import { getCachedBookValueHistory } from "./alphaVantage";
 import { calculateFypm } from "./fypmCalculator";
 import { getFiveYearInterestRate } from "./fred";
-import { getQuotes } from "./yahooFinance";
+import { getQuotes, chart } from "./yahooFinance";
 import { SP500_TICKERS } from "../data/sp500Tickers";
-
-const yf = new YahooFinance({ suppressNotices: ["ripHistorical"] });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -112,30 +109,60 @@ interface PriceBar {
   ts: number;
 }
 
+function binarySearchFirstAtOrAfter(
+  bars: PriceBar[],
+  startIdx: number,
+  targetTs: number
+): number {
+  let lo = startIdx;
+  let hi = bars.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (bars[mid].ts < targetTs) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
 function findForwardReturn(
   bars: PriceBar[],
   fromIdx: number,
   daysAhead: number,
   fromPrice: number
 ): number | null {
-  const targetTs = bars[fromIdx].ts + daysAhead * 24 * 60 * 60 * 1000;
+  const millisPerDay = 24 * 60 * 60 * 1000;
+  const targetTs = bars[fromIdx].ts + daysAhead * millisPerDay;
+  const maxScanTs = targetTs + 7 * millisPerDay;
 
   let best: PriceBar | null = null;
   let bestDiff = Infinity;
 
-  for (let j = fromIdx + 1; j < bars.length; j++) {
-    const diff = Math.abs(bars[j].ts - targetTs);
+  const startSearchIdx = fromIdx + 1;
+  if (startSearchIdx >= bars.length) return null;
+
+  const idx = binarySearchFirstAtOrAfter(bars, startSearchIdx, targetTs);
+
+  const prevIdx = idx - 1;
+  if (prevIdx >= startSearchIdx) {
+    const prevBar = bars[prevIdx];
+    if (prevBar.ts <= maxScanTs) {
+      bestDiff = Math.abs(prevBar.ts - targetTs);
+      best = prevBar;
+    }
+  }
+
+  for (let j = idx; j < bars.length; j++) {
+    const bar = bars[j];
+    if (bar.ts > maxScanTs) break;
+    const diff = Math.abs(bar.ts - targetTs);
     if (diff < bestDiff) {
       bestDiff = diff;
-      best = bars[j];
+      best = bar;
     }
-    // Stop scanning once we've gone more than 7 calendar days past the target
-    if (bars[j].ts > targetTs + 7 * 24 * 60 * 60 * 1000) break;
   }
 
   if (!best) return null;
-  // Require the match to be within 10 calendar days of the target
-  if (bestDiff > 10 * 24 * 60 * 60 * 1000) return null;
+  if (bestDiff > 10 * millisPerDay) return null;
   return ((best.price - fromPrice) / fromPrice) * 100;
 }
 
@@ -224,8 +251,23 @@ export async function runFypmBacktest(
   console.log(`[Analysis] Processing ${tickersWithData.length} tickers (${months} months lookback)...`);
 
   // 2. Batch-fetch current quotes for dividend yields
-  const quotes = await getQuotes(tickersWithData);
-  const quoteMap = new Map(quotes.map(q => [q.symbol, q]));
+  const QUOTE_BATCH_SIZE = 100;
+  const allQuotes: Awaited<ReturnType<typeof getQuotes>> = [];
+  for (let i = 0; i < tickersWithData.length; i += QUOTE_BATCH_SIZE) {
+    const batch = tickersWithData.slice(i, i + QUOTE_BATCH_SIZE);
+    try {
+      const batchQuotes = await getQuotes(batch);
+      if (batchQuotes && batchQuotes.length) {
+        allQuotes.push(...batchQuotes);
+      }
+    } catch (err) {
+      console.error(
+        `[Analysis] Failed to fetch quotes for batch ${Math.floor(i / QUOTE_BATCH_SIZE) + 1} (${batch.length} tickers):`,
+        err
+      );
+    }
+  }
+  const quoteMap = new Map(allQuotes.map(q => [q.symbol, q]));
 
   // 3. Single interest rate call
   const interestRate = await getFiveYearInterestRate();
@@ -245,6 +287,8 @@ export async function runFypmBacktest(
 
   async function processTicker(ticker: string): Promise<void> {
     try {
+      if (signal?.aborted) return;
+
       const bookValues = getCachedBookValueHistory(ticker);
       if (!bookValues) return;
 
@@ -252,11 +296,13 @@ export async function runFypmBacktest(
       const divYield = quote?.dividend_yield ?? 0;
 
       // Fetch full daily price history (not downsampled)
-      const result = await yf.chart(ticker, {
+      const result = await chart(ticker, {
         period1: startDate,
         period2: new Date(),
         interval: "1d",
       });
+
+      if (signal?.aborted) return;
 
       const rawQuotes = result.quotes ?? [];
       if (rawQuotes.length < 30) return;
@@ -276,6 +322,8 @@ export async function runFypmBacktest(
 
       // For each date with at least 180 days of future data
       for (let i = 0; i < bars.length; i++) {
+        if (signal?.aborted) return;
+
         const bar = bars[i];
 
         // Skip dates within the last 180 days (no 180d return possible)
