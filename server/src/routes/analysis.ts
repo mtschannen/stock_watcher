@@ -66,8 +66,7 @@ router.get("/fypm-backtest", async (req: Request, res: Response) => {
   // The AbortController signal is passed into runFypmBacktest so it stops processing
   // tickers as soon as the timeout fires.
   const abortController = new AbortController();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const timeoutId: any = setTimeout(() => {
+  const timeoutId: ReturnType<typeof setTimeout> = setTimeout(() => {
     abortController.abort();
     analysisInProgress = false;
     if (!res.headersSent) {
