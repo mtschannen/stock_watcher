@@ -15,6 +15,9 @@ export default function Navbar() {
           <li>
             <Link to="/resources">Resources</Link>
           </li>
+          <li>
+            <Link to="/analysis">FYPM Analysis</Link>
+          </li>
         </ul>
       </div>
     </nav>

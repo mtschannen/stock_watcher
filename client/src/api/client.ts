@@ -101,6 +101,68 @@ export const getAlphaVantageStatus = () =>
 // Resources
 export const getResources = () => api.get<Resource[]>("/resources");
 
+// FYPM Analysis
+export interface FypmDataPoint {
+  ticker: string;
+  date: string;
+  price: number;
+  fypm_linear: number;
+  fypm_derivative: number;
+  fypm_rate: number;
+  return_30d: number | null;
+  return_90d: number | null;
+  return_180d: number | null;
+}
+
+export interface FypmCorrelationStats {
+  r30d: number;
+  r90d: number;
+  r180d: number;
+  r2_30d: number;
+  r2_90d: number;
+  r2_180d: number;
+  n30d: number;
+  n90d: number;
+  n180d: number;
+}
+
+export interface FypmQuartileStats {
+  fypmRange: [number, number];
+  avg30d: number | null;
+  avg90d: number | null;
+  avg180d: number | null;
+  median30d: number | null;
+  median90d: number | null;
+  median180d: number | null;
+  count: number;
+}
+
+export interface FypmAnalysisResult {
+  sampledDataPoints: FypmDataPoint[];
+  correlations: {
+    linear: FypmCorrelationStats;
+    derivative: FypmCorrelationStats;
+    rate: FypmCorrelationStats;
+  };
+  quartiles: {
+    linear: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+    derivative: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+    rate: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+  };
+  meta: {
+    tickersAnalyzed: number;
+    totalDataPoints: number;
+    dateRange: { start: string; end: string };
+  };
+}
+
+export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) => {
+  const params = new URLSearchParams();
+  params.set("months", String(months));
+  params.set("tickers", tickers);
+  return api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?${params.toString()}`, { signal });
+};
+
 // Stocks (authenticated)
 export const createStock = (formData: FormData) =>
   api.post("/stocks", formData, {

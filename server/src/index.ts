@@ -7,6 +7,7 @@ import stocksRouter from "./routes/stocks";
 import usersRouter from "./routes/users";
 import resourcesRouter from "./routes/resources";
 import marketRouter from "./routes/market";
+import analysisRouter from "./routes/analysis";
 import { scheduleDataCollection } from "./jobs/updateStockData";
 import { getAlphaVantageStatus, getBookValueStoreStatus } from "./services/alphaVantage";
 import { SP500_TICKERS } from "./data/sp500Tickers";
@@ -48,6 +49,7 @@ app.use("/api/stocks", stocksRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/resources", resourcesRouter);
 app.use("/api/market", marketRouter);
+app.use("/api/analysis", analysisRouter);
 
 // GET /api/alpha-vantage/status — diagnostic info for Alpha Vantage usage
 app.get("/api/alpha-vantage/status", (_req, res) => {
