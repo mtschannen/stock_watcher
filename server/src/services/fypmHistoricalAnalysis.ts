@@ -52,7 +52,7 @@ export interface QuartileGroup {
 }
 
 export interface AnalysisResult {
-  dataPoints: DataPoint[];
+  sampledDataPoints: DataPoint[];
   correlations: {
     linear: CorrelationStats;
     derivative: CorrelationStats;
@@ -168,26 +168,6 @@ function computeCorrelations(
 
 // ── Quartile computation ──────────────────────────────────────────────────────
 
-function buildQuartileStats(bucket: DataPoint[]): QuartileStats {
-  if (bucket.length === 0) {
-    return { fypmRange: [0, 0], avg30d: null, avg90d: null, avg180d: null, median30d: null, median90d: null, median180d: null, count: 0 };
-  }
-  const fypmVals = bucket.map(p => p.fypm_linear);
-  const r30  = bucket.filter(p => p.return_30d  !== null).map(p => p.return_30d!);
-  const r90  = bucket.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
-  const r180 = bucket.filter(p => p.return_180d !== null).map(p => p.return_180d!);
-  return {
-    fypmRange: [Math.min(...fypmVals), Math.max(...fypmVals)],
-    avg30d:    avg(r30),
-    avg90d:    avg(r90),
-    avg180d:   avg(r180),
-    median30d: median(r30),
-    median90d: median(r90),
-    median180d:median(r180),
-    count:     bucket.length,
-  };
-}
-
 function buildQuartileStatsByKey(
   bucket: DataPoint[],
   fypmKey: "fypm_linear" | "fypm_derivative" | "fypm_rate"
@@ -200,7 +180,10 @@ function buildQuartileStatsByKey(
   const r90  = bucket.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
   const r180 = bucket.filter(p => p.return_180d !== null).map(p => p.return_180d!);
   return {
-    fypmRange: [Math.min(...fypmVals), Math.max(...fypmVals)],
+    fypmRange: [
+      fypmVals.reduce((m, v) => v < m ? v : m, Infinity),
+      fypmVals.reduce((m, v) => v > m ? v : m, -Infinity),
+    ],
     avg30d:    avg(r30),
     avg90d:    avg(r90),
     avg180d:   avg(r180),
@@ -230,7 +213,8 @@ function computeQuartileGroup(
 
 export async function runFypmBacktest(
   tickerParam: "all" | string[],
-  months: number
+  months: number,
+  signal?: AbortSignal
 ): Promise<AnalysisResult> {
   const universe = tickerParam === "all" ? SP500_TICKERS : tickerParam;
 
@@ -247,23 +231,22 @@ export async function runFypmBacktest(
   const interestRate = await getFiveYearInterestRate();
 
   // 4. Date range setup
-  const startDate = new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000);
+  const startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - months);
   const now = Date.now();
   const cutoff180 = now - 180 * 24 * 60 * 60 * 1000;
 
   const allDataPoints: DataPoint[] = [];
+  const CONCURRENCY = 5;
 
-  // 5. Process each ticker
-  for (let ti = 0; ti < tickersWithData.length; ti++) {
-    const ticker = tickersWithData[ti];
+  // 5. Process tickers with concurrency limiting
+  let tickerIndex = 0;
+  let processedCount = 0;
 
-    if (ti > 0 && ti % 20 === 0) {
-      console.log(`[Analysis] Progress: ${ti}/${tickersWithData.length} tickers processed, ${allDataPoints.length} data points so far`);
-    }
-
+  async function processTicker(ticker: string): Promise<void> {
     try {
       const bookValues = getCachedBookValueHistory(ticker);
-      if (!bookValues) continue;
+      if (!bookValues) return;
 
       const quote = quoteMap.get(ticker);
       const divYield = quote?.dividend_yield ?? 0;
@@ -276,7 +259,7 @@ export async function runFypmBacktest(
       });
 
       const rawQuotes = result.quotes ?? [];
-      if (rawQuotes.length < 30) continue;
+      if (rawQuotes.length < 30) return;
 
       // Build sorted price bar array
       const bars: PriceBar[] = rawQuotes
@@ -289,7 +272,7 @@ export async function runFypmBacktest(
         })
         .filter(b => b.price > 0);
 
-      if (bars.length < 30) continue;
+      if (bars.length < 30) return;
 
       // For each date with at least 180 days of future data
       for (let i = 0; i < bars.length; i++) {
@@ -327,6 +310,22 @@ export async function runFypmBacktest(
     }
   }
 
+  async function worker(): Promise<void> {
+    // JavaScript is single-threaded: tickerIndex++ is safe across concurrent async workers
+    while (tickerIndex < tickersWithData.length) {
+      if (signal?.aborted) break;
+      const idx = tickerIndex++;
+      const ticker = tickersWithData[idx];
+      await processTicker(ticker);
+      processedCount++;
+      if (processedCount % 20 === 0) {
+        console.log(`[Analysis] Progress: ${processedCount}/${tickersWithData.length} tickers processed, ${allDataPoints.length} data points so far`);
+      }
+    }
+  }
+
+  await Promise.allSettled(Array.from({ length: CONCURRENCY }, () => worker()));
+
   console.log(`[Analysis] Done. ${tickersWithData.length} tickers → ${allDataPoints.length} data points`);
 
   // 6. Compute correlations
@@ -343,11 +342,21 @@ export async function runFypmBacktest(
     rate:       computeQuartileGroup(allDataPoints, "fypm_rate"),
   };
 
-  // 8. Meta
+  // 8. Sample data points for the response (cap at 2000 to avoid huge payloads)
+  const MAX_RESPONSE_POINTS = 2000;
+  const sampledDataPoints: DataPoint[] =
+    allDataPoints.length <= MAX_RESPONSE_POINTS
+      ? allDataPoints
+      : Array.from(
+          { length: MAX_RESPONSE_POINTS },
+          (_, i) => allDataPoints[Math.floor((i * allDataPoints.length) / MAX_RESPONSE_POINTS)]
+        );
+
+  // 9. Meta
   const sortedDates = allDataPoints.map(d => d.date).sort();
 
   return {
-    dataPoints: allDataPoints,
+    sampledDataPoints,
     correlations,
     quartiles,
     meta: {

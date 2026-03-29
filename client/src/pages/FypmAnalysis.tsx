@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   ComposedChart,
   Scatter,
@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
@@ -136,8 +135,8 @@ function ScatterPlot({
   let trendData: { x: number; trend: number }[] = [];
   if (reg && plotPoints.length > 1) {
     const xs = plotPoints.map(p => p.x);
-    const xMin = Math.min(...xs);
-    const xMax = Math.max(...xs);
+    const xMin = xs.reduce((m, v) => v < m ? v : m, Infinity);
+    const xMax = xs.reduce((m, v) => v > m ? v : m, -Infinity);
     trendData = [
       { x: xMin, trend: reg.slope * xMin + reg.intercept },
       { x: xMax, trend: reg.slope * xMax + reg.intercept },
@@ -145,8 +144,8 @@ function ScatterPlot({
   }
 
   const yVals = plotPoints.map(p => p.y);
-  const yMin = yVals.length > 0 ? Math.min(...yVals) : -50;
-  const yMax = yVals.length > 0 ? Math.max(...yVals) : 50;
+  const yMin = yVals.length > 0 ? yVals.reduce((m, v) => v < m ? v : m, Infinity) : -50;
+  const yMax = yVals.length > 0 ? yVals.reduce((m, v) => v > m ? v : m, -Infinity) : 50;
 
   return (
     <div style={{
@@ -312,23 +311,39 @@ export default function FypmAnalysis() {
   const [error, setError]     = useState<string | null>(null);
   const [months, setMonths]   = useState(24);
   const [elapsed, setElapsed] = useState<number | null>(null);
+  const abortControllerRef    = useRef<AbortController | null>(null);
+
+  // Cancel any in-flight request when the component unmounts
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
 
   async function runAnalysis() {
+    // Cancel any previous in-flight request
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setLoading(true);
     setError(null);
     setResult(null);
     setElapsed(null);
     const t0 = Date.now();
     try {
-      const res = await getFypmBacktest(months);
-      setResult(res.data);
-      setElapsed(Math.round((Date.now() - t0) / 1000));
+      const res = await getFypmBacktest(months, "all", controller.signal);
+      if (!controller.signal.aborted) {
+        setResult(res.data);
+        setElapsed(Math.round((Date.now() - t0) / 1000));
+      }
     } catch (err: unknown) {
+      if (controller.signal.aborted) return;
       const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error
         ?? String(err);
       setError(msg);
     } finally {
-      setLoading(false);
+      if (!controller.signal.aborted) setLoading(false);
     }
   }
 
@@ -441,6 +456,26 @@ export default function FypmAnalysis() {
       {/* ── Results ── */}
       {result && (
         <>
+          {/* Look-ahead bias warning */}
+          <div style={{
+            background: "rgba(234,179,8,0.12)",
+            border: "1px solid rgba(234,179,8,0.5)",
+            borderRadius: 6,
+            padding: "12px 16px",
+            marginBottom: 20,
+            display: "flex",
+            gap: 10,
+            alignItems: "flex-start",
+          }}>
+            <span style={{ fontSize: 16, lineHeight: 1 }}>⚠️</span>
+            <div style={{ fontSize: 13, color: "var(--text-primary)", lineHeight: 1.6 }}>
+              <strong>Look-ahead bias warning:</strong> FYPM values are computed using <em>current</em>{" "}
+              book values, dividend yields, and interest rates applied to historical prices. This means
+              data that was not available at those historical dates is being used, which inflates the
+              apparent predictive power of FYPM. Results should be interpreted as illustrative only
+              and not as a validated trading signal.
+            </div>
+          </div>
           {/* Meta row */}
           <div style={{
             display: "flex",
@@ -484,21 +519,21 @@ export default function FypmAnalysis() {
             <ScatterPlot
               title="30-Day Return"
               horizon="30d"
-              dataPoints={result.dataPoints}
+              dataPoints={result.sampledDataPoints}
               fypmKey="fypm_linear"
               returnKey="return_30d"
             />
             <ScatterPlot
               title="90-Day Return"
               horizon="90d"
-              dataPoints={result.dataPoints}
+              dataPoints={result.sampledDataPoints}
               fypmKey="fypm_linear"
               returnKey="return_90d"
             />
             <ScatterPlot
               title="180-Day Return"
               horizon="180d"
-              dataPoints={result.dataPoints}
+              dataPoints={result.sampledDataPoints}
               fypmKey="fypm_linear"
               returnKey="return_180d"
             />

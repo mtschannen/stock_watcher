@@ -138,7 +138,7 @@ export interface FypmQuartileStats {
 }
 
 export interface FypmAnalysisResult {
-  dataPoints: FypmDataPoint[];
+  sampledDataPoints: FypmDataPoint[];
   correlations: {
     linear: FypmCorrelationStats;
     derivative: FypmCorrelationStats;
@@ -156,8 +156,8 @@ export interface FypmAnalysisResult {
   };
 }
 
-export const getFypmBacktest = (months = 24, tickers: "all" | string = "all") =>
-  api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?months=${months}&tickers=${tickers}`);
+export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) =>
+  api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?months=${months}&tickers=${tickers}`, { signal });
 
 // Stocks (authenticated)
 export const createStock = (formData: FormData) =>
