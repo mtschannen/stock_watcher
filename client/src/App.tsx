@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import StockDetail from "./pages/StockDetail";
 import Resources from "./pages/Resources";
 import AddStock from "./pages/AddStock";
+import FypmAnalysis from "./pages/FypmAnalysis";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/stocks/:ticker" element={<StockDetail />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/stocks/new" element={<AddStock />} />
+          <Route path="/analysis" element={<FypmAnalysis />} />
         </Routes>
       </div>
     </div>
