@@ -19,7 +19,32 @@ import {
   FypmQuartileStats,
 } from "../api/client";
 
-// ── Linear regression helper ───────────────────────────────────────────────
+// ── Variant types & metadata ────────────────────────────────────────────────
+
+type Variant = "linear" | "derivative" | "rate" | "composite";
+
+const VARIANT_LABELS: Record<Variant, string> = {
+  linear:     "Linear",
+  derivative: "Derivative",
+  rate:       "Rate",
+  composite:  "Composite",
+};
+
+const VARIANT_DESCRIPTIONS: Record<Variant, string> = {
+  linear:     "Projects book value using a linear extrapolation of the 5-year level trend",
+  derivative: "Projects book value growth using the rate of change between annual periods",
+  rate:       "Projects book value using the slope of the growth trend",
+  composite:  "Average of Linear, Derivative, and Rate — reduces sensitivity to any single projection method",
+};
+
+const VARIANT_FYPM_KEY: Record<Variant, keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite">> = {
+  linear:     "fypm_linear",
+  derivative: "fypm_derivative",
+  rate:       "fypm_rate",
+  composite:  "fypm_composite",
+};
+
+// ── Linear regression helper ────────────────────────────────────────────────
 
 function linReg(points: { x: number; y: number }[]): { slope: number; intercept: number } | null {
   const n = points.length;
@@ -38,7 +63,7 @@ function linReg(points: { x: number; y: number }[]): { slope: number; intercept:
   return { slope, intercept };
 }
 
-// ── Colour helpers ─────────────────────────────────────────────────────────
+// ── Colour helpers ──────────────────────────────────────────────────────────
 
 function rColour(r: number): string {
   if (r > 0.3)  return "#22c55e";  // green
@@ -57,14 +82,16 @@ function fmt(v: number | null, digits = 2): string {
   return `${v >= 0 ? "+" : ""}${v.toFixed(digits)}`;
 }
 
-// ── Sub-components ─────────────────────────────────────────────────────────
+// ── Sub-components ──────────────────────────────────────────────────────────
 
 function CorrelationCard({
   label,
   stats,
+  active,
 }: {
   label: string;
   stats: FypmCorrelationStats;
+  active?: boolean;
 }) {
   const rows: { horizon: string; r: number; r2: number; n: number }[] = [
     { horizon: "30d",  r: stats.r30d,  r2: stats.r2_30d,  n: stats.n30d  },
@@ -73,14 +100,15 @@ function CorrelationCard({
   ];
   return (
     <div style={{
-      background: "var(--bg-surface)",
-      border: "1px solid var(--border-solid)",
+      background: active ? "rgba(59,130,246,0.08)" : "var(--bg-surface)",
+      border: active ? "1px solid var(--accent)" : "1px solid var(--border-solid)",
       borderRadius: 8,
       padding: "16px 20px",
       flex: "1 1 200px",
       minWidth: 200,
+      transition: "border-color 0.15s, background 0.15s",
     }}>
-      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
+      <div style={{ fontSize: 13, fontWeight: active ? 700 : 600, color: active ? "var(--accent)" : "var(--text-primary)", marginBottom: 12 }}>
         {label}
       </div>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
@@ -114,19 +142,21 @@ function CorrelationCard({
 function ScatterPlot({
   title,
   horizon,
+  variantLabel,
   dataPoints,
   fypmKey,
   returnKey,
 }: {
   title: string;
   horizon: string;
+  variantLabel: string;
   dataPoints: FypmDataPoint[];
-  fypmKey: keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate">;
+  fypmKey: keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite">;
   returnKey: keyof Pick<FypmDataPoint, "return_30d" | "return_90d" | "return_180d">;
 }) {
   const validPoints = dataPoints
-    .filter(p => p[returnKey] !== null)
-    .map(p => ({ x: p[fypmKey], y: p[returnKey] as number }));
+    .filter(p => p[returnKey] !== null && p[fypmKey] !== null)
+    .map(p => ({ x: p[fypmKey] as number, y: p[returnKey] as number }));
 
   // Subsample for rendering performance (max 1000 points)
   const step = Math.max(1, Math.floor(validPoints.length / 1000));
@@ -160,7 +190,7 @@ function ScatterPlot({
         {title}
       </div>
       <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>
-        Linear FYPM vs {horizon} return  ·  {plotPoints.length.toLocaleString()} points
+        {variantLabel} FYPM vs {horizon} return  ·  {plotPoints.length.toLocaleString()} points
       </div>
       <ResponsiveContainer width="100%" height={260}>
         <ComposedChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
@@ -237,9 +267,9 @@ function QuartileTable({
   };
 }) {
   const rows = [
-    { label: "Q1 (Lowest)", data: quartileGroup.q1 },
-    { label: "Q2",          data: quartileGroup.q2 },
-    { label: "Q3",          data: quartileGroup.q3 },
+    { label: "Q1 (Lowest)",  data: quartileGroup.q1 },
+    { label: "Q2",           data: quartileGroup.q2 },
+    { label: "Q3",           data: quartileGroup.q3 },
     { label: "Q4 (Highest)", data: quartileGroup.q4 },
   ];
   return (
@@ -290,7 +320,7 @@ function interpretR(r30: number, r90: number, r180: number): string {
   const sign = (r30 + r90 + r180) / 3 >= 0 ? "positive" : "negative";
 
   if (best >= 0.3 && sign === "positive") {
-    return `Strong positive correlation detected (r up to ${best.toFixed(3)}). Linear FYPM appears to be a meaningful predictor of future returns — stocks with higher FYPM scores tended to deliver meaningfully better returns across all horizons. This supports the FYPM hypothesis.`;
+    return `Strong positive correlation detected (r up to ${best.toFixed(3)}). FYPM appears to be a meaningful predictor of future returns — stocks with higher FYPM scores tended to deliver meaningfully better returns across all horizons. This supports the FYPM hypothesis.`;
   }
   if (best >= 0.15 && sign === "positive") {
     return `Moderate positive correlation detected (r up to ${best.toFixed(3)}). Higher FYPM scores are associated with modestly better returns. The relationship is real but not strong enough to use in isolation as a trading signal.`;
@@ -304,14 +334,53 @@ function interpretR(r30: number, r90: number, r180: number): string {
   return `Near-zero correlation detected (r up to ${best.toFixed(3)}). FYPM does not appear to have meaningful predictive power over the measured time horizon and universe. The data is consistent with FYPM being a valuation metric rather than a near-term return predictor.`;
 }
 
-// ── Main page component ────────────────────────────────────────────────────
+// ── Variant selector ────────────────────────────────────────────────────────
+
+function VariantSelector({
+  value,
+  onChange,
+}: {
+  value: Variant;
+  onChange: (v: Variant) => void;
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+      <label style={{ fontSize: 12, color: "var(--text-muted)" }}>Variant:</label>
+      {(["linear", "derivative", "rate", "composite"] as Variant[]).map(v => (
+        <button
+          key={v}
+          onClick={() => onChange(v)}
+          style={{
+            padding: "5px 13px",
+            borderRadius: 20,
+            border: "1px solid",
+            borderColor: value === v ? "var(--accent)" : "var(--border-solid)",
+            background: value === v ? "rgba(59,130,246,0.15)" : "transparent",
+            color: value === v ? "var(--accent)" : "var(--text-secondary)",
+            fontSize: 12,
+            fontWeight: value === v ? 600 : 400,
+            cursor: "pointer",
+          }}
+        >
+          {VARIANT_LABELS[v]}
+        </button>
+      ))}
+      <span style={{ fontSize: 12, color: "var(--text-muted)", fontStyle: "italic", marginLeft: 4 }}>
+        {VARIANT_DESCRIPTIONS[value]}
+      </span>
+    </div>
+  );
+}
+
+// ── Main page component ─────────────────────────────────────────────────────
 
 export default function FypmAnalysis() {
   const [result, setResult]   = useState<FypmAnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState<string | null>(null);
-  const [months, setMonths]   = useState(24);
+  const [months, setMonths]   = useState(36);
   const [elapsed, setElapsed] = useState<number | null>(null);
+  const [variant, setVariant] = useState<Variant>("linear");
 
   async function runAnalysis() {
     setLoading(true);
@@ -332,7 +401,8 @@ export default function FypmAnalysis() {
     }
   }
 
-  const linearCorr = result?.correlations.linear;
+  const activeCorr = result?.correlations[variant];
+  const fypmKey    = VARIANT_FYPM_KEY[variant];
 
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 0 60px" }}>
@@ -471,42 +541,57 @@ export default function FypmAnalysis() {
             Pearson Correlations (FYPM → Forward Return)
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
-            <CorrelationCard label="Linear FYPM"     stats={result.correlations.linear}     />
-            <CorrelationCard label="Derivative FYPM" stats={result.correlations.derivative} />
-            <CorrelationCard label="Rate FYPM"       stats={result.correlations.rate}       />
+            <CorrelationCard label="Linear FYPM"     stats={result.correlations.linear}     active={variant === "linear"}     />
+            <CorrelationCard label="Derivative FYPM" stats={result.correlations.derivative} active={variant === "derivative"} />
+            <CorrelationCard label="Rate FYPM"       stats={result.correlations.rate}       active={variant === "rate"}       />
+            <CorrelationCard label="Composite FYPM"  stats={result.correlations.composite}  active={variant === "composite"}  />
+          </div>
+
+          {/* ── Variant selector ── */}
+          <div style={{
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border-solid)",
+            borderRadius: 8,
+            padding: "14px 20px",
+            marginBottom: 20,
+          }}>
+            <VariantSelector value={variant} onChange={setVariant} />
           </div>
 
           {/* ── Scatter plots ── */}
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
-            Scatter Plots — Linear FYPM vs Forward Returns
+            Scatter Plots — {VARIANT_LABELS[variant]} FYPM vs Forward Returns
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
             <ScatterPlot
               title="30-Day Return"
               horizon="30d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.dataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_30d"
             />
             <ScatterPlot
               title="90-Day Return"
               horizon="90d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.dataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_90d"
             />
             <ScatterPlot
               title="180-Day Return"
               horizon="180d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.dataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_180d"
             />
           </div>
 
           {/* ── Quartile table ── */}
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
-            Quartile Breakdown — Linear FYPM
+            Quartile Breakdown — {VARIANT_LABELS[variant]} FYPM
           </h2>
           <div style={{
             background: "var(--bg-surface)",
@@ -515,11 +600,11 @@ export default function FypmAnalysis() {
             marginBottom: 28,
             overflow: "hidden",
           }}>
-            <QuartileTable quartileGroup={result.quartiles.linear} />
+            <QuartileTable quartileGroup={result.quartiles[variant]} />
           </div>
 
           {/* ── Interpretation ── */}
-          {linearCorr && (
+          {activeCorr && (
             <>
               <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
                 Interpretation
@@ -535,7 +620,7 @@ export default function FypmAnalysis() {
                 marginBottom: 28,
               }}>
                 <p style={{ margin: 0, marginBottom: 12 }}>
-                  {interpretR(linearCorr.r30d, linearCorr.r90d, linearCorr.r180d)}
+                  {interpretR(activeCorr.r30d, activeCorr.r90d, activeCorr.r180d)}
                 </p>
                 <p style={{ margin: 0, color: "var(--text-muted)", fontSize: 12 }}>
                   Note: Correlation is computed using current book values and dividend yields as approximations

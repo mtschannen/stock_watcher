@@ -109,6 +109,7 @@ export interface FypmDataPoint {
   fypm_linear: number;
   fypm_derivative: number;
   fypm_rate: number;
+  fypm_composite: number | null;
   return_30d: number | null;
   return_90d: number | null;
   return_180d: number | null;
@@ -143,11 +144,13 @@ export interface FypmAnalysisResult {
     linear: FypmCorrelationStats;
     derivative: FypmCorrelationStats;
     rate: FypmCorrelationStats;
+    composite: FypmCorrelationStats;
   };
   quartiles: {
     linear: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
     derivative: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
     rate: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+    composite: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
   };
   meta: {
     tickersAnalyzed: number;
