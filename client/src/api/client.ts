@@ -109,6 +109,10 @@ export interface FypmDataPoint {
   fypm_linear: number;
   fypm_derivative: number;
   fypm_rate: number;
+  fypm_cagr: number | null;
+  fypm_exponential: number | null;
+  fypm_recency_weighted: number | null;
+  fypm_conservative: number | null;
   fypm_composite: number | null;
   return_30d: number | null;
   return_90d: number | null;
@@ -138,19 +142,34 @@ export interface FypmQuartileStats {
   count: number;
 }
 
+export interface FypmQuartileGroup {
+  q1: FypmQuartileStats;
+  q2: FypmQuartileStats;
+  q3: FypmQuartileStats;
+  q4: FypmQuartileStats;
+}
+
 export interface FypmAnalysisResult {
-  dataPoints: FypmDataPoint[];
+  sampledDataPoints: FypmDataPoint[];
   correlations: {
     linear: FypmCorrelationStats;
     derivative: FypmCorrelationStats;
     rate: FypmCorrelationStats;
+    cagr: FypmCorrelationStats;
+    exponential: FypmCorrelationStats;
+    recency_weighted: FypmCorrelationStats;
+    conservative: FypmCorrelationStats;
     composite: FypmCorrelationStats;
   };
   quartiles: {
-    linear: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
-    derivative: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
-    rate: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
-    composite: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+    linear: FypmQuartileGroup;
+    derivative: FypmQuartileGroup;
+    rate: FypmQuartileGroup;
+    cagr: FypmQuartileGroup;
+    exponential: FypmQuartileGroup;
+    recency_weighted: FypmQuartileGroup;
+    conservative: FypmQuartileGroup;
+    composite: FypmQuartileGroup;
   };
   meta: {
     tickersAnalyzed: number;
@@ -159,8 +178,12 @@ export interface FypmAnalysisResult {
   };
 }
 
-export const getFypmBacktest = (months = 24, tickers: "all" | string = "all") =>
-  api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?months=${months}&tickers=${tickers}`);
+export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) => {
+  const params = new URLSearchParams();
+  params.set("months", String(months));
+  params.set("tickers", tickers);
+  return api.get<FypmAnalysisResult>(`/analysis/fypm-backtest?${params.toString()}`, { signal });
+};
 
 // Stocks (authenticated)
 export const createStock = (formData: FormData) =>

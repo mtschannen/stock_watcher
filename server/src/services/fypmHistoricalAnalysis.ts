@@ -1,11 +1,8 @@
-import YahooFinance from "yahoo-finance2";
 import { getCachedBookValueHistory } from "./alphaVantage";
 import { calculateFypm } from "./fypmCalculator";
 import { getFiveYearInterestRate } from "./fred";
-import { getQuotes } from "./yahooFinance";
+import { getQuotes, chart } from "./yahooFinance";
 import { SP500_TICKERS } from "../data/sp500Tickers";
-
-const yf = new YahooFinance({ suppressNotices: ["ripHistorical"] });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -67,7 +64,7 @@ export interface QuartileGroup {
 }
 
 export interface AnalysisResult {
-  dataPoints: DataPoint[];
+  sampledDataPoints: DataPoint[];
   correlations: {
     linear: CorrelationStats;
     derivative: CorrelationStats;
@@ -137,30 +134,60 @@ interface PriceBar {
   ts: number;
 }
 
+function binarySearchFirstAtOrAfter(
+  bars: PriceBar[],
+  startIdx: number,
+  targetTs: number
+): number {
+  let lo = startIdx;
+  let hi = bars.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (bars[mid].ts < targetTs) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+
 function findForwardReturn(
   bars: PriceBar[],
   fromIdx: number,
   daysAhead: number,
   fromPrice: number
 ): number | null {
-  const targetTs = bars[fromIdx].ts + daysAhead * 24 * 60 * 60 * 1000;
+  const millisPerDay = 24 * 60 * 60 * 1000;
+  const targetTs = bars[fromIdx].ts + daysAhead * millisPerDay;
+  const maxScanTs = targetTs + 7 * millisPerDay;
 
   let best: PriceBar | null = null;
   let bestDiff = Infinity;
 
-  for (let j = fromIdx + 1; j < bars.length; j++) {
-    const diff = Math.abs(bars[j].ts - targetTs);
+  const startSearchIdx = fromIdx + 1;
+  if (startSearchIdx >= bars.length) return null;
+
+  const idx = binarySearchFirstAtOrAfter(bars, startSearchIdx, targetTs);
+
+  const prevIdx = idx - 1;
+  if (prevIdx >= startSearchIdx) {
+    const prevBar = bars[prevIdx];
+    if (prevBar.ts <= maxScanTs) {
+      bestDiff = Math.abs(prevBar.ts - targetTs);
+      best = prevBar;
+    }
+  }
+
+  for (let j = idx; j < bars.length; j++) {
+    const bar = bars[j];
+    if (bar.ts > maxScanTs) break;
+    const diff = Math.abs(bar.ts - targetTs);
     if (diff < bestDiff) {
       bestDiff = diff;
-      best = bars[j];
+      best = bar;
     }
-    // Stop scanning once we've gone more than 7 calendar days past the target
-    if (bars[j].ts > targetTs + 7 * 24 * 60 * 60 * 1000) break;
   }
 
   if (!best) return null;
-  // Require the match to be within 10 calendar days of the target
-  if (bestDiff > 10 * 24 * 60 * 60 * 1000) return null;
+  if (bestDiff > 10 * millisPerDay) return null;
   return ((best.price - fromPrice) / fromPrice) * 100;
 }
 
@@ -208,7 +235,10 @@ function buildQuartileStatsByKey(
   const r90  = bucket.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
   const r180 = bucket.filter(p => p.return_180d !== null).map(p => p.return_180d!);
   return {
-    fypmRange: [Math.min(...fypmVals), Math.max(...fypmVals)],
+    fypmRange: [
+      fypmVals.reduce((m, v) => v < m ? v : m, Infinity),
+      fypmVals.reduce((m, v) => v > m ? v : m, -Infinity),
+    ],
     avg30d:    avg(r30),
     avg90d:    avg(r90),
     avg180d:   avg(r180),
@@ -239,7 +269,8 @@ function computeQuartileGroup(
 
 export async function runFypmBacktest(
   tickerParam: "all" | string[],
-  months: number
+  months: number,
+  signal?: AbortSignal
 ): Promise<AnalysisResult> {
   const universe = tickerParam === "all" ? SP500_TICKERS : tickerParam;
 
@@ -249,43 +280,61 @@ export async function runFypmBacktest(
   console.log(`[Analysis] Processing ${tickersWithData.length} tickers (${months} months lookback)...`);
 
   // 2. Batch-fetch current quotes for dividend yields
-  const quotes = await getQuotes(tickersWithData);
-  const quoteMap = new Map(quotes.map(q => [q.symbol, q]));
+  const QUOTE_BATCH_SIZE = 100;
+  const allQuotes: Awaited<ReturnType<typeof getQuotes>> = [];
+  for (let i = 0; i < tickersWithData.length; i += QUOTE_BATCH_SIZE) {
+    const batch = tickersWithData.slice(i, i + QUOTE_BATCH_SIZE);
+    try {
+      const batchQuotes = await getQuotes(batch);
+      if (batchQuotes && batchQuotes.length) {
+        allQuotes.push(...batchQuotes);
+      }
+    } catch (err) {
+      console.error(
+        `[Analysis] Failed to fetch quotes for batch ${Math.floor(i / QUOTE_BATCH_SIZE) + 1} (${batch.length} tickers):`,
+        err
+      );
+    }
+  }
+  const quoteMap = new Map(allQuotes.map(q => [q.symbol, q]));
 
   // 3. Single interest rate call
   const interestRate = await getFiveYearInterestRate();
 
   // 4. Date range setup
-  const startDate = new Date(Date.now() - months * 30 * 24 * 60 * 60 * 1000);
+  const startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - months);
   const now = Date.now();
   const cutoff180 = now - 180 * 24 * 60 * 60 * 1000;
 
   const allDataPoints: DataPoint[] = [];
+  const CONCURRENCY = 5;
 
-  // 5. Process each ticker
-  for (let ti = 0; ti < tickersWithData.length; ti++) {
-    const ticker = tickersWithData[ti];
+  // 5. Process tickers with concurrency limiting
+  let tickerIndex = 0;
+  let processedCount = 0;
 
-    if (ti > 0 && ti % 20 === 0) {
-      console.log(`[Analysis] Progress: ${ti}/${tickersWithData.length} tickers processed, ${allDataPoints.length} data points so far`);
-    }
-
+  async function processTicker(ticker: string): Promise<void> {
     try {
+      if (signal?.aborted) return;
+
       const bookValues = getCachedBookValueHistory(ticker);
-      if (!bookValues) continue;
+      if (!bookValues) return;
 
       const quote = quoteMap.get(ticker);
       const divYield = quote?.dividend_yield ?? 0;
 
       // Fetch full daily price history (not downsampled)
-      const result = await yf.chart(ticker, {
+      const result = await chart(ticker, {
         period1: startDate,
         period2: new Date(),
         interval: "1d",
       });
 
+      if (signal?.aborted) return;
+
       const rawQuotes = result.quotes ?? [];
-      if (rawQuotes.length < 30) continue;
+      if (rawQuotes.length < 30) return;
 
       // Build sorted price bar array
       const bars: PriceBar[] = rawQuotes
@@ -298,10 +347,12 @@ export async function runFypmBacktest(
         })
         .filter(b => b.price > 0);
 
-      if (bars.length < 30) continue;
+      if (bars.length < 30) return;
 
       // For each date with at least 180 days of future data
       for (let i = 0; i < bars.length; i++) {
+        if (signal?.aborted) return;
+
         const bar = bars[i];
 
         // Skip dates within the last 180 days (no 180d return possible)
@@ -346,6 +397,22 @@ export async function runFypmBacktest(
     }
   }
 
+  async function worker(): Promise<void> {
+    // JavaScript is single-threaded: tickerIndex++ is safe across concurrent async workers
+    while (tickerIndex < tickersWithData.length) {
+      if (signal?.aborted) break;
+      const idx = tickerIndex++;
+      const ticker = tickersWithData[idx];
+      await processTicker(ticker);
+      processedCount++;
+      if (processedCount % 20 === 0) {
+        console.log(`[Analysis] Progress: ${processedCount}/${tickersWithData.length} tickers processed, ${allDataPoints.length} data points so far`);
+      }
+    }
+  }
+
+  await Promise.allSettled(Array.from({ length: CONCURRENCY }, () => worker()));
+
   console.log(`[Analysis] Done. ${tickersWithData.length} tickers → ${allDataPoints.length} data points`);
 
   // 6. Compute correlations
@@ -372,11 +439,21 @@ export async function runFypmBacktest(
     conservative:     computeQuartileGroup(allDataPoints, "fypm_conservative"),
   };
 
-  // 8. Meta
+  // 8. Sample data points for the response (cap at 2000 to avoid huge payloads)
+  const MAX_RESPONSE_POINTS = 2000;
+  const sampledDataPoints: DataPoint[] =
+    allDataPoints.length <= MAX_RESPONSE_POINTS
+      ? allDataPoints
+      : Array.from(
+          { length: MAX_RESPONSE_POINTS },
+          (_, i) => allDataPoints[Math.floor((i * allDataPoints.length) / MAX_RESPONSE_POINTS)]
+        );
+
+  // 9. Meta
   const sortedDates = allDataPoints.map(d => d.date).sort();
 
   return {
-    dataPoints: allDataPoints,
+    sampledDataPoints,
     correlations,
     quartiles,
     meta: {

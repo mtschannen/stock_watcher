@@ -4,25 +4,39 @@ export interface FypmResult {
   derivative_fypm: number | "N/A";
   linear_fypm: number | "N/A";
   rate_fypm: number | "N/A";
+  composite_fypm: number | "N/A";
+  cagr_fypm: number | "N/A";
+  exponential_fypm: number | "N/A";
+  recency_weighted_fypm: number | "N/A";
+  conservative_fypm: number | "N/A";
 }
 
 export function calculateFypm(
   bookValues: BookValueData,
   dividendYield: number,
   price: number,
-  interestRate: number
+  interestRate: number,
+  _forwardEps?: number | null,
+  _dividendRate?: number | null
 ): FypmResult {
+  const na: FypmResult = {
+    derivative_fypm: "N/A",
+    linear_fypm: "N/A",
+    rate_fypm: "N/A",
+    composite_fypm: "N/A",
+    cagr_fypm: "N/A",
+    exponential_fypm: "N/A",
+    recency_weighted_fypm: "N/A",
+    conservative_fypm: "N/A",
+  };
+
   if (
     !bookValues.data ||
     bookValues.data.length < 5 ||
     price === 0 ||
     interestRate === 0
   ) {
-    return {
-      derivative_fypm: "N/A",
-      linear_fypm: "N/A",
-      rate_fypm: "N/A",
-    };
+    return na;
   }
 
   const fiveYearDivYield =
@@ -96,9 +110,99 @@ export function calculateFypm(
     (fiveYearBookValueYieldRate + fiveYearDivYield) /
     fiveYearInterestRateYield;
 
+  // ── CAGR method ──────────────────────────────────────────────────────────────
+  // Use compound annual growth rate of book value (4 periods from v1 to v5)
+  let cagrFypm: number | "N/A" = "N/A";
+  if (v1 > 0 && v5 > 0) {
+    const cagr = Math.pow(v5 / v1, 1 / 4) - 1;
+    const projectedBV = v5 * Math.pow(1 + cagr, 5);
+    const fiveYearBVAdded = projectedBV - v5;
+    const fiveYearBVYield = (fiveYearBVAdded / price) * 100;
+    cagrFypm = (fiveYearBVYield + fiveYearDivYield) / fiveYearInterestRateYield;
+  }
+
+  // ── Exponential regression method ────────────────────────────────────────────
+  // Fit ln(bv) = a + b*x, project 5 years forward
+  let exponentialFypm: number | "N/A" = "N/A";
+  if (v1 > 0 && v2 > 0 && v3 > 0 && v4 > 0 && v5 > 0) {
+    const lnVals = [
+      Math.log(v1),
+      Math.log(v2),
+      Math.log(v3),
+      Math.log(v4),
+      Math.log(v5),
+    ];
+    // xs = [0, 1, 2, 3, 4], n=5, sumX=10, sumX2=30
+    const sumLnY = lnVals.reduce((s, y) => s + y, 0);
+    const sumXLnY = lnVals.reduce((s, y, i) => s + i * y, 0);
+    const bExp = (5 * sumXLnY - 10 * sumLnY) / (5 * 30 - 10 ** 2);
+    const aExp = (sumLnY - bExp * 10) / 5;
+    // Project to x = 9 (5 years beyond x=4)
+    const projectedBV = Math.exp(aExp + bExp * 9);
+    const fiveYearBVAdded = projectedBV - v5;
+    const fiveYearBVYield = (fiveYearBVAdded / price) * 100;
+    exponentialFypm =
+      (fiveYearBVYield + fiveYearDivYield) / fiveYearInterestRateYield;
+  }
+
+  // ── Recency-weighted linear regression ───────────────────────────────────────
+  // Weights [1,2,3,4,5] give higher weight to more recent years
+  let recencyWeightedFypm: number | "N/A" = "N/A";
+  {
+    const ys = [v1, v2, v3, v4, v5];
+    const weights = [1, 2, 3, 4, 5];
+    let sumW = 0, sumWX = 0, sumWY = 0, sumWXX = 0, sumWXY = 0;
+    for (let i = 0; i < 5; i++) {
+      const w = weights[i];
+      sumW   += w;
+      sumWX  += w * i;
+      sumWY  += w * ys[i];
+      sumWXX += w * i * i;
+      sumWXY += w * i * ys[i];
+    }
+    const den = sumW * sumWXX - sumWX ** 2;
+    if (den !== 0) {
+      const bRec = (sumW * sumWXY - sumWX * sumWY) / den;
+      const aRec = (sumWY - bRec * sumWX) / sumW;
+      const projectedBV = aRec + bRec * 9; // 5 years beyond index 4
+      const fiveYearBVAdded = projectedBV - v5;
+      const fiveYearBVYield = (fiveYearBVAdded / price) * 100;
+      recencyWeightedFypm =
+        (fiveYearBVYield + fiveYearDivYield) / fiveYearInterestRateYield;
+    }
+  }
+
+  // ── Conservative method ───────────────────────────────────────────────────────
+  // Minimum of valid numeric methods (linear, CAGR, recency-weighted)
+  let conservativeFypm: number | "N/A" = "N/A";
+  {
+    const candidates: number[] = [linearFypm];
+    if (typeof cagrFypm === "number") candidates.push(cagrFypm);
+    if (typeof recencyWeightedFypm === "number") candidates.push(recencyWeightedFypm);
+    conservativeFypm = Math.min(...candidates);
+  }
+
+  // ── Composite method ──────────────────────────────────────────────────────────
+  // Average of all six base methods (excludes conservative to avoid circularity)
+  let compositeFypm: number | "N/A" = "N/A";
+  {
+    const vals: number[] = [derivativeFypm, linearFypm, rateFypm];
+    if (typeof cagrFypm === "number") vals.push(cagrFypm);
+    if (typeof exponentialFypm === "number") vals.push(exponentialFypm);
+    if (typeof recencyWeightedFypm === "number") vals.push(recencyWeightedFypm);
+    if (vals.length > 0) {
+      compositeFypm = vals.reduce((s, x) => s + x, 0) / vals.length;
+    }
+  }
+
   return {
     derivative_fypm: derivativeFypm,
     linear_fypm: linearFypm,
     rate_fypm: rateFypm,
+    composite_fypm: compositeFypm,
+    cagr_fypm: cagrFypm,
+    exponential_fypm: exponentialFypm,
+    recency_weighted_fypm: recencyWeightedFypm,
+    conservative_fypm: conservativeFypm,
   };
 }
