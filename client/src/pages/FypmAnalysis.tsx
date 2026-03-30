@@ -21,27 +21,41 @@ import {
 
 // ── Variant types & metadata ────────────────────────────────────────────────
 
-type Variant = "linear" | "derivative" | "rate" | "composite";
+type Variant = "linear" | "derivative" | "rate" | "composite" | "cagr" | "exponential" | "recency_weighted" | "conservative";
 
 const VARIANT_LABELS: Record<Variant, string> = {
-  linear:     "Linear",
-  derivative: "Derivative",
-  rate:       "Rate",
-  composite:  "Composite",
+  linear:           "Linear",
+  derivative:       "Derivative",
+  rate:             "Rate",
+  composite:        "Composite",
+  cagr:             "CAGR",
+  exponential:      "Exponential",
+  recency_weighted: "Recency-Wtd",
+  conservative:     "Conservative",
 };
 
 const VARIANT_DESCRIPTIONS: Record<Variant, string> = {
-  linear:     "Projects book value using a linear extrapolation of the 5-year level trend",
-  derivative: "Projects book value growth using the rate of change between annual periods",
-  rate:       "Projects book value using the slope of the growth trend",
-  composite:  "Average of Linear, Derivative, and Rate — reduces sensitivity to any single projection method",
+  linear:           "Projects book value using a linear extrapolation of the 5-year level trend",
+  derivative:       "Projects book value growth using the rate of change between annual periods",
+  rate:             "Projects book value using the slope of the growth trend",
+  composite:        "Average of Linear, Derivative, Rate, CAGR, Exponential, and Recency-Weighted variants",
+  cagr:             "Compound annual growth rate projection — assumes historical % growth continues exponentially",
+  exponential:      "Log-linear regression on BVPS — more appropriate for multiplicative growth patterns",
+  recency_weighted: "Weights recent years 5× more than oldest — emphasizes current trajectory over full history",
+  conservative:     "Takes the lower of linear and CAGR projections — margin-of-safety estimate",
 };
 
-const VARIANT_FYPM_KEY: Record<Variant, keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite">> = {
-  linear:     "fypm_linear",
-  derivative: "fypm_derivative",
-  rate:       "fypm_rate",
-  composite:  "fypm_composite",
+type FypmVariantKey = keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite" | "fypm_cagr" | "fypm_exponential" | "fypm_recency_weighted" | "fypm_conservative">;
+
+const VARIANT_FYPM_KEY: Record<Variant, FypmVariantKey> = {
+  linear:           "fypm_linear",
+  derivative:       "fypm_derivative",
+  rate:             "fypm_rate",
+  composite:        "fypm_composite",
+  cagr:             "fypm_cagr",
+  exponential:      "fypm_exponential",
+  recency_weighted: "fypm_recency_weighted",
+  conservative:     "fypm_conservative",
 };
 
 // ── Linear regression helper ────────────────────────────────────────────────
@@ -151,7 +165,7 @@ function ScatterPlot({
   horizon: string;
   variantLabel: string;
   dataPoints: FypmDataPoint[];
-  fypmKey: keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite">;
+  fypmKey: FypmVariantKey;
   returnKey: keyof Pick<FypmDataPoint, "return_30d" | "return_90d" | "return_180d">;
 }) {
   const validPoints = dataPoints
@@ -346,7 +360,7 @@ function VariantSelector({
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
       <label style={{ fontSize: 12, color: "var(--text-muted)" }}>Variant:</label>
-      {(["linear", "derivative", "rate", "composite"] as Variant[]).map(v => (
+      {(["linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite"] as Variant[]).map(v => (
         <button
           key={v}
           onClick={() => onChange(v)}
@@ -541,10 +555,9 @@ export default function FypmAnalysis() {
             Pearson Correlations (FYPM → Forward Return)
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
-            <CorrelationCard label="Linear FYPM"     stats={result.correlations.linear}     active={variant === "linear"}     />
-            <CorrelationCard label="Derivative FYPM" stats={result.correlations.derivative} active={variant === "derivative"} />
-            <CorrelationCard label="Rate FYPM"       stats={result.correlations.rate}       active={variant === "rate"}       />
-            <CorrelationCard label="Composite FYPM"  stats={result.correlations.composite}  active={variant === "composite"}  />
+            {(["linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite"] as Variant[]).map(v => (
+              <CorrelationCard key={v} label={`${VARIANT_LABELS[v]} FYPM`} stats={result.correlations[v]} active={variant === v} />
+            ))}
           </div>
 
           {/* ── Variant selector ── */}
