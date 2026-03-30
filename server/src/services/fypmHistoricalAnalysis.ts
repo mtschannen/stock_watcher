@@ -63,6 +63,35 @@ export interface QuartileGroup {
   q4: QuartileStats;
 }
 
+export interface ZScoreBucket {
+  label: string;
+  zMin: number;
+  zMax: number;
+  count: number;
+  avg30d: number | null;
+  avg90d: number | null;
+  avg180d: number | null;
+  median30d: number | null;
+  median90d: number | null;
+  median180d: number | null;
+}
+
+export interface TickerStickinessStats {
+  ticker: string;
+  mean: number;
+  std: number;
+  cv: number;
+  n: number;
+}
+
+export interface StickinessResult {
+  zScoreBuckets: ZScoreBucket[];
+  topSticky: TickerStickinessStats[];
+  topUnstable: TickerStickinessStats[];
+  medianCV: number;
+  fypmVariant: string;
+}
+
 export interface AnalysisResult {
   sampledDataPoints: DataPoint[];
   correlations: {
@@ -85,6 +114,7 @@ export interface AnalysisResult {
     recency_weighted: QuartileGroup;
     conservative: QuartileGroup;
   };
+  stickiness: StickinessResult;
   meta: {
     tickersAnalyzed: number;
     totalDataPoints: number;
@@ -263,6 +293,88 @@ function computeQuartileGroup(
     q3: buildQuartileStatsByKey(sorted.slice(q * 2,    q * 3), fypmKey),
     q4: buildQuartileStatsByKey(sorted.slice(q * 3),           fypmKey),
   };
+}
+
+// ── Stickiness computation ────────────────────────────────────────────────────
+
+function computeStickiness(points: DataPoint[], fypmKey: FypmKey): StickinessResult {
+  // Group data points by ticker and collect valid FYPM values
+  const byTicker = new Map<string, DataPoint[]>();
+  for (const p of points) {
+    const val = p[fypmKey];
+    if (val === null || val === undefined) continue;
+    if (!byTicker.has(p.ticker)) byTicker.set(p.ticker, []);
+    byTicker.get(p.ticker)!.push(p);
+  }
+
+  // Per-ticker mean and std
+  const tickerStats: TickerStickinessStats[] = [];
+  const tickerMeanStd = new Map<string, { mean: number; std: number }>();
+
+  for (const [ticker, pts] of byTicker) {
+    const vals = pts.map(p => p[fypmKey] as number);
+    const m = vals.reduce((s, v) => s + v, 0) / vals.length;
+    const variance = vals.reduce((s, v) => s + (v - m) ** 2, 0) / vals.length;
+    const std = Math.sqrt(variance);
+    const cv = std / Math.abs(m);
+    if (isFinite(cv) && isFinite(m) && isFinite(std)) {
+      tickerStats.push({ ticker, mean: m, std, cv, n: vals.length });
+      tickerMeanStd.set(ticker, { mean: m, std });
+    }
+  }
+
+  // Z-score bucket definitions
+  const bucketDefs = [
+    { label: "Very Low (< −2σ)",         zMin: -Infinity, zMax: -2  },
+    { label: "Low (−2σ to −1σ)",          zMin: -2,        zMax: -1  },
+    { label: "Below Mean (−1σ to 0)",     zMin: -1,        zMax:  0  },
+    { label: "Above Mean (0 to +1σ)",     zMin:  0,        zMax:  1  },
+    { label: "High (+1σ to +2σ)",         zMin:  1,        zMax:  2  },
+    { label: "Very High (> +2σ)",         zMin:  2,        zMax: Infinity },
+  ];
+  const bucketPoints: DataPoint[][] = bucketDefs.map(() => []);
+
+  for (const p of points) {
+    const val = p[fypmKey];
+    if (val === null || val === undefined) continue;
+    const ms = tickerMeanStd.get(p.ticker);
+    if (!ms || ms.std === 0) continue;
+    const z = ((val as number) - ms.mean) / ms.std;
+    for (let i = 0; i < bucketDefs.length; i++) {
+      if (z >= bucketDefs[i].zMin && z < bucketDefs[i].zMax) {
+        bucketPoints[i].push(p);
+        break;
+      }
+    }
+  }
+
+  const zScoreBuckets: ZScoreBucket[] = bucketDefs.map((def, i) => {
+    const pts = bucketPoints[i];
+    const r30  = pts.filter(p => p.return_30d  !== null).map(p => p.return_30d!);
+    const r90  = pts.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
+    const r180 = pts.filter(p => p.return_180d !== null).map(p => p.return_180d!);
+    return {
+      label:      def.label,
+      zMin:       def.zMin,
+      zMax:       def.zMax,
+      count:      pts.length,
+      avg30d:     avg(r30),
+      avg90d:     avg(r90),
+      avg180d:    avg(r180),
+      median30d:  median(r30),
+      median90d:  median(r90),
+      median180d: median(r180),
+    };
+  });
+
+  // CV distribution summary
+  const sorted = [...tickerStats].sort((a, b) => a.cv - b.cv);
+  const cvs = sorted.map(t => t.cv);
+  const medianCV = cvs.length > 0 ? cvs[Math.floor(cvs.length / 2)] : 0;
+  const topSticky   = sorted.slice(0, 10);
+  const topUnstable = sorted.slice(-10).reverse();
+
+  return { zScoreBuckets, topSticky, topUnstable, medianCV, fypmVariant: fypmKey };
 }
 
 // ── Main entry point ──────────────────────────────────────────────────────────
@@ -449,13 +561,17 @@ export async function runFypmBacktest(
           (_, i) => allDataPoints[Math.floor((i * allDataPoints.length) / MAX_RESPONSE_POINTS)]
         );
 
-  // 9. Meta
+  // 9. Stickiness (uses linear FYPM as the primary variant)
+  const stickiness = computeStickiness(allDataPoints, "fypm_linear");
+
+  // 10. Meta
   const sortedDates = allDataPoints.map(d => d.date).sort();
 
   return {
     sampledDataPoints,
     correlations,
     quartiles,
+    stickiness,
     meta: {
       tickersAnalyzed:  tickersWithData.length,
       totalDataPoints:  allDataPoints.length,
