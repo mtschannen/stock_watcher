@@ -16,6 +16,9 @@ import {
   FypmDataPoint,
   FypmCorrelationStats,
   FypmQuartileStats,
+  FypmZScoreBucket,
+  FypmTickerStickinessStats,
+  FypmStickinessResult,
 } from "../api/client";
 
 // ── Variant types & metadata ────────────────────────────────────────────────
@@ -326,6 +329,125 @@ function QuartileTable({
       </table>
     </div>
   );
+}
+
+// ── Stickiness sub-components ────────────────────────────────────────────────
+
+function ZScoreBucketTable({ buckets }: { buckets: FypmZScoreBucket[] }) {
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid var(--border-solid)" }}>
+            {["FYPM vs Own Mean", "Observations", "Avg 30d Return", "Avg 90d Return", "Avg 180d Return"].map(h => (
+              <th key={h} style={{
+                textAlign: h === "FYPM vs Own Mean" ? "left" : "right",
+                padding: "8px 12px",
+                color: "var(--text-muted)",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {buckets.map(b => (
+            <tr key={b.label} style={{ borderBottom: "1px solid var(--border-solid)" }}>
+              <td style={{ padding: "10px 12px", color: "var(--text-primary)", fontWeight: 500 }}>
+                {b.label}
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", color: "var(--text-muted)" }}>
+                {b.count.toLocaleString()}
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg30d) }}>
+                {fmt(b.avg30d)}%
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg90d) }}>
+                {fmt(b.avg90d)}%
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg180d) }}>
+                {fmt(b.avg180d)}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CVTable({
+  tickers,
+  label,
+}: {
+  tickers: FypmTickerStickinessStats[];
+  label: string;
+}) {
+  return (
+    <div style={{ flex: "1 1 300px", minWidth: 280 }}>
+      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 10 }}>{label}</div>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid var(--border-solid)" }}>
+            {["Ticker", "Mean FYPM", "Std Dev", "CV"].map(h => (
+              <th key={h} style={{
+                textAlign: h === "Ticker" ? "left" : "right",
+                padding: "6px 8px",
+                color: "var(--text-muted)",
+                fontWeight: 500,
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tickers.map(t => (
+            <tr key={t.ticker} style={{ borderBottom: "1px solid var(--border-solid)" }}>
+              <td style={{ padding: "6px 8px", fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--text-primary)" }}>
+                {t.ticker}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+                {t.mean.toFixed(2)}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+                {t.std.toFixed(3)}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: t.cv < 0.15 ? "var(--green,#22c55e)" : t.cv > 0.4 ? "#ef4444" : "var(--text-secondary)" }}>
+                {(t.cv * 100).toFixed(1)}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function interpretStickiness(stickiness: FypmStickinessResult): string {
+  const buckets = stickiness.zScoreBuckets;
+  const veryLow  = buckets[0];
+  const veryHigh = buckets[5];
+
+  const meanReversionEvidence =
+    veryLow.avg180d !== null && veryHigh.avg180d !== null &&
+    veryLow.avg180d > 0 && veryHigh.avg180d < 0;
+
+  const cv = stickiness.medianCV;
+  const cvStr = (cv * 100).toFixed(1);
+
+  let base = `Median coefficient of variation across tickers: ${cvStr}%. `;
+  base += cv < 0.2
+    ? "FYPM is generally sticky — most stocks maintain a relatively narrow FYPM range over time. "
+    : cv < 0.4
+    ? "FYPM shows moderate variability — stocks drift meaningfully from their typical range but don't swing wildly. "
+    : "FYPM shows high variability — stocks frequently move far from their typical range, suggesting FYPM is sensitive to price swings. ";
+
+  if (meanReversionEvidence) {
+    base += `Mean reversion signal detected: when a stock's FYPM is very low relative to its own history (< −2σ), the 180-day avg return was ${fmt(veryLow.avg180d)}%, while very high FYPM (> +2σ) preceded avg returns of ${fmt(veryHigh.avg180d)}%. This pattern is consistent with price reverting toward a mean FYPM level.`;
+  } else {
+    base += "No strong mean-reversion pattern detected in this dataset — FYPM deviations from a stock's own mean did not clearly predict subsequent price reversals.";
+  }
+
+  return base;
 }
 
 function interpretR(r30: number, r90: number, r180: number): string {
@@ -650,6 +772,102 @@ export default function FypmAnalysis() {
           }}>
             <QuartileTable quartileGroup={result.quartiles[variant]} />
           </div>
+
+          {/* ── FYPM Stickiness ── */}
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>
+              FYPM Stickiness &amp; Mean Reversion
+            </h2>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 14, lineHeight: 1.6, maxWidth: 800 }}>
+              For each stock, its <em>own</em> historical FYPM mean and standard deviation are computed. Each
+              observation is then placed in a z-score bucket relative to that stock's baseline. If FYPM is "sticky"
+              and mean-reverting, you would expect: observations where FYPM is very low (cheap vs. own history) to
+              be followed by positive returns, and very high FYPM (expensive) to precede below-average returns.
+              Z-scores use the <strong>Linear FYPM</strong> variant.
+            </p>
+
+            {/* Z-score bucket table */}
+            <div style={{
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-solid)",
+              borderRadius: 8,
+              marginBottom: 20,
+              overflow: "hidden",
+            }}>
+              <ZScoreBucketTable buckets={result.stickiness.zScoreBuckets} />
+            </div>
+
+            {/* CV summary + top/bottom tickers */}
+            <div style={{
+              display: "flex",
+              gap: 20,
+              marginBottom: 20,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}>
+              {/* Median CV badge */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                minWidth: 200,
+                flex: "0 0 auto",
+              }}>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>Median CV (all tickers)</div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 700,
+                  fontFamily: "var(--font-mono)",
+                  color: result.stickiness.medianCV < 0.2 ? "var(--green,#22c55e)" : result.stickiness.medianCV > 0.4 ? "#ef4444" : "#f59e0b",
+                }}>
+                  {(result.stickiness.medianCV * 100).toFixed(1)}%
+                </div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
+                  {result.stickiness.medianCV < 0.2 ? "Low — FYPM is sticky" : result.stickiness.medianCV < 0.4 ? "Moderate variability" : "High — FYPM is volatile"}
+                </div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5 }}>
+                  CV = std / |mean|. Lower means the stock's FYPM stays close to its own average — a "sticky" value.
+                </div>
+              </div>
+
+              {/* Most stable */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                flex: "1 1 280px",
+              }}>
+                <CVTable tickers={result.stickiness.topSticky} label="Most Stable FYPM (lowest CV)" />
+              </div>
+
+              {/* Most variable */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                flex: "1 1 280px",
+              }}>
+                <CVTable tickers={result.stickiness.topUnstable} label="Most Variable FYPM (highest CV)" />
+              </div>
+            </div>
+
+            {/* Stickiness interpretation */}
+            <div style={{
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-solid)",
+              borderRadius: 8,
+              padding: "16px 20px",
+              fontSize: 13,
+              color: "var(--text-secondary)",
+              lineHeight: 1.7,
+              marginBottom: 28,
+            }}>
+              {interpretStickiness(result.stickiness)}
+            </div>
+          </>
 
           {/* ── Interpretation ── */}
           {activeCorr && (

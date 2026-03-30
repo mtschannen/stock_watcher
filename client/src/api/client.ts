@@ -81,6 +81,8 @@ export const getMarketInfo = (ticker: string) =>
   api.get<MarketInfo>(`/market/${ticker}/info`);
 export const getMarketGraph = (ticker: string, months: number) =>
   api.get<HistoricalPoint[]>(`/market/${ticker}/graph?num_months=${months}`);
+export const getFypmTickerStats = (ticker: string, months = 24) =>
+  api.get<FypmTickerStats>(`/market/${ticker}/fypm-stats?months=${months}`);
 
 // Ticker tape
 export const getTickerTape = () => api.get<TickerItem[]>("/stocks/ticker/tape");
@@ -149,6 +151,35 @@ export interface FypmQuartileGroup {
   q4: FypmQuartileStats;
 }
 
+export interface FypmZScoreBucket {
+  label: string;
+  zMin: number;
+  zMax: number;
+  count: number;
+  avg30d: number | null;
+  avg90d: number | null;
+  avg180d: number | null;
+  median30d: number | null;
+  median90d: number | null;
+  median180d: number | null;
+}
+
+export interface FypmTickerStickinessStats {
+  ticker: string;
+  mean: number;
+  std: number;
+  cv: number;
+  n: number;
+}
+
+export interface FypmStickinessResult {
+  zScoreBuckets: FypmZScoreBucket[];
+  topSticky: FypmTickerStickinessStats[];
+  topUnstable: FypmTickerStickinessStats[];
+  medianCV: number;
+  fypmVariant: string;
+}
+
 export interface FypmAnalysisResult {
   sampledDataPoints: FypmDataPoint[];
   correlations: {
@@ -171,11 +202,27 @@ export interface FypmAnalysisResult {
     conservative: FypmQuartileGroup;
     composite: FypmQuartileGroup;
   };
+  stickiness: FypmStickinessResult;
   meta: {
     tickersAnalyzed: number;
     totalDataPoints: number;
     dateRange: { start: string; end: string };
   };
+}
+
+export interface FypmTickerStats {
+  ticker: string;
+  variant: string;
+  mean: number;
+  std: number;
+  cv: number;
+  currentFypm: number | null;
+  zScore: number | null;
+  percentile: number | null;
+  historicalMin: number;
+  historicalMax: number;
+  dataPoints: number;
+  lookbackMonths: number;
 }
 
 export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) => {
