@@ -81,8 +81,8 @@ export const getMarketInfo = (ticker: string) =>
   api.get<MarketInfo>(`/market/${ticker}/info`);
 export const getMarketGraph = (ticker: string, months: number) =>
   api.get<HistoricalPoint[]>(`/market/${ticker}/graph?num_months=${months}`);
-export const getFypmTickerStats = (ticker: string, months = 24) =>
-  api.get<FypmTickerStats>(`/market/${ticker}/fypm-stats?months=${months}`);
+export const getFypmTickerStats = (ticker: string, months = 24, signal?: AbortSignal) =>
+  api.get<FypmTickerStats>(`/market/${ticker}/fypm-stats?months=${months}`, { signal });
 
 // Ticker tape
 export const getTickerTape = () => api.get<TickerItem[]>("/stocks/ticker/tape");

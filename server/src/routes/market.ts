@@ -174,13 +174,13 @@ router.get("/:ticker/fypm-stats", async (req: Request, res: Response) => {
 
     const [data, bookValues, interestRate, quotes] = await Promise.all([
       getHistoricalData(ticker, months),
-      getBookValueHistory(ticker),
+      Promise.resolve(getCachedBookValueHistory(ticker)),
       getFiveYearInterestRate(),
       getQuotes([ticker]),
     ]);
 
     if (!data.length || !bookValues) {
-      return res.status(404).json({ error: "Insufficient data for FYPM stats" });
+      return res.status(503).json({ error: "Book value data not yet cached for this ticker; please try again once data has been loaded" });
     }
 
     const dividendYield = quotes[0]?.dividend_yield ?? 0;
@@ -202,7 +202,13 @@ router.get("/:ticker/fypm-stats", async (req: Request, res: Response) => {
     const mean     = fypmSeries.reduce((s, v) => s + v, 0) / fypmSeries.length;
     const variance = fypmSeries.reduce((s, v) => s + (v - mean) ** 2, 0) / fypmSeries.length;
     const std      = Math.sqrt(variance);
-    const cv       = std / Math.abs(mean);
+    let cv = 0;
+    if (mean !== 0) {
+      const rawCv = std / Math.abs(mean);
+      if (Number.isFinite(rawCv)) {
+        cv = rawCv;
+      }
+    }
 
     let currentFypm: number | null = null;
     if (currentPrice > 0) {

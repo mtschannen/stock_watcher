@@ -298,27 +298,38 @@ function computeQuartileGroup(
 // ── Stickiness computation ────────────────────────────────────────────────────
 
 function computeStickiness(points: DataPoint[], fypmKey: FypmKey): StickinessResult {
-  // Group data points by ticker and collect valid FYPM values
-  const byTicker = new Map<string, DataPoint[]>();
+  // Per-ticker online (streaming) statistics using Welford's algorithm — avoids storing per-ticker arrays
+  const tickerAgg = new Map<string, { count: number; mean: number; M2: number }>();
+
   for (const p of points) {
     const val = p[fypmKey];
     if (val === null || val === undefined) continue;
-    if (!byTicker.has(p.ticker)) byTicker.set(p.ticker, []);
-    byTicker.get(p.ticker)!.push(p);
+
+    const x = val as number;
+    let agg = tickerAgg.get(p.ticker);
+    if (!agg) {
+      agg = { count: 0, mean: 0, M2: 0 };
+      tickerAgg.set(p.ticker, agg);
+    }
+
+    agg.count += 1;
+    const delta = x - agg.mean;
+    agg.mean += delta / agg.count;
+    const delta2 = x - agg.mean;
+    agg.M2 += delta * delta2;
   }
 
-  // Per-ticker mean and std
+  // Per-ticker mean and std derived from online aggregates
   const tickerStats: TickerStickinessStats[] = [];
   const tickerMeanStd = new Map<string, { mean: number; std: number }>();
 
-  for (const [ticker, pts] of byTicker) {
-    const vals = pts.map(p => p[fypmKey] as number);
-    const m = vals.reduce((s, v) => s + v, 0) / vals.length;
-    const variance = vals.reduce((s, v) => s + (v - m) ** 2, 0) / vals.length;
+  for (const [ticker, agg] of tickerAgg) {
+    const m = agg.mean;
+    const variance = agg.M2 / agg.count;
     const std = Math.sqrt(variance);
     const cv = std / Math.abs(m);
     if (isFinite(cv) && isFinite(m) && isFinite(std)) {
-      tickerStats.push({ ticker, mean: m, std, cv, n: vals.length });
+      tickerStats.push({ ticker, mean: m, std, cv, n: agg.count });
       tickerMeanStd.set(ticker, { mean: m, std });
     }
   }
@@ -338,8 +349,12 @@ function computeStickiness(points: DataPoint[], fypmKey: FypmKey): StickinessRes
     const val = p[fypmKey];
     if (val === null || val === undefined) continue;
     const ms = tickerMeanStd.get(p.ticker);
-    if (!ms || ms.std === 0) continue;
-    const z = ((val as number) - ms.mean) / ms.std;
+    if (!ms) continue;
+    // If std is 0 (perfectly stable for this FYPM variant), treat all observations as z = 0
+    const z =
+      ms.std === 0
+        ? 0
+        : ((val as number) - ms.mean) / ms.std;
     for (let i = 0; i < bucketDefs.length; i++) {
       if (z >= bucketDefs[i].zMin && z < bucketDefs[i].zMax) {
         bucketPoints[i].push(p);

@@ -4,6 +4,17 @@ import { getMarketInfo, getFypmTickerStats, MarketInfo, FypmTickerStats } from "
 import StockChart from "../components/StockChart";
 import LoadingSpinner from "../components/LoadingSpinner";
 
+function ordinalSuffix(n: number): string {
+  const v = n % 100;
+  if (v >= 11 && v <= 13) return n + "th";
+  switch (n % 10) {
+    case 1: return n + "st";
+    case 2: return n + "nd";
+    case 3: return n + "rd";
+    default: return n + "th";
+  }
+}
+
 function zScoreColor(z: number | null): string {
   if (z === null) return "var(--text-secondary)";
   if (z > 1.5)  return "#ef4444";   // well above mean → expensive
@@ -49,10 +60,14 @@ export default function StockDetail() {
     fetchInfo();
     intervalRef.current = setInterval(fetchInfo, 15000);
     // Fetch FYPM stats once (not on interval — slow endpoint)
-    getFypmTickerStats(symbol, 24)
+    const controller = new AbortController();
+    getFypmTickerStats(symbol, 24, controller.signal)
       .then(r => setFypmStats(r.data))
       .catch(() => {/* no FYPM data available */});
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      controller.abort();
+    };
   }, [symbol]);
 
   const isUp = (info?.quote.change ?? 0) >= 0;
@@ -228,7 +243,7 @@ export default function StockDetail() {
             <div className="stat-tile">
               <div className="stat-label">Percentile</div>
               <div className="stat-value" style={{ fontSize: 20 }}>
-                {fypmStats.percentile !== null ? fypmStats.percentile.toFixed(0) + "th" : "N/A"}
+                {fypmStats.percentile !== null ? ordinalSuffix(Math.round(fypmStats.percentile)) : "N/A"}
               </div>
               <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
                 vs own 2yr history
