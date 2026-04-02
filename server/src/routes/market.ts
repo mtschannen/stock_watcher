@@ -179,7 +179,11 @@ router.get("/:ticker/fypm-stats", async (req: Request, res: Response) => {
       getQuotes([ticker]),
     ]);
 
-    if (!data.length || !bookValues) {
+    if (!data.length) {
+      return res.status(404).json({ error: "No historical price data found for this ticker" });
+    }
+
+    if (!bookValues) {
       return res.status(503).json({ error: "Book value data not yet cached for this ticker; please try again once data has been loaded" });
     }
 

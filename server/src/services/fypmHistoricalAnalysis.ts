@@ -385,7 +385,7 @@ function computeStickiness(points: DataPoint[], fypmKey: FypmKey): StickinessRes
   // CV distribution summary
   const sorted = [...tickerStats].sort((a, b) => a.cv - b.cv);
   const cvs = sorted.map(t => t.cv);
-  const medianCV = cvs.length > 0 ? cvs[Math.floor(cvs.length / 2)] : 0;
+  const medianCV = median(cvs) ?? 0;
   const topSticky   = sorted.slice(0, 10);
   const topUnstable = sorted.slice(-10).reverse();
 

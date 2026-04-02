@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { requireAuth } from "../middleware/auth";
 import { runFypmBacktest, AnalysisResult } from "../services/fypmHistoricalAnalysis";
 
 const router = Router();
@@ -33,7 +34,7 @@ const REQUEST_TIMEOUT_MS = 5 * 60 * 1000;
  *   months  — number (default 24, max 36)
  *   tickers — "all" | comma-separated list  (default "all")
  */
-router.get("/fypm-backtest", async (req: Request, res: Response) => {
+router.get("/fypm-backtest", requireAuth, async (req: Request, res: Response) => {
   const months = Math.min(36, Math.max(1, parseInt(String(req.query.months ?? "24")) || 24));
 
   const tickersParam = req.query.tickers;
