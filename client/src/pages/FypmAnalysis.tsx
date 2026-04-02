@@ -44,7 +44,7 @@ const VARIANT_DESCRIPTIONS: Record<Variant, string> = {
   cagr:             "Compound annual growth rate projection — assumes historical % growth continues exponentially",
   exponential:      "Log-linear regression on BVPS — more appropriate for multiplicative growth patterns",
   recency_weighted: "Weights recent years 5× more than oldest — emphasizes current trajectory over full history",
-  conservative:     "Takes the lower of linear and CAGR projections — margin-of-safety estimate",
+  conservative:     "Uses the minimum of Linear, CAGR, and Recency-Weighted projections (when available) — margin-of-safety estimate",
 };
 
 type FypmVariantKey = keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite" | "fypm_cagr" | "fypm_exponential" | "fypm_recency_weighted" | "fypm_conservative">;
@@ -59,6 +59,10 @@ const VARIANT_FYPM_KEY: Record<Variant, FypmVariantKey> = {
   recency_weighted: "fypm_recency_weighted",
   conservative:     "fypm_conservative",
 };
+
+const VARIANT_ORDER: Variant[] = [
+  "linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite",
+];
 
 // ── Linear regression helper ────────────────────────────────────────────────
 
@@ -481,7 +485,7 @@ function VariantSelector({
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
       <label style={{ fontSize: 12, color: "var(--text-muted)" }}>Variant:</label>
-      {(["linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite"] as Variant[]).map(v => (
+      {VARIANT_ORDER.map(v => (
         <button
           key={v}
           onClick={() => onChange(v)}
@@ -513,7 +517,7 @@ export default function FypmAnalysis() {
   const [result, setResult]   = useState<FypmAnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState<string | null>(null);
-  const [months, setMonths]   = useState(36);
+  const [months, setMonths]   = useState(24);
   const [elapsed, setElapsed] = useState<number | null>(null);
   const [variant, setVariant] = useState<Variant>("linear");
   const abortControllerRef    = useRef<AbortController | null>(null);
@@ -712,7 +716,7 @@ export default function FypmAnalysis() {
             Pearson Correlations (FYPM → Forward Return)
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
-            {(["linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite"] as Variant[]).map(v => (
+            {VARIANT_ORDER.map(v => (
               <CorrelationCard key={v} label={`${VARIANT_LABELS[v]} FYPM`} stats={result.correlations[v]} active={variant === v} />
             ))}
           </div>

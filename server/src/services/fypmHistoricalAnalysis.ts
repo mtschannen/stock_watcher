@@ -6,15 +6,7 @@ import { SP500_TICKERS } from "../data/sp500Tickers";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type FypmKey =
-  | "fypm_linear"
-  | "fypm_derivative"
-  | "fypm_rate"
-  | "fypm_composite"
-  | "fypm_cagr"
-  | "fypm_exponential"
-  | "fypm_recency_weighted"
-  | "fypm_conservative";
+type FypmKey = Extract<keyof DataPoint, `fypm_${string}`>;
 
 export interface DataPoint {
   ticker: string;
