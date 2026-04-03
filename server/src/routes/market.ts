@@ -164,6 +164,89 @@ router.get("/quotes", async (_req: Request, res: Response) => {
   }
 });
 
+// GET /api/market/:ticker/fypm-stats?months=24
+// Returns per-ticker FYPM historical statistics (mean, std, z-score of current value).
+// Used by the stock detail page to show FYPM stickiness / mean-reversion context.
+router.get("/:ticker/fypm-stats", async (req: Request, res: Response) => {
+  try {
+    const ticker = req.params.ticker.toUpperCase();
+    const months = Math.min(36, Math.max(3, parseInt(String(req.query.months ?? "24")) || 24));
+
+    const [data, bookValues, interestRate, quotes] = await Promise.all([
+      getHistoricalData(ticker, months),
+      Promise.resolve(getCachedBookValueHistory(ticker)),
+      getFiveYearInterestRate(),
+      getQuotes([ticker]),
+    ]);
+
+    if (!data.length) {
+      return res.status(404).json({ error: "No historical price data found for this ticker" });
+    }
+
+    if (!bookValues) {
+      return res.status(503).json({ error: "Book value data not yet cached for this ticker; please try again once data has been loaded" });
+    }
+
+    const dividendYield = quotes[0]?.dividend_yield ?? 0;
+    const currentPrice  = quotes[0]?.last_trade_price ?? 0;
+
+    // Build historical linear FYPM series
+    const fypmSeries: number[] = [];
+    for (const d of data) {
+      const fypm = calculateFypm(bookValues, dividendYield, d.adjClose, interestRate);
+      if (typeof fypm.linear_fypm === "number") {
+        fypmSeries.push(fypm.linear_fypm);
+      }
+    }
+
+    if (fypmSeries.length < 5) {
+      return res.status(404).json({ error: "Insufficient FYPM history" });
+    }
+
+    const mean     = fypmSeries.reduce((s, v) => s + v, 0) / fypmSeries.length;
+    const variance = fypmSeries.reduce((s, v) => s + (v - mean) ** 2, 0) / fypmSeries.length;
+    const std      = Math.sqrt(variance);
+    let cv = 0;
+    if (mean !== 0) {
+      const rawCv = std / Math.abs(mean);
+      if (Number.isFinite(rawCv)) {
+        cv = rawCv;
+      }
+    }
+
+    let currentFypm: number | null = null;
+    if (currentPrice > 0) {
+      const f = calculateFypm(bookValues, dividendYield, currentPrice, interestRate);
+      if (typeof f.linear_fypm === "number") currentFypm = f.linear_fypm;
+    }
+
+    const zScore     = currentFypm !== null && std > 0 ? (currentFypm - mean) / std : null;
+    const below      = currentFypm !== null ? fypmSeries.filter(v => v <= currentFypm!).length : null;
+    const percentile = below !== null ? (below / fypmSeries.length) * 100 : null;
+
+    const histMin = fypmSeries.reduce((m, v) => v < m ? v : m, Infinity);
+    const histMax = fypmSeries.reduce((m, v) => v > m ? v : m, -Infinity);
+
+    res.json({
+      ticker,
+      variant:      "linear",
+      mean:         +mean.toFixed(3),
+      std:          +std.toFixed(3),
+      cv:           +cv.toFixed(3),
+      currentFypm:  currentFypm !== null ? +currentFypm.toFixed(3) : null,
+      zScore:       zScore     !== null ? +zScore.toFixed(2)      : null,
+      percentile:   percentile !== null ? +percentile.toFixed(1)  : null,
+      historicalMin: +histMin.toFixed(3),
+      historicalMax: +histMax.toFixed(3),
+      dataPoints:   fypmSeries.length,
+      lookbackMonths: months,
+    });
+  } catch (err) {
+    console.error("Error computing FYPM stats:", err);
+    res.status(500).json({ error: "Failed to compute FYPM stats" });
+  }
+});
+
 // GET /api/market/:ticker/info — quote + FYPM for a specific ticker
 router.get("/:ticker/info", async (req: Request, res: Response) => {
   try {

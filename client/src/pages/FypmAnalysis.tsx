@@ -16,9 +16,55 @@ import {
   FypmDataPoint,
   FypmCorrelationStats,
   FypmQuartileStats,
+  FypmZScoreBucket,
+  FypmTickerStickinessStats,
+  FypmStickinessResult,
 } from "../api/client";
 
-// ── Linear regression helper ───────────────────────────────────────────────
+// ── Variant types & metadata ────────────────────────────────────────────────
+
+type Variant = "linear" | "derivative" | "rate" | "composite" | "cagr" | "exponential" | "recency_weighted" | "conservative";
+
+const VARIANT_LABELS: Record<Variant, string> = {
+  linear:           "Linear",
+  derivative:       "Derivative",
+  rate:             "Rate",
+  composite:        "Composite",
+  cagr:             "CAGR",
+  exponential:      "Exponential",
+  recency_weighted: "Recency-Wtd",
+  conservative:     "Conservative",
+};
+
+const VARIANT_DESCRIPTIONS: Record<Variant, string> = {
+  linear:           "Projects book value using a linear extrapolation of the 5-year level trend",
+  derivative:       "Projects book value growth using the rate of change between annual periods",
+  rate:             "Projects book value using the slope of the growth trend",
+  composite:        "Average of Linear, Derivative, Rate, CAGR, Exponential, and Recency-Weighted variants",
+  cagr:             "Compound annual growth rate projection — assumes historical % growth continues exponentially",
+  exponential:      "Log-linear regression on BVPS — more appropriate for multiplicative growth patterns",
+  recency_weighted: "Weights recent years 5× more than oldest — emphasizes current trajectory over full history",
+  conservative:     "Uses the minimum of Linear, CAGR, and Recency-Weighted projections (when available) — margin-of-safety estimate",
+};
+
+type FypmVariantKey = keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate" | "fypm_composite" | "fypm_cagr" | "fypm_exponential" | "fypm_recency_weighted" | "fypm_conservative">;
+
+const VARIANT_FYPM_KEY: Record<Variant, FypmVariantKey> = {
+  linear:           "fypm_linear",
+  derivative:       "fypm_derivative",
+  rate:             "fypm_rate",
+  composite:        "fypm_composite",
+  cagr:             "fypm_cagr",
+  exponential:      "fypm_exponential",
+  recency_weighted: "fypm_recency_weighted",
+  conservative:     "fypm_conservative",
+};
+
+const VARIANT_ORDER: Variant[] = [
+  "linear", "derivative", "rate", "cagr", "exponential", "recency_weighted", "conservative", "composite",
+];
+
+// ── Linear regression helper ────────────────────────────────────────────────
 
 function linReg(points: { x: number; y: number }[]): { slope: number; intercept: number } | null {
   const n = points.length;
@@ -37,7 +83,7 @@ function linReg(points: { x: number; y: number }[]): { slope: number; intercept:
   return { slope, intercept };
 }
 
-// ── Colour helpers ─────────────────────────────────────────────────────────
+// ── Colour helpers ──────────────────────────────────────────────────────────
 
 function rColour(r: number): string {
   if (r > 0.3)  return "#22c55e";  // green
@@ -56,14 +102,16 @@ function fmt(v: number | null, digits = 2): string {
   return `${v >= 0 ? "+" : ""}${v.toFixed(digits)}`;
 }
 
-// ── Sub-components ─────────────────────────────────────────────────────────
+// ── Sub-components ──────────────────────────────────────────────────────────
 
 function CorrelationCard({
   label,
   stats,
+  active,
 }: {
   label: string;
   stats: FypmCorrelationStats;
+  active?: boolean;
 }) {
   const rows: { horizon: string; r: number; r2: number; n: number }[] = [
     { horizon: "30d",  r: stats.r30d,  r2: stats.r2_30d,  n: stats.n30d  },
@@ -72,14 +120,15 @@ function CorrelationCard({
   ];
   return (
     <div style={{
-      background: "var(--bg-surface)",
-      border: "1px solid var(--border-solid)",
+      background: active ? "rgba(59,130,246,0.08)" : "var(--bg-surface)",
+      border: active ? "1px solid var(--accent)" : "1px solid var(--border-solid)",
       borderRadius: 8,
       padding: "16px 20px",
       flex: "1 1 200px",
       minWidth: 200,
+      transition: "border-color 0.15s, background 0.15s",
     }}>
-      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
+      <div style={{ fontSize: 13, fontWeight: active ? 700 : 600, color: active ? "var(--accent)" : "var(--text-primary)", marginBottom: 12 }}>
         {label}
       </div>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
@@ -113,19 +162,21 @@ function CorrelationCard({
 function ScatterPlot({
   title,
   horizon,
+  variantLabel,
   dataPoints,
   fypmKey,
   returnKey,
 }: {
   title: string;
   horizon: string;
+  variantLabel: string;
   dataPoints: FypmDataPoint[];
-  fypmKey: keyof Pick<FypmDataPoint, "fypm_linear" | "fypm_derivative" | "fypm_rate">;
+  fypmKey: FypmVariantKey;
   returnKey: keyof Pick<FypmDataPoint, "return_30d" | "return_90d" | "return_180d">;
 }) {
   const validPoints = dataPoints
-    .filter(p => p[returnKey] !== null)
-    .map(p => ({ x: p[fypmKey], y: p[returnKey] as number }));
+    .filter(p => p[returnKey] !== null && p[fypmKey] !== null)
+    .map(p => ({ x: p[fypmKey] as number, y: p[returnKey] as number }));
 
   // Subsample for rendering performance (max 1000 points)
   const step = Math.max(1, Math.floor(validPoints.length / 1000));
@@ -159,7 +210,7 @@ function ScatterPlot({
         {title}
       </div>
       <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>
-        Linear FYPM vs {horizon} return  ·  {plotPoints.length.toLocaleString()} points
+        {variantLabel} FYPM vs {horizon} return  ·  {plotPoints.length.toLocaleString()} points
       </div>
       <ResponsiveContainer width="100%" height={260}>
         <ComposedChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
@@ -236,9 +287,9 @@ function QuartileTable({
   };
 }) {
   const rows = [
-    { label: "Q1 (Lowest)", data: quartileGroup.q1 },
-    { label: "Q2",          data: quartileGroup.q2 },
-    { label: "Q3",          data: quartileGroup.q3 },
+    { label: "Q1 (Lowest)",  data: quartileGroup.q1 },
+    { label: "Q2",           data: quartileGroup.q2 },
+    { label: "Q3",           data: quartileGroup.q3 },
     { label: "Q4 (Highest)", data: quartileGroup.q4 },
   ];
   return (
@@ -284,12 +335,131 @@ function QuartileTable({
   );
 }
 
+// ── Stickiness sub-components ────────────────────────────────────────────────
+
+function ZScoreBucketTable({ buckets }: { buckets: FypmZScoreBucket[] }) {
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid var(--border-solid)" }}>
+            {["FYPM vs Own Mean", "Observations", "Avg 30d Return", "Avg 90d Return", "Avg 180d Return"].map(h => (
+              <th key={h} style={{
+                textAlign: h === "FYPM vs Own Mean" ? "left" : "right",
+                padding: "8px 12px",
+                color: "var(--text-muted)",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {buckets.map(b => (
+            <tr key={b.label} style={{ borderBottom: "1px solid var(--border-solid)" }}>
+              <td style={{ padding: "10px 12px", color: "var(--text-primary)", fontWeight: 500 }}>
+                {b.label}
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", color: "var(--text-muted)" }}>
+                {b.count.toLocaleString()}
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg30d) }}>
+                {fmt(b.avg30d)}%
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg90d) }}>
+                {fmt(b.avg90d)}%
+              </td>
+              <td style={{ padding: "10px 12px", textAlign: "right", fontFamily: "var(--font-mono)", background: returnColour(b.avg180d) }}>
+                {fmt(b.avg180d)}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CVTable({
+  tickers,
+  label,
+}: {
+  tickers: FypmTickerStickinessStats[];
+  label: string;
+}) {
+  return (
+    <div style={{ flex: "1 1 300px", minWidth: 280 }}>
+      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)", marginBottom: 10 }}>{label}</div>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+        <thead>
+          <tr style={{ borderBottom: "1px solid var(--border-solid)" }}>
+            {["Ticker", "Mean FYPM", "Std Dev", "CV"].map(h => (
+              <th key={h} style={{
+                textAlign: h === "Ticker" ? "left" : "right",
+                padding: "6px 8px",
+                color: "var(--text-muted)",
+                fontWeight: 500,
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tickers.map(t => (
+            <tr key={t.ticker} style={{ borderBottom: "1px solid var(--border-solid)" }}>
+              <td style={{ padding: "6px 8px", fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--text-primary)" }}>
+                {t.ticker}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+                {t.mean.toFixed(2)}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+                {t.std.toFixed(3)}
+              </td>
+              <td style={{ padding: "6px 8px", textAlign: "right", fontFamily: "var(--font-mono)", color: t.cv < 0.15 ? "var(--green,#22c55e)" : t.cv > 0.4 ? "#ef4444" : "var(--text-secondary)" }}>
+                {(t.cv * 100).toFixed(1)}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function interpretStickiness(stickiness: FypmStickinessResult): string {
+  const buckets = stickiness.zScoreBuckets;
+  const veryLow  = buckets[0];
+  const veryHigh = buckets[5];
+
+  const meanReversionEvidence =
+    veryLow.avg180d !== null && veryHigh.avg180d !== null &&
+    veryLow.avg180d > 0 && veryHigh.avg180d < 0;
+
+  const cv = stickiness.medianCV;
+  const cvStr = (cv * 100).toFixed(1);
+
+  let base = `Median coefficient of variation across tickers: ${cvStr}%. `;
+  base += cv < 0.2
+    ? "FYPM is generally sticky — most stocks maintain a relatively narrow FYPM range over time. "
+    : cv < 0.4
+    ? "FYPM shows moderate variability — stocks drift meaningfully from their typical range but don't swing wildly. "
+    : "FYPM shows high variability — stocks frequently move far from their typical range, suggesting FYPM is sensitive to price swings. ";
+
+  if (meanReversionEvidence) {
+    base += `Mean reversion signal detected: when a stock's FYPM is very low relative to its own history (< −2σ), the 180-day avg return was ${fmt(veryLow.avg180d)}%, while very high FYPM (> +2σ) preceded avg returns of ${fmt(veryHigh.avg180d)}%. This pattern is consistent with price reverting toward a mean FYPM level.`;
+  } else {
+    base += "No strong mean-reversion pattern detected in this dataset — FYPM deviations from a stock's own mean did not clearly predict subsequent price reversals.";
+  }
+
+  return base;
+}
+
 function interpretR(r30: number, r90: number, r180: number): string {
   const best = Math.max(Math.abs(r30), Math.abs(r90), Math.abs(r180));
   const sign = (r30 + r90 + r180) / 3 >= 0 ? "positive" : "negative";
 
   if (best >= 0.3 && sign === "positive") {
-    return `Strong positive correlation detected (r up to ${best.toFixed(3)}). Linear FYPM appears to be a meaningful predictor of future returns — stocks with higher FYPM scores tended to deliver meaningfully better returns across all horizons. This supports the FYPM hypothesis.`;
+    return `Strong positive correlation detected (r up to ${best.toFixed(3)}). FYPM appears to be a meaningful predictor of future returns — stocks with higher FYPM scores tended to deliver meaningfully better returns across all horizons. This supports the FYPM hypothesis.`;
   }
   if (best >= 0.15 && sign === "positive") {
     return `Moderate positive correlation detected (r up to ${best.toFixed(3)}). Higher FYPM scores are associated with modestly better returns. The relationship is real but not strong enough to use in isolation as a trading signal.`;
@@ -303,7 +473,45 @@ function interpretR(r30: number, r90: number, r180: number): string {
   return `Near-zero correlation detected (r up to ${best.toFixed(3)}). FYPM does not appear to have meaningful predictive power over the measured time horizon and universe. The data is consistent with FYPM being a valuation metric rather than a near-term return predictor.`;
 }
 
-// ── Main page component ────────────────────────────────────────────────────
+// ── Variant selector ────────────────────────────────────────────────────────
+
+function VariantSelector({
+  value,
+  onChange,
+}: {
+  value: Variant;
+  onChange: (v: Variant) => void;
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+      <label style={{ fontSize: 12, color: "var(--text-muted)" }}>Variant:</label>
+      {VARIANT_ORDER.map(v => (
+        <button
+          key={v}
+          onClick={() => onChange(v)}
+          style={{
+            padding: "5px 13px",
+            borderRadius: 20,
+            border: "1px solid",
+            borderColor: value === v ? "var(--accent)" : "var(--border-solid)",
+            background: value === v ? "rgba(59,130,246,0.15)" : "transparent",
+            color: value === v ? "var(--accent)" : "var(--text-secondary)",
+            fontSize: 12,
+            fontWeight: value === v ? 600 : 400,
+            cursor: "pointer",
+          }}
+        >
+          {VARIANT_LABELS[v]}
+        </button>
+      ))}
+      <span style={{ fontSize: 12, color: "var(--text-muted)", fontStyle: "italic", marginLeft: 4 }}>
+        {VARIANT_DESCRIPTIONS[value]}
+      </span>
+    </div>
+  );
+}
+
+// ── Main page component ─────────────────────────────────────────────────────
 
 export default function FypmAnalysis() {
   const [result, setResult]   = useState<FypmAnalysisResult | null>(null);
@@ -311,6 +519,7 @@ export default function FypmAnalysis() {
   const [error, setError]     = useState<string | null>(null);
   const [months, setMonths]   = useState(24);
   const [elapsed, setElapsed] = useState<number | null>(null);
+  const [variant, setVariant] = useState<Variant>("linear");
   const abortControllerRef    = useRef<AbortController | null>(null);
 
   // Cancel any in-flight request when the component unmounts
@@ -347,7 +556,8 @@ export default function FypmAnalysis() {
     }
   }
 
-  const linearCorr = result?.correlations.linear;
+  const activeCorr = result?.correlations[variant];
+  const fypmKey    = VARIANT_FYPM_KEY[variant];
 
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 0 60px" }}>
@@ -506,42 +716,56 @@ export default function FypmAnalysis() {
             Pearson Correlations (FYPM → Forward Return)
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
-            <CorrelationCard label="Linear FYPM"     stats={result.correlations.linear}     />
-            <CorrelationCard label="Derivative FYPM" stats={result.correlations.derivative} />
-            <CorrelationCard label="Rate FYPM"       stats={result.correlations.rate}       />
+            {VARIANT_ORDER.map(v => (
+              <CorrelationCard key={v} label={`${VARIANT_LABELS[v]} FYPM`} stats={result.correlations[v]} active={variant === v} />
+            ))}
+          </div>
+
+          {/* ── Variant selector ── */}
+          <div style={{
+            background: "var(--bg-surface)",
+            border: "1px solid var(--border-solid)",
+            borderRadius: 8,
+            padding: "14px 20px",
+            marginBottom: 20,
+          }}>
+            <VariantSelector value={variant} onChange={setVariant} />
           </div>
 
           {/* ── Scatter plots ── */}
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
-            Scatter Plots — Linear FYPM vs Forward Returns
+            Scatter Plots — {VARIANT_LABELS[variant]} FYPM vs Forward Returns
           </h2>
           <div style={{ display: "flex", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
             <ScatterPlot
               title="30-Day Return"
               horizon="30d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.sampledDataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_30d"
             />
             <ScatterPlot
               title="90-Day Return"
               horizon="90d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.sampledDataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_90d"
             />
             <ScatterPlot
               title="180-Day Return"
               horizon="180d"
+              variantLabel={VARIANT_LABELS[variant]}
               dataPoints={result.sampledDataPoints}
-              fypmKey="fypm_linear"
+              fypmKey={fypmKey}
               returnKey="return_180d"
             />
           </div>
 
           {/* ── Quartile table ── */}
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
-            Quartile Breakdown — Linear FYPM
+            Quartile Breakdown — {VARIANT_LABELS[variant]} FYPM
           </h2>
           <div style={{
             background: "var(--bg-surface)",
@@ -550,11 +774,107 @@ export default function FypmAnalysis() {
             marginBottom: 28,
             overflow: "hidden",
           }}>
-            <QuartileTable quartileGroup={result.quartiles.linear} />
+            <QuartileTable quartileGroup={result.quartiles[variant]} />
           </div>
 
+          {/* ── FYPM Stickiness ── */}
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>
+              FYPM Stickiness &amp; Mean Reversion
+            </h2>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 14, lineHeight: 1.6, maxWidth: 800 }}>
+              For each stock, its <em>own</em> historical FYPM mean and standard deviation are computed. Each
+              observation is then placed in a z-score bucket relative to that stock's baseline. If FYPM is "sticky"
+              and mean-reverting, you would expect: observations where FYPM is very low (cheap vs. own history) to
+              be followed by positive returns, and very high FYPM (expensive) to precede below-average returns.
+              Z-scores use the <strong>Linear FYPM</strong> variant.
+            </p>
+
+            {/* Z-score bucket table */}
+            <div style={{
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-solid)",
+              borderRadius: 8,
+              marginBottom: 20,
+              overflow: "hidden",
+            }}>
+              <ZScoreBucketTable buckets={result.stickiness.zScoreBuckets} />
+            </div>
+
+            {/* CV summary + top/bottom tickers */}
+            <div style={{
+              display: "flex",
+              gap: 20,
+              marginBottom: 20,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}>
+              {/* Median CV badge */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                minWidth: 200,
+                flex: "0 0 auto",
+              }}>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>Median CV (all tickers)</div>
+                <div style={{
+                  fontSize: 28,
+                  fontWeight: 700,
+                  fontFamily: "var(--font-mono)",
+                  color: result.stickiness.medianCV < 0.2 ? "var(--green,#22c55e)" : result.stickiness.medianCV > 0.4 ? "#ef4444" : "#f59e0b",
+                }}>
+                  {(result.stickiness.medianCV * 100).toFixed(1)}%
+                </div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
+                  {result.stickiness.medianCV < 0.2 ? "Low — FYPM is sticky" : result.stickiness.medianCV < 0.4 ? "Moderate variability" : "High — FYPM is volatile"}
+                </div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 8, lineHeight: 1.5 }}>
+                  CV = std / |mean|. Lower means the stock's FYPM stays close to its own average — a "sticky" value.
+                </div>
+              </div>
+
+              {/* Most stable */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                flex: "1 1 280px",
+              }}>
+                <CVTable tickers={result.stickiness.topSticky} label="Most Stable FYPM (lowest CV)" />
+              </div>
+
+              {/* Most variable */}
+              <div style={{
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-solid)",
+                borderRadius: 8,
+                padding: "16px 20px",
+                flex: "1 1 280px",
+              }}>
+                <CVTable tickers={result.stickiness.topUnstable} label="Most Variable FYPM (highest CV)" />
+              </div>
+            </div>
+
+            {/* Stickiness interpretation */}
+            <div style={{
+              background: "var(--bg-surface)",
+              border: "1px solid var(--border-solid)",
+              borderRadius: 8,
+              padding: "16px 20px",
+              fontSize: 13,
+              color: "var(--text-secondary)",
+              lineHeight: 1.7,
+              marginBottom: 28,
+            }}>
+              {interpretStickiness(result.stickiness)}
+            </div>
+          </>
+
           {/* ── Interpretation ── */}
-          {linearCorr && (
+          {activeCorr && (
             <>
               <h2 style={{ fontSize: 16, fontWeight: 600, color: "var(--text-primary)", marginBottom: 12 }}>
                 Interpretation
@@ -570,7 +890,7 @@ export default function FypmAnalysis() {
                 marginBottom: 28,
               }}>
                 <p style={{ margin: 0, marginBottom: 12 }}>
-                  {interpretR(linearCorr.r30d, linearCorr.r90d, linearCorr.r180d)}
+                  {interpretR(activeCorr.r30d, activeCorr.r90d, activeCorr.r180d)}
                 </p>
                 <p style={{ margin: 0, color: "var(--text-muted)", fontSize: 12 }}>
                   Note: Correlation is computed using current book values and dividend yields as approximations

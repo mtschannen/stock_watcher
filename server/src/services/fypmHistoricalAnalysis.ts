@@ -6,6 +6,8 @@ import { SP500_TICKERS } from "../data/sp500Tickers";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
+type FypmKey = Extract<keyof DataPoint, `fypm_${string}`>;
+
 export interface DataPoint {
   ticker: string;
   date: string;
@@ -13,6 +15,11 @@ export interface DataPoint {
   fypm_linear: number;
   fypm_derivative: number;
   fypm_rate: number;
+  fypm_composite: number | null;
+  fypm_cagr: number | null;
+  fypm_exponential: number | null;
+  fypm_recency_weighted: number | null;
+  fypm_conservative: number | null;
   return_30d: number | null;
   return_90d: number | null;
   return_180d: number | null;
@@ -48,18 +55,58 @@ export interface QuartileGroup {
   q4: QuartileStats;
 }
 
+export interface ZScoreBucket {
+  label: string;
+  zMin: number;
+  zMax: number;
+  count: number;
+  avg30d: number | null;
+  avg90d: number | null;
+  avg180d: number | null;
+  median30d: number | null;
+  median90d: number | null;
+  median180d: number | null;
+}
+
+export interface TickerStickinessStats {
+  ticker: string;
+  mean: number;
+  std: number;
+  cv: number;
+  n: number;
+}
+
+export interface StickinessResult {
+  zScoreBuckets: ZScoreBucket[];
+  topSticky: TickerStickinessStats[];
+  topUnstable: TickerStickinessStats[];
+  medianCV: number;
+  fypmVariant: string;
+}
+
 export interface AnalysisResult {
   sampledDataPoints: DataPoint[];
   correlations: {
     linear: CorrelationStats;
     derivative: CorrelationStats;
     rate: CorrelationStats;
+    composite: CorrelationStats;
+    cagr: CorrelationStats;
+    exponential: CorrelationStats;
+    recency_weighted: CorrelationStats;
+    conservative: CorrelationStats;
   };
   quartiles: {
     linear: QuartileGroup;
     derivative: QuartileGroup;
     rate: QuartileGroup;
+    composite: QuartileGroup;
+    cagr: QuartileGroup;
+    exponential: QuartileGroup;
+    recency_weighted: QuartileGroup;
+    conservative: QuartileGroup;
   };
+  stickiness: StickinessResult;
   meta: {
     tickersAnalyzed: number;
     totalDataPoints: number;
@@ -170,26 +217,29 @@ function findForwardReturn(
 
 function computeCorrelations(
   points: DataPoint[],
-  fypmKey: "fypm_linear" | "fypm_derivative" | "fypm_rate"
+  fypmKey: FypmKey
 ): CorrelationStats {
-  const valid30 = points.filter(p => p.return_30d  !== null);
-  const valid90 = points.filter(p => p.return_90d  !== null);
-  const valid180 = points.filter(p => p.return_180d !== null);
+  // Filter to points where this variant has a value
+  const pts = points.filter(p => p[fypmKey] !== null && p[fypmKey] !== undefined);
 
-  const r30  = pearsonR(valid30.map(p => p[fypmKey]),  valid30.map(p => p.return_30d!)  );
-  const r90  = pearsonR(valid90.map(p => p[fypmKey]),  valid90.map(p => p.return_90d!)  );
-  const r180 = pearsonR(valid180.map(p => p[fypmKey]), valid180.map(p => p.return_180d!));
+  const valid30  = pts.filter(p => p.return_30d  !== null);
+  const valid90  = pts.filter(p => p.return_90d  !== null);
+  const valid180 = pts.filter(p => p.return_180d !== null);
+
+  const r30  = pearsonR(valid30.map(p => p[fypmKey] as number),  valid30.map(p => p.return_30d!)  );
+  const r90  = pearsonR(valid90.map(p => p[fypmKey] as number),  valid90.map(p => p.return_90d!)  );
+  const r180 = pearsonR(valid180.map(p => p[fypmKey] as number), valid180.map(p => p.return_180d!));
 
   return {
-    r30d:   r30,
-    r90d:   r90,
-    r180d:  r180,
+    r30d:    r30,
+    r90d:    r90,
+    r180d:   r180,
     r2_30d:  r30  ** 2,
     r2_90d:  r90  ** 2,
     r2_180d: r180 ** 2,
-    n30d:   valid30.length,
-    n90d:   valid90.length,
-    n180d:  valid180.length,
+    n30d:    valid30.length,
+    n90d:    valid90.length,
+    n180d:   valid180.length,
   };
 }
 
@@ -197,12 +247,12 @@ function computeCorrelations(
 
 function buildQuartileStatsByKey(
   bucket: DataPoint[],
-  fypmKey: "fypm_linear" | "fypm_derivative" | "fypm_rate"
+  fypmKey: FypmKey
 ): QuartileStats {
   if (bucket.length === 0) {
     return { fypmRange: [0, 0], avg30d: null, avg90d: null, avg180d: null, median30d: null, median90d: null, median180d: null, count: 0 };
   }
-  const fypmVals = bucket.map(p => p[fypmKey]);
+  const fypmVals = bucket.map(p => p[fypmKey] as number);
   const r30  = bucket.filter(p => p.return_30d  !== null).map(p => p.return_30d!);
   const r90  = bucket.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
   const r180 = bucket.filter(p => p.return_180d !== null).map(p => p.return_180d!);
@@ -223,9 +273,10 @@ function buildQuartileStatsByKey(
 
 function computeQuartileGroup(
   points: DataPoint[],
-  fypmKey: "fypm_linear" | "fypm_derivative" | "fypm_rate"
+  fypmKey: FypmKey
 ): QuartileGroup {
-  const sorted = [...points].sort((a, b) => a[fypmKey] - b[fypmKey]);
+  const pts = points.filter(p => p[fypmKey] !== null && p[fypmKey] !== undefined);
+  const sorted = [...pts].sort((a, b) => (a[fypmKey] as number) - (b[fypmKey] as number));
   const n = sorted.length;
   const q = Math.floor(n / 4);
   return {
@@ -234,6 +285,103 @@ function computeQuartileGroup(
     q3: buildQuartileStatsByKey(sorted.slice(q * 2,    q * 3), fypmKey),
     q4: buildQuartileStatsByKey(sorted.slice(q * 3),           fypmKey),
   };
+}
+
+// ── Stickiness computation ────────────────────────────────────────────────────
+
+function computeStickiness(points: DataPoint[], fypmKey: FypmKey): StickinessResult {
+  // Per-ticker online (streaming) statistics using Welford's algorithm — avoids storing per-ticker arrays
+  const tickerAgg = new Map<string, { count: number; mean: number; M2: number }>();
+
+  for (const p of points) {
+    const val = p[fypmKey];
+    if (val === null || val === undefined) continue;
+
+    const x = val as number;
+    let agg = tickerAgg.get(p.ticker);
+    if (!agg) {
+      agg = { count: 0, mean: 0, M2: 0 };
+      tickerAgg.set(p.ticker, agg);
+    }
+
+    agg.count += 1;
+    const delta = x - agg.mean;
+    agg.mean += delta / agg.count;
+    const delta2 = x - agg.mean;
+    agg.M2 += delta * delta2;
+  }
+
+  // Per-ticker mean and std derived from online aggregates
+  const tickerStats: TickerStickinessStats[] = [];
+  const tickerMeanStd = new Map<string, { mean: number; std: number }>();
+
+  for (const [ticker, agg] of tickerAgg) {
+    const m = agg.mean;
+    const variance = agg.M2 / agg.count;
+    const std = Math.sqrt(variance);
+    const cv = std / Math.abs(m);
+    if (isFinite(cv) && isFinite(m) && isFinite(std)) {
+      tickerStats.push({ ticker, mean: m, std, cv, n: agg.count });
+      tickerMeanStd.set(ticker, { mean: m, std });
+    }
+  }
+
+  // Z-score bucket definitions
+  const bucketDefs = [
+    { label: "Very Low (< −2σ)",         zMin: -Infinity, zMax: -2  },
+    { label: "Low (−2σ to −1σ)",          zMin: -2,        zMax: -1  },
+    { label: "Below Mean (−1σ to 0)",     zMin: -1,        zMax:  0  },
+    { label: "Above Mean (0 to +1σ)",     zMin:  0,        zMax:  1  },
+    { label: "High (+1σ to +2σ)",         zMin:  1,        zMax:  2  },
+    { label: "Very High (> +2σ)",         zMin:  2,        zMax: Infinity },
+  ];
+  const bucketPoints: DataPoint[][] = bucketDefs.map(() => []);
+
+  for (const p of points) {
+    const val = p[fypmKey];
+    if (val === null || val === undefined) continue;
+    const ms = tickerMeanStd.get(p.ticker);
+    if (!ms) continue;
+    // If std is 0 (perfectly stable for this FYPM variant), treat all observations as z = 0
+    const z =
+      ms.std === 0
+        ? 0
+        : ((val as number) - ms.mean) / ms.std;
+    for (let i = 0; i < bucketDefs.length; i++) {
+      if (z >= bucketDefs[i].zMin && z < bucketDefs[i].zMax) {
+        bucketPoints[i].push(p);
+        break;
+      }
+    }
+  }
+
+  const zScoreBuckets: ZScoreBucket[] = bucketDefs.map((def, i) => {
+    const pts = bucketPoints[i];
+    const r30  = pts.filter(p => p.return_30d  !== null).map(p => p.return_30d!);
+    const r90  = pts.filter(p => p.return_90d  !== null).map(p => p.return_90d!);
+    const r180 = pts.filter(p => p.return_180d !== null).map(p => p.return_180d!);
+    return {
+      label:      def.label,
+      zMin:       def.zMin,
+      zMax:       def.zMax,
+      count:      pts.length,
+      avg30d:     avg(r30),
+      avg90d:     avg(r90),
+      avg180d:    avg(r180),
+      median30d:  median(r30),
+      median90d:  median(r90),
+      median180d: median(r180),
+    };
+  });
+
+  // CV distribution summary
+  const sorted = [...tickerStats].sort((a, b) => a.cv - b.cv);
+  const cvs = sorted.map(t => t.cv);
+  const medianCV = median(cvs) ?? 0;
+  const topSticky   = sorted.slice(0, 10);
+  const topUnstable = sorted.slice(-10).reverse();
+
+  return { zScoreBuckets, topSticky, topUnstable, medianCV, fypmVariant: fypmKey };
 }
 
 // ── Main entry point ──────────────────────────────────────────────────────────
@@ -330,7 +478,8 @@ export async function runFypmBacktest(
         if (bar.ts > cutoff180) break;
 
         // Calculate FYPM using this bar's price + current book values + current rates
-        const fypm = calculateFypm(bookValues, divYield, bar.price, interestRate);
+        // Pass null for forwardEps/dividendRate (not available for historical analysis)
+        const fypm = calculateFypm(bookValues, divYield, bar.price, interestRate, null, null);
         if (
           fypm.derivative_fypm === "N/A" ||
           fypm.linear_fypm === "N/A" ||
@@ -341,16 +490,25 @@ export async function runFypmBacktest(
         const ret90d  = findForwardReturn(bars, i, 90,  bar.price);
         const ret180d = findForwardReturn(bars, i, 180, bar.price);
 
+        const linear     = fypm.linear_fypm as number;
+        const derivative = fypm.derivative_fypm as number;
+        const rate       = fypm.rate_fypm as number;
+
         allDataPoints.push({
           ticker,
-          date:            bar.date,
-          price:           bar.price,
-          fypm_linear:     fypm.linear_fypm as number,
-          fypm_derivative: fypm.derivative_fypm as number,
-          fypm_rate:       fypm.rate_fypm as number,
-          return_30d:      ret30d,
-          return_90d:      ret90d,
-          return_180d:     ret180d,
+          date:                 bar.date,
+          price:                bar.price,
+          fypm_linear:          linear,
+          fypm_derivative:      derivative,
+          fypm_rate:            rate,
+          fypm_composite:       fypm.composite_fypm !== "N/A" ? fypm.composite_fypm as number : null,
+          fypm_cagr:            fypm.cagr_fypm !== "N/A" ? fypm.cagr_fypm as number : null,
+          fypm_exponential:     fypm.exponential_fypm !== "N/A" ? fypm.exponential_fypm as number : null,
+          fypm_recency_weighted:fypm.recency_weighted_fypm !== "N/A" ? fypm.recency_weighted_fypm as number : null,
+          fypm_conservative:    fypm.conservative_fypm !== "N/A" ? fypm.conservative_fypm as number : null,
+          return_30d:           ret30d,
+          return_90d:           ret90d,
+          return_180d:          ret180d,
         });
       }
     } catch (err) {
@@ -378,16 +536,26 @@ export async function runFypmBacktest(
 
   // 6. Compute correlations
   const correlations = {
-    linear:     computeCorrelations(allDataPoints, "fypm_linear"),
-    derivative: computeCorrelations(allDataPoints, "fypm_derivative"),
-    rate:       computeCorrelations(allDataPoints, "fypm_rate"),
+    linear:           computeCorrelations(allDataPoints, "fypm_linear"),
+    derivative:       computeCorrelations(allDataPoints, "fypm_derivative"),
+    rate:             computeCorrelations(allDataPoints, "fypm_rate"),
+    composite:        computeCorrelations(allDataPoints, "fypm_composite"),
+    cagr:             computeCorrelations(allDataPoints, "fypm_cagr"),
+    exponential:      computeCorrelations(allDataPoints, "fypm_exponential"),
+    recency_weighted: computeCorrelations(allDataPoints, "fypm_recency_weighted"),
+    conservative:     computeCorrelations(allDataPoints, "fypm_conservative"),
   };
 
   // 7. Compute quartiles
   const quartiles = {
-    linear:     computeQuartileGroup(allDataPoints, "fypm_linear"),
-    derivative: computeQuartileGroup(allDataPoints, "fypm_derivative"),
-    rate:       computeQuartileGroup(allDataPoints, "fypm_rate"),
+    linear:           computeQuartileGroup(allDataPoints, "fypm_linear"),
+    derivative:       computeQuartileGroup(allDataPoints, "fypm_derivative"),
+    rate:             computeQuartileGroup(allDataPoints, "fypm_rate"),
+    composite:        computeQuartileGroup(allDataPoints, "fypm_composite"),
+    cagr:             computeQuartileGroup(allDataPoints, "fypm_cagr"),
+    exponential:      computeQuartileGroup(allDataPoints, "fypm_exponential"),
+    recency_weighted: computeQuartileGroup(allDataPoints, "fypm_recency_weighted"),
+    conservative:     computeQuartileGroup(allDataPoints, "fypm_conservative"),
   };
 
   // 8. Sample data points for the response (cap at 2000 to avoid huge payloads)
@@ -400,13 +568,17 @@ export async function runFypmBacktest(
           (_, i) => allDataPoints[Math.floor((i * allDataPoints.length) / MAX_RESPONSE_POINTS)]
         );
 
-  // 9. Meta
+  // 9. Stickiness (uses linear FYPM as the primary variant)
+  const stickiness = computeStickiness(allDataPoints, "fypm_linear");
+
+  // 10. Meta
   const sortedDates = allDataPoints.map(d => d.date).sort();
 
   return {
     sampledDataPoints,
     correlations,
     quartiles,
+    stickiness,
     meta: {
       tickersAnalyzed:  tickersWithData.length,
       totalDataPoints:  allDataPoints.length,

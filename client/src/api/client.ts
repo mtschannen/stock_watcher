@@ -81,6 +81,8 @@ export const getMarketInfo = (ticker: string) =>
   api.get<MarketInfo>(`/market/${ticker}/info`);
 export const getMarketGraph = (ticker: string, months: number) =>
   api.get<HistoricalPoint[]>(`/market/${ticker}/graph?num_months=${months}`);
+export const getFypmTickerStats = (ticker: string, months = 24, signal?: AbortSignal) =>
+  api.get<FypmTickerStats>(`/market/${ticker}/fypm-stats?months=${months}`, { signal });
 
 // Ticker tape
 export const getTickerTape = () => api.get<TickerItem[]>("/stocks/ticker/tape");
@@ -109,6 +111,11 @@ export interface FypmDataPoint {
   fypm_linear: number;
   fypm_derivative: number;
   fypm_rate: number;
+  fypm_cagr: number | null;
+  fypm_exponential: number | null;
+  fypm_recency_weighted: number | null;
+  fypm_conservative: number | null;
+  fypm_composite: number | null;
   return_30d: number | null;
   return_90d: number | null;
   return_180d: number | null;
@@ -137,23 +144,85 @@ export interface FypmQuartileStats {
   count: number;
 }
 
+export interface FypmQuartileGroup {
+  q1: FypmQuartileStats;
+  q2: FypmQuartileStats;
+  q3: FypmQuartileStats;
+  q4: FypmQuartileStats;
+}
+
+export interface FypmZScoreBucket {
+  label: string;
+  zMin: number;
+  zMax: number;
+  count: number;
+  avg30d: number | null;
+  avg90d: number | null;
+  avg180d: number | null;
+  median30d: number | null;
+  median90d: number | null;
+  median180d: number | null;
+}
+
+export interface FypmTickerStickinessStats {
+  ticker: string;
+  mean: number;
+  std: number;
+  cv: number;
+  n: number;
+}
+
+export interface FypmStickinessResult {
+  zScoreBuckets: FypmZScoreBucket[];
+  topSticky: FypmTickerStickinessStats[];
+  topUnstable: FypmTickerStickinessStats[];
+  medianCV: number;
+  fypmVariant: string;
+}
+
 export interface FypmAnalysisResult {
   sampledDataPoints: FypmDataPoint[];
   correlations: {
     linear: FypmCorrelationStats;
     derivative: FypmCorrelationStats;
     rate: FypmCorrelationStats;
+    cagr: FypmCorrelationStats;
+    exponential: FypmCorrelationStats;
+    recency_weighted: FypmCorrelationStats;
+    conservative: FypmCorrelationStats;
+    composite: FypmCorrelationStats;
   };
   quartiles: {
-    linear: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
-    derivative: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
-    rate: { q1: FypmQuartileStats; q2: FypmQuartileStats; q3: FypmQuartileStats; q4: FypmQuartileStats };
+    linear: FypmQuartileGroup;
+    derivative: FypmQuartileGroup;
+    rate: FypmQuartileGroup;
+    cagr: FypmQuartileGroup;
+    exponential: FypmQuartileGroup;
+    recency_weighted: FypmQuartileGroup;
+    conservative: FypmQuartileGroup;
+    composite: FypmQuartileGroup;
   };
+  stickiness: FypmStickinessResult;
   meta: {
     tickersAnalyzed: number;
     totalDataPoints: number;
     dateRange: { start: string; end: string };
   };
+}
+
+export interface FypmTickerStats {
+  ticker: string;
+  variant: string;
+  mean: number;
+  std: number;
+  cv: number;
+  currentFypm: number | null;
+  zScore: number | null;
+  percentile: number | null;
+  historicalMin: number;
+  historicalMax: number;
+  dataPoints: number;
+  lookbackMonths: number;
 }
 
 export const getFypmBacktest = (months = 24, tickers: "all" | string = "all", signal?: AbortSignal) => {
